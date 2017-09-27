@@ -1,29 +1,18 @@
 <?php
 require_once('Authentication.php');
 require_once('Database.php');
+require_once('Mail.php');
+require_once('User.php');
 
-Authentication::check();
+Authentication::getInstance()->check();
 
-// TODO: cacher requete SQL, formater date, liens vers détais ou suppresion
-$database = new Database;
-$results = $database->query('SELECT role FROM users
-                                    WHERE digest="'.$_SESSION['digest'].'";');
-$role = $results->fetch();
-$role = $role['role'] == 1;
+$row = User::getInstance()->getFields('role')->fetch();
+$role = $row['role'] == 1;
          
 if ($role) {
-    $results = $database->query('SELECT username AS Username, 
-                                        active AS Active, 
-                                        role AS Role
-                                        FROM users 
-                                        INNER JOIN roles ON users.id = roles.id;');    
+    $results = User::getInstance()->getAllRows();  
 } else {
-    $results = $database->query('SELECT date AS Date, 
-                                        username AS Username, 
-                                        subject AS Subject
-                                        FROM mails 
-                                        INNER JOIN users ON mails.idSender = users.id 
-                                        WHERE idReceiver=(SELECT id FROM users WHERE digest="'.$_SESSION['digest'].'");');
+    $results = Mail::getInstance()->getAllMail();
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -35,6 +24,9 @@ if ($role) {
     <body>
         <h1>Home</h1>
         <br>
+        <a href="logout.php">Logout</a>
+        <br>
+        <br>
         <table width="500px">
             <?php
             if ($role) {
@@ -42,21 +34,20 @@ if ($role) {
                 for ($i = 0; $i < $results->columnCount(); $i++) {
                     $head = $results->getColumnMeta($i);
                     echo '<th>'.$head['name'].'</th>';
-                }
-                echo '</tr>';               
+                }             
                 
                 while (($row = $results->fetch())) {
                     echo '<tr align="center">';
-                    echo '<td>'.$row['Username'].'</td>';
-                    echo '<td>'.$row['Active'].'</td>';
-                    echo '<td>'.$row['Role'].'</td>';
+                    echo '<td>'.ucfirst($row['username']).'</td>';
+                    echo '<td>'.ucfirst($row['active']).'</td>';
+                    echo '<td>'.ucfirst($row['role']).'</td>';
                     echo '<td>
-                             <input type="button" value="Modify" onclick="window.location.href=\'usersManager.php\';">
-                          </td>';
-                    echo '<td>
-                             <input type="button" value="Delete" onclick="window.location.href=\'deleteUser.php\';">
-                          </td>';
-                    echo '</tr>';                    
+                          <input type="button" value="Modify" onclick="window.location.href=\'usersManager.php\';">
+                          </td>
+                          <td>
+                          <input type="button" value="Delete" onclick="window.location.href=\'deleteUser.php\';">
+                          </td>
+                          </tr>';                    
                 }
                 
             } else {
@@ -65,20 +56,24 @@ if ($role) {
                     $head = $results->getColumnMeta($i);
                     echo '<th>'.$head['name'].'</th>';
                 }
+                echo '<th colspan="2">
+                      <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';">
+                      </th>
+                      </tr>';  
                 echo '</tr>';               
                 
                 while (($row = $results->fetch())) {
                     echo '<tr>';
-                    echo '<td>'.$row['Date'].'</td>';
+                    echo '<td>'.(new DateTime($row['Date'],new DateTimeZone('UTC')))->format('m.d.Y H:i').'</td>';
                     echo '<td>'.$row['Username'].'</td>';
                     echo '<td>'.$row['Subject'].'</td>';
                     echo '<td>
-                             <input type="button" value="More" onclick="window.location.href=\'readMail.php\';">
-                          </td>';
-                    echo '<td>
-                             <input type="button" value="Delete" onclick="window.location.href=\'deleteMail.php\';">
-                          </td>';
-                    echo '</tr>';                    
+                          <input type="button" value="More" onclick="window.location.href=\'readMail.php\';">
+                          </td>
+                          <td>
+                          <input type="button" value="Delete" onclick="window.location.href=\'deleteMail.php\';">
+                          </td>
+                          </tr>';                    
                 }
             }
             ?>

@@ -1,11 +1,20 @@
 <?php
 class Database {
+    private static $instance;
     private $_file;
     private $_conn;
     
-    public function __construct($file = 'sqlite:./weChat.sqlite') {
+    private function __construct($file = 'sqlite:./weChat.sqlite') {
         $this->setFile($file);
         $this->connection();
+    }
+
+    public static function getInstance() {
+        if (is_null(self::$instance )) {
+          self::$instance = new self();
+        }
+        
+        return self::$instance;
     }
     
     public function setFile($file) {

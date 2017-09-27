@@ -15,9 +15,9 @@ session_start();
                 <?php
                 if (isset($_SESSION['logged']) && !$_SESSION['logged']) {
                     echo '<tr>
-                             <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
-                                Incorrect username or password
-                             </td>
+                          <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
+                          Incorrect username or password
+                          </td>
                           </tr>';
                 }
                 ?>
