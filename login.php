@@ -1,5 +1,5 @@
 <?php
-require ('Database.php');
+require_once('Database.php');
 
 session_start();
 extract(@$_POST);
