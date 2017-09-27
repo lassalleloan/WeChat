@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
@@ -12,7 +15,9 @@
                 <?php
                     if (isset($_SESSION['logged']) && !$_SESSION['logged']) {
                         echo '<tr>
-                              <p>Incorrect username or password</p>
+                                 <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
+                                    Incorrect username or password
+                                 </td>
                               </tr>';
                     }
                 ?>
