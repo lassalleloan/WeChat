@@ -1,5 +1,5 @@
 <?php
-require ('classes/Database.php');
+require_once('Database.php');
 
 // Set default timezone
 date_default_timezone_set('UTC');
@@ -53,27 +53,27 @@ $roles = array(
 $users = array(
             array('username' => 'root',
                 'salt' => 'OYiKElgWm0U6q6aVnnA0pWYYIdvSklFV4h0G3VqTg5bXoRc5S514CMVPLAIBkkcz5K5aqEOmp3YMI4vzuJVv7zY0NSkoHvdwt6aAHJutrNv8tVhudqzlOHXHTxB66ZcmuK2BHnFMsuipZQHmyMlDSga0hU2feRJiO6xxLkKd1twXNrdopam8aL6vqjtSpML69Er2U8IZRGuE6Ng1MQS1KdTBefXwV0iijYvEwWNWv2HNUb68qcYRf0zqoPXfl7l',
-                'digest' => 'Ghq9k4oSb6mHqrZvV8FnqXIYLGFAr7POLJ3kiRGcoQ5Fc/dQLYnCxMOYp65Lx9Z7l9d6zJanNiun0MTlAzgrig==', //base64(SHA512(username + salt + toor))
+                'digest' => '+U6b4GNdeGpmg2r1v3F4GtIPQdrpMzWwE7Y40QTzD2IRokHWfUaLnxXkmCBm1tepQJzIapEZKSPC8NOMGMhJuA==', //base64(SHA512(username + salt + toortoor))
                 'active' => '1',
                 'role' => '1'),
             array('username' => 'toor',
                 'salt' => 'O7Bj8OS6u9aGHTbPQ4S9RlGD56sVdSIipwaNlpSAeabM3fw85HnHdNXaAr8o4BscV0B5TB2fyENrkX6sIIsWJQ6A5wLjSet8lhm9okeRYapn4bwHitF1mlXwZbiThd8AaurWZPDNksqumreWQJBhXZR7G4V9lCnU0QX0FInv95M6m580pM53BqWIS03DCMT4QHcLe8yIpaR0dmnhTsiCxoytdfHWXr6zUAoyWo04osiYEIMCI9so15BOmNE2e9u',
-                'digest' => 'iwKbLW3PXsgaN/kWlMAe5AL9rceA6um4C3S6Kizpi7eflJNkokBti5w0W4WT2YUf3SOORfyDG+PuP8e2rddmGA==', //base64(SHA512(username + salt + root))
+                'digest' => 'tWT+clkTaLANSMTWlj0Iq+HJQEOjI/fz+e/5WNYeGoicnJIO4429+b2VTL+T4KqSg1jj6Vgxc3etVAsHhrXfmw==', //base64(SHA512(username + salt + rootroot))
                 'active' => '0',
                 'role' => '1'),
             array('username' => 'loan',
                 'salt' => 'ERmaWoe63V8ao5mn1YuvlT5aTw9BRbBksRBsxGS3ypIa9dKLDcxwWb9Rg7q4Vl2BkWMZMPfLoKCwOzFrdaGyXa3irdSosU5WuPL9fU49dIhfu0xwX2VkuPbhSoknkkuay0ingNMqvr1X0c38crosAh8RkyJKNurgmqu5yNpunzwaT8MDiEM806gKvOqEeGT7KET0uneKLFSYBqPvHWcgf8bMw9rs5ZdZi5X4U0r4Rhvi68NRPW6bTz1cB9qpGG6',
-                'digest' => 'KCq2TlP2fCvYJMa6VARoJv0nB6JTZSKJfHHqBoNBFKIZy9A+aqlcXNZXqoEQLaCXwHyc7MW95BJP8uFCtp6Z6w==', //base64(SHA512(username + salt + 123))
+                'digest' => 't90pJvUAa4q8DJbnWnOs3MHB2fvvG0tItaDtp5NAb+6vBe6g8DN0jCaGhCppvHL6oSvxYCIMX2//V7TeLsyvMA==', //base64(SHA512(username + salt + 12341234))
                 'active' => '1',
                 'role' => '2'),
             array('username' => 'wojciech',
                 'salt' => 'HqW9Jvu7rvK0iL8KUiuHrj8KuyNpBpQO5TwTmkATc1pSnRdq7f9WQEPxx0J2wxhULlGMbZBLL1SzL89aPlCozDbOH04dZUqigZUGJScKblDhhSdFOrgsO8aCs1GgoRuVofZQeg1lCFi4yEHeHPf3DBfJGtWvpfZAFkyaCW1JJq55zcnv95ctIIMqrUkhNcJpdiso94k4MWbUDZrt13LDTPicxKmPIS82y1hQdbMNdiKGW4hGg0Hn86Pgk8yyTog',
-                'digest' => 'ZPUCEF+S3ORBU/9+LP+cqYLxd7U1IyXvVxuC+hO4eV2V46svARmaVYPr26yDYG2W8GgDaEuO9fyJuic+jXQFKg==', //base64(SHA512(username + salt + 456))
+                'digest' => '2n25dxDZOll0Gctu7X57n48bV8l66AuDHA5hnCQ7TqbV8YvbL2OA4mPR677muECJ3Fc4NxjnXP0RyXbpj1XWAQ==', //base64(SHA512(username + salt + 45674567))
                 'active' => '1',
                 'role' => '2'),
             array('username' => 'tano',
                 'salt' => 'beIbenqv8SYx6lQGwm7VGIXSuJa86rGKke2fDkYdovQhQeLEOdWSNcyrXxdjFlDiyF5g0ZNUh2kXNefiYnK1i4QvDgZu9K3ELEf5atro9EkNN9r4HhMVNh9SwXKFN9voQIWO6RJUY9tRcMucGfUwPBDorfCM5ewd3AtSvMAilhxy4dQPOl8dAYbasCeMcUNlTSUaVqIPdKntbUTpxmFycSOcpSeGFDuuMyLKRFtxnmKawNk1BghlSWv0eySDRQR',
-                'digest' => 'gNZ59vt+Vb2c4M6xUsZVDyMhPMN24IeEVNB5OG1OQdE/S3AMzrACY9ND+f1nThIJub2MLA2g5/XxblWluD4u2A==', //base64(SHA512(username + salt + 789))
+                'digest' => 'FRZ7VSuP8HWdCLyAdxzi/LstUWtTW6L30lvLFfvNN4ofuDHNWSnEy91GUGMxr3zYStgWNGY+N5HgxcLQSzuNCQ==', //base64(SHA512(username + salt + 78907890))
                 'active' => '0',
                 'role' => '2')
             );
@@ -197,3 +197,4 @@ foreach($resultsMails as $row) {
 echo '</body>
       </html>';
 ?>
+

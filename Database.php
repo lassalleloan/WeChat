@@ -3,7 +3,7 @@ class Database {
     private $_file;
     private $_conn;
     
-    public function __construct($file = 'sqlite:..\databases\weChat.sqlite') {
+    public function __construct($file = 'sqlite:/var/www/databases/weChat.sqlite') {
         $this->setFile($file);
         $this->connection();
     }

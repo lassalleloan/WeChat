@@ -9,6 +9,13 @@
         <br>
 		<form method="post" action="login.php">
 			<table align="center">
+                <?php
+                    if (isset($_SESSION['logged']) && !$_SESSION['logged']) {
+                        echo '<tr>
+                              <p>Incorrect username or password</p>
+                              </tr>';
+                    }
+                ?>
 				<tr>
 					<td>Username</td>
 					<td>
@@ -19,6 +26,11 @@
 					<td>Password</td>
 					<td>
 						<input type="password" name="password" size="50" minlength="8" maxlength="50" required/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right">
+                        Remember Me <input type="checkbox" name="rememberMe" value="1">
 					</td>
 				</tr>
 				<tr>

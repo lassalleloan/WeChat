@@ -1,5 +1,5 @@
 <?php
-require ('classes/Authentication.php');
+require ('Authentication.php');
 
 Authentication::check();
 ?>
