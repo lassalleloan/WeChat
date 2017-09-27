@@ -12,5 +12,8 @@ Authentication::check();
     <body>
         <h1>Home</h1>
         <br>
+        <table>
+            
+        </table>
 	</body>
 </html>

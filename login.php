@@ -5,12 +5,14 @@ session_start();
 extract(@$_POST);
 
 $database = new Database;
-$result = $database->query('SELECT salt, digest FROM users WHERE username="'.$username.'";');
+$result = $database->query('SELECT id, salt, digest FROM users WHERE username="'.$username.'";');
 $result = $result->fetch();
 $digest = base64_encode(hash('sha512', $username.$result['salt'].$password, true));
 $_SESSION['logged'] = $result['digest'] === $digest;
 
 if ($_SESSION['logged']) {
+    $_SESSION['idUser'] = $result['id'];
+    $_SESSION['digest'] = $digest;
 	header('location:home.php');
     
     // if (isset($rememberMe)) {
