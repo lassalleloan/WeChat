@@ -13,13 +13,13 @@ session_start();
 		<form method="post" action="login.php">
 			<table align="center">
                 <?php
-                    if (isset($_SESSION['logged']) && !$_SESSION['logged']) {
-                        echo '<tr>
-                                 <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
-                                    Incorrect username or password
-                                 </td>
-                              </tr>';
-                    }
+                if (isset($_SESSION['logged']) && !$_SESSION['logged']) {
+                    echo '<tr>
+                             <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
+                                Incorrect username or password
+                             </td>
+                          </tr>';
+                }
                 ?>
 				<tr>
 					<td>Username</td>

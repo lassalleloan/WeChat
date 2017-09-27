@@ -11,7 +11,6 @@ $digest = base64_encode(hash('sha512', $username.$result['salt'].$password, true
 $_SESSION['logged'] = $result['digest'] === $digest;
 
 if ($_SESSION['logged']) {
-    $_SESSION['idUser'] = $result['id'];
     $_SESSION['digest'] = $digest;
 	header('location:home.php');
     
