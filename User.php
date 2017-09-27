@@ -21,8 +21,8 @@ class User {
     }
 
     public function getAllRows() {
-        return Database::getInstance()->query('SELECT username
-                                                active 
+        return Database::getInstance()->query('SELECT username,
+                                                active,
                                                 role
                                                 FROM users 
                                                 INNER JOIN roles ON users.id = roles.id;');  

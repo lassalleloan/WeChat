@@ -33,14 +33,14 @@ if ($role) {
                 echo '<tr>';
                 for ($i = 0; $i < $results->columnCount(); $i++) {
                     $head = $results->getColumnMeta($i);
-                    echo '<th>'.$head['name'].'</th>';
+                    echo '<th>'.ucfirst($head['name']).'</th>';
                 }             
                 
                 while (($row = $results->fetch())) {
                     echo '<tr align="center">';
-                    echo '<td>'.ucfirst($row['username']).'</td>';
-                    echo '<td>'.ucfirst($row['active']).'</td>';
-                    echo '<td>'.ucfirst($row['role']).'</td>';
+                    echo '<td>'.$row['username'].'</td>';
+                    echo '<td>'.$row['active'].'</td>';
+                    echo '<td>'.$row['role'].'</td>';
                     echo '<td>
                           <input type="button" value="Modify" onclick="window.location.href=\'usersManager.php\';">
                           </td>
@@ -54,7 +54,7 @@ if ($role) {
                 echo '<tr>';
                 for ($i = 0; $i < $results->columnCount(); $i++) {
                     $head = $results->getColumnMeta($i);
-                    echo '<th>'.$head['name'].'</th>';
+                    echo '<th>'.ucfirst($head['name']).'</th>';
                 }
                 echo '<th colspan="2">
                       <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';">
@@ -64,9 +64,9 @@ if ($role) {
                 
                 while (($row = $results->fetch())) {
                     echo '<tr>';
-                    echo '<td>'.(new DateTime($row['Date'],new DateTimeZone('UTC')))->format('m.d.Y H:i').'</td>';
-                    echo '<td>'.$row['Username'].'</td>';
-                    echo '<td>'.$row['Subject'].'</td>';
+                    echo '<td>'.(new DateTime($row['date'],new DateTimeZone('UTC')))->format('m.d.Y H:i').'</td>';
+                    echo '<td>'.$row['username'].'</td>';
+                    echo '<td>'.$row['subject'].'</td>';
                     echo '<td>
                           <input type="button" value="More" onclick="window.location.href=\'readMail.php\';">
                           </td>

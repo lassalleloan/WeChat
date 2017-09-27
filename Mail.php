@@ -16,9 +16,9 @@ class Mail {
     }
 
     public function getAllMail() {
-        return Database::getInstance()->query('SELECT date AS Date, 
-                                                username AS Username, 
-                                                subject AS Subject
+        return Database::getInstance()->query('SELECT date, 
+                                                username,
+                                                subject
                                                 FROM mails 
                                                 INNER JOIN users ON mails.idSender = users.id 
                                                 WHERE idReceiver=(SELECT id FROM users WHERE digest="'.$_SESSION['digest'].'");');
