@@ -1,7 +1,11 @@
 <?php
 require_once('Authentication.php');
+require_once('Mail.php');
+extract(@$_GET);
 
 Authentication::getInstance()->check();
+
+$row = Mail::getInstance()->getMail($date)->fetch();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -18,7 +22,7 @@ Authentication::getInstance()->check();
         <table width="500px">
             <tr align="right">
                 <td colspan="2">
-                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php';">
+                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?to=<?php echo $row['from'] ?>';">
                     <input type="button" value="Delete" onclick="window.location.href='deleteMail.php';">
                 </td>
             </tr>
@@ -27,7 +31,9 @@ Authentication::getInstance()->check();
                     Date
                 </th>
                 <td>
-                    12.12.2017
+                    <?php
+                    echo (new DateTime($row['date'],new DateTimeZone('UTC')))->format('m.d.Y H:i');
+                    ?>
                 </td>
             </tr>
             <tr align="left">
@@ -35,7 +41,9 @@ Authentication::getInstance()->check();
                     From
                 </th>
                 <td>
-                    Loan Lassalle
+                    <?php
+                    echo $row['from'];
+                    ?>
                 </td>
             </tr>
             <tr align="left">
@@ -43,7 +51,9 @@ Authentication::getInstance()->check();
                     To
                 </th>
                 <td>
-                    Wojciech Myszkorowski
+                    <?php
+                    echo $row['to'];
+                    ?>
                 </td>
             </tr>
             <tr align="left">
@@ -51,7 +61,9 @@ Authentication::getInstance()->check();
                     Subject
                 </th>
                 <td>
-                    RootMe - Inscription
+                    <?php
+                    echo $row['subject'];
+                    ?>
                 </td>
             </tr>
             <tr>
@@ -68,7 +80,11 @@ Authentication::getInstance()->check();
                 <td>
                 </td>
                 <td>
-                    <textarea id="mailBody" cols="52" rows="20" maxlength="1000" style="border: none; resize: none;" readonly required>Welcome to RootMe !!</textarea>
+                    <textarea id="mailBody" cols="52" rows="20" maxlength="1000" style="border: none; resize: none;" readonly required>
+                    <?php
+                    echo $row['body'];
+                    ?>
+                    </textarea>
                 </td>
             </tr>
         </table>

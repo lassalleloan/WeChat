@@ -1,6 +1,5 @@
 <?php
 require_once('Authentication.php');
-require_once('Database.php');
 require_once('Mail.php');
 require_once('User.php');
 
@@ -25,6 +24,9 @@ if ($role) {
         <h1>Home</h1>
         <br>
         <a href="logout.php">Logout</a>
+        <br>
+        <br>
+        <a href="changePassword.php">Change Password</a>
         <br>
         <br>
         <table width="500px">
@@ -65,10 +67,10 @@ if ($role) {
                 while (($row = $results->fetch())) {
                     echo '<tr>';
                     echo '<td>'.(new DateTime($row['date'],new DateTimeZone('UTC')))->format('m.d.Y H:i').'</td>';
-                    echo '<td>'.$row['username'].'</td>';
+                    echo '<td>'.$row['from'].'</td>';
                     echo '<td>'.$row['subject'].'</td>';
                     echo '<td>
-                          <input type="button" value="More" onclick="window.location.href=\'readMail.php\';">
+                          <input type="button" value="More" onclick="window.location.href=\'readMail.php?date='.$row['date'].'\';">
                           </td>
                           <td>
                           <input type="button" value="Delete" onclick="window.location.href=\'deleteMail.php\';">

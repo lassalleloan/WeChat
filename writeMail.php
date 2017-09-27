@@ -1,7 +1,10 @@
 <?php
 require_once('Authentication.php');
+require_once('User.php');
+extract(@$_GET);
 
 Authentication::getInstance()->check();
+$row = User::getInstance()->getFields('username')->fetch();  
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -27,7 +30,7 @@ Authentication::getInstance()->check();
                         From
                     </th>
                     <td>
-                        Loan Lassalle
+                        <input type="text" name="from" size="51" maxlength="50" value="<?php echo $row['username']; ?>" style="border:none" readonly required>
                     </td>
                 </tr>
                 <tr align="left">
@@ -35,7 +38,7 @@ Authentication::getInstance()->check();
                         To
                     </th>
                     <td>
-                        <input type="text" name="mailUsername" size="51" maxlength="50" required>
+                        <input type="text" name="to" size="51" maxlength="50" <?php if (isset($to)) {echo 'value="'.$to.'"'; echo ' readonly style="border:none"';} ?>" required>
                     </td>
                 </tr>
                 <tr align="left">
@@ -43,7 +46,7 @@ Authentication::getInstance()->check();
                         Subject
                     </th>
                     <td>
-                        <input type="text" name="mailSubject" size="51" maxlength="50" required>
+                        <input type="text" name="subject" size="51" maxlength="50" required>
                     </td>
                 </tr>
                 <tr>
@@ -60,7 +63,7 @@ Authentication::getInstance()->check();
                     <td>
                     </td>
                     <td>
-                        <textarea name="mailBody" cols="52" rows="20" maxlength="1000" style="resize: none;" required></textarea>
+                        <textarea name="body" cols="52" rows="20" maxlength="1000" style="resize: none;" required></textarea>
                     </td>
                 </tr>
             </table>
