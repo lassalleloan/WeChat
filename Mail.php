@@ -38,5 +38,12 @@ class Mail {
                                                 INNER JOIN users ON mails.idSender = users.id
                                                 WHERE idReceiver='.$row['id'].';');
     }
+
+    public function sendMail($mail) {
+        foreach ($mail as $m) {
+            Database::getInstance()->query("INSERT INTO mails (date, idSender, idReceiver, subject, body) 
+                    VALUES ('{$m['date']}', '{$m['idSender']}', '{$m['idReceiver']}', '{$m['subject']}', '{$m['body']}');");
+        }
+    }
 }
 ?>

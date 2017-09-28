@@ -19,6 +19,11 @@ class User {
         return Database::getInstance()->query('SELECT '.$fields.' FROM users
                                                 WHERE digest="'.$_SESSION['digest'].'";');
     }
+    
+    public function getId($username) {
+        return Database::getInstance()->query('SELECT id FROM users
+                                                WHERE username="'.$username.'";');
+    }
 
     public function getAllRows() {
         return Database::getInstance()->query('SELECT username,
