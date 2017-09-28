@@ -4,7 +4,7 @@ require_once('User.php');
 extract(@$_GET);
 
 Authentication::getInstance()->check();
-$row = User::getInstance()->getFields('username')->fetch();  
+$row = User::getInstance()->getFields('username')->fetch();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -38,7 +38,7 @@ $row = User::getInstance()->getFields('username')->fetch();
                         To
                     </th>
                     <td>
-                        <input type="text" name="to" size="51" maxlength="50" <?php if (isset($to)) {echo 'value="'.$to.'"'; echo ' readonly style="border:none"';} ?>" required>
+                        <input type="text" name="to" size="51" maxlength="50" <?php if (isset($to)) {echo 'value="'.$to.'"'; echo ' style="border:none" readonly"';} ?> required>
                     </td>
                 </tr>
                 <tr align="left">
@@ -46,7 +46,7 @@ $row = User::getInstance()->getFields('username')->fetch();
                         Subject
                     </th>
                     <td>
-                        <input type="text" name="subject" size="51" maxlength="50" required>
+                        <input type="text" name="subject" size="51" maxlength="50" <?php if (isset($subject)) {echo 'value="RE:'.$subject.'"'; echo ' style="border:none" readonly"';} ?> required>
                     </td>
                 </tr>
                 <tr>

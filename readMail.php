@@ -22,7 +22,7 @@ $row = Mail::getInstance()->getMail($date)->fetch();
         <table width="500px">
             <tr align="right">
                 <td colspan="2">
-                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?to=<?php echo $row['from'] ?>';">
+                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?to=<?php echo $row['from'] ?>&subject=<?php echo $row['subject']; ?>';">
                     <input type="button" value="Delete" onclick="window.location.href='deleteMail.php';">
                 </td>
             </tr>

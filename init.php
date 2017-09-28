@@ -3,24 +3,17 @@ require_once('Database.php');
 
 // Set default timezone
 date_default_timezone_set('UTC');
-    
-/**************************************
-* Create databases and                *
-* open connections                    *
-**************************************/
-
-$database = new Database;
 
 /**************************************
 * Create tables                       *
 **************************************/
 
-$database->query('DROP TABLE IF EXISTS roles;
+Database::getInstance()->query('DROP TABLE IF EXISTS roles;
                 CREATE TABLE IF NOT EXISTS roles (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 name VARCHAR(255) UNIQUE NOT NULL);');
                 
-$database->query('DROP TABLE IF EXISTS users;
+Database::getInstance()->query('DROP TABLE IF EXISTS users;
                 CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username VARCHAR(255) UNIQUE NOT NULL,
@@ -30,7 +23,7 @@ $database->query('DROP TABLE IF EXISTS users;
                 role INTEGER NOT NULL,
                 FOREIGN KEY(role) REFERENCES roles(id));');
                 
-$database->query('DROP TABLE IF EXISTS mails;
+Database::getInstance()->query('DROP TABLE IF EXISTS mails;
                 CREATE TABLE IF NOT EXISTS mails (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 date VARCHAR(23) UNIQUE NOT NULL,
@@ -130,29 +123,29 @@ Because my father offers us to take the private jet !'),
 **************************************/
 
 foreach ($roles as $r) {
-    $database->query("INSERT INTO roles (name) 
+    Database::getInstance()->query("INSERT INTO roles (name) 
             VALUES ('{$r['name']}');");
 }
 
 foreach ($users as $u) {
-    $database->query("INSERT INTO users (username, salt, digest, active, role) 
+    Database::getInstance()->query("INSERT INTO users (username, salt, digest, active, role) 
             VALUES ('{$u['username']}', '{$u['salt']}', '{$u['digest']}','{$u['active']}', '{$u['role']}');");
 }
 
 foreach ($mails as $m) {
-    $database->query("INSERT INTO mails (date, idSender, idReceiver, subject, body) 
+    Database::getInstance()->query("INSERT INTO mails (date, idSender, idReceiver, subject, body) 
             VALUES ('{$m['date']}', '{$m['idSender']}', '{$m['idReceiver']}', '{$m['subject']}', '{$m['body']}');");
 }
 
-$resultsRoles = $database->query('SELECT * FROM roles;');
-$resultsUsers = $database->query('SELECT * FROM users;');
-$resultsMails = $database->query('SELECT * FROM mails;');
+$resultsRoles = Database::getInstance()->query('SELECT * FROM roles;');
+$resultsUsers = Database::getInstance()->query('SELECT * FROM users;');
+$resultsMails = Database::getInstance()->query('SELECT * FROM mails;');
 
 /**************************************
 * Close db connections                *
 **************************************/
 
-$database->deconnection();
+Database::getInstance()->deconnection();
 
 /**************************************
 * Display data                        *
