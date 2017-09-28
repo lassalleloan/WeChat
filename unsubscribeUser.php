@@ -1,9 +1,9 @@
-<?php     
+<?php
 require_once('Authentication.php');
-require_once('Mail.php');
+require_once('User.php');
 extract(@$_GET);
 
 Authentication::getInstance()->toIndex();
-Mail::getInstance()->delete($id);
+User::getInstance()->delete($id);
 header('location:home.php');
 ?>

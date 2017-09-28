@@ -1,11 +1,12 @@
 <?php
+extract(@$_GET);
 require_once('Authentication.php');
 require_once('User.php');
-extract(@$_GET);
 
-Authentication::getInstance()->check();
-$row = User::getInstance()->getFields('username')->fetch();
+Authentication::getInstance()->toIndex();
+$row = User::getInstance()->getUsername()->fetch();
 ?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
@@ -20,6 +21,15 @@ $row = User::getInstance()->getFields('username')->fetch();
         <br>
         <form method="post" action="sendMail.php">
             <table width="500px">
+                <?php
+                if (isset($error) && $error === 'true') {
+                    echo '<tr>
+                          <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
+                          Unknown username
+                          </td>
+                          </tr>';
+                }
+                ?>
                 <tr align="right">
                     <td colspan="2">
                         <input type="submit" value="Send">

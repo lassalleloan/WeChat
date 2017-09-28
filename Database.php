@@ -1,35 +1,24 @@
 <?php
 class Database {
-    private static $instance;
-    private $_file;
-    private $_conn;
+    private static $_instance;
+    private $_database;
     
-    private function __construct($file = 'sqlite:./weChat.sqlite') {
-        $this->setFile($file);
+    private function __construct() {
         $this->connection();
     }
 
     public static function getInstance() {
-        if (is_null(self::$instance )) {
-          self::$instance = new self();
+        if (is_null(self::$_instance )) {
+          self::$_instance = new self();
         }
         
-        return self::$instance;
+        return self::$_instance;
     }
     
-    public function setFile($file) {
-        if (!is_string($file)) {
-            trigger_error('setFileDatabase: parameter is not a string', E_USER_WARNING);
-            return;
-        }
-        
-        $this->_file = $file;
-    }
-    
-    public function connection() {
+    public function connection($file = 'sqlite:./weChat.sqlite') {
         try {
-            $this->_conn = new PDO($this->_file);
-            $this->_conn->setAttribute(PDO::ATTR_ERRMODE, 
+            $this->_database = new PDO($file);
+            $this->_database->setAttribute(PDO::ATTR_ERRMODE, 
                                     PDO::ERRMODE_EXCEPTION);
         } catch (Exception $ex) {
             echo $ex->getMessage();
@@ -38,18 +27,18 @@ class Database {
     }
     
     public function deconnection() {
-        $this->_conn = null;
+        $this->_database = null;
     }
     
     public function query($sql) {
-        if (!isset($this->_conn)) {
+        if (!isset($this->_database)) {
             $this->connection();
         }
         
         if (substr($sql, 0, 6) === 'SELECT') {
-            $results = $this->_conn->query($sql);
+            $results = $this->_database->query($sql);
         } else {
-            $results = $this->_conn->exec($sql);
+            $results = $this->_database->exec($sql);
         }
         
         return $results;

@@ -1,12 +1,13 @@
 <?php
+extract(@$_GET);
 require_once('Authentication.php');
 require_once('Mail.php');
-extract(@$_GET);
 
-Authentication::getInstance()->check();
+Authentication::getInstance()->toIndex();
 
-$row = Mail::getInstance()->getMail($date)->fetch();
+$row = Mail::getInstance()->getById($id)->fetch();
 ?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
@@ -22,8 +23,8 @@ $row = Mail::getInstance()->getMail($date)->fetch();
         <table width="500px">
             <tr align="right">
                 <td colspan="2">
-                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?to=<?php echo $row['from'] ?>&subject=<?php echo $row['subject']; ?>';">
-                    <input type="button" value="Delete" onclick="window.location.href='deleteMail.php';">
+                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?to=<?php echo $row['from']; ?>&subject=<?php echo $row['subject']; ?>';">
+                    <input type="button" value="Delete" onclick="window.location.href='deleteMail.php?id=<?php echo $id; ?>';">
                 </td>
             </tr>
             <tr align="left">

@@ -1,8 +1,9 @@
 <?php
 require_once('Authentication.php');
 
-Authentication::getInstance()->check();
+Authentication::getInstance()->toIndex();
 ?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
@@ -15,7 +16,7 @@ Authentication::getInstance()->check();
         <a href="home.php">< Back</a>
         <br>
         <br>
-        <form method="post" action="usersManager.php">
+        <form method="post" action="manageUser.php">
             <table width="500px">
                 <tr>
                     <td colspan="2">
