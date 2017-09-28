@@ -2,7 +2,7 @@
 require_once('Database.php');
 
 // Set default timezone
-date_default_timezone_set('UTC');
+date_default_timezone_set('Europe/Zurich');
 
 /**************************************
 * Create tables                       *
