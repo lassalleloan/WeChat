@@ -1,5 +1,6 @@
 <?php
 require_once('Database.php');
+require_once('Role.php');
 
 class User {
     private static $_instance;
@@ -31,6 +32,12 @@ class User {
         return Database::getInstance()->query('SELECT username
                                                 FROM users
                                                 WHERE digest="'.$_SESSION['digest'].'";');
+    }
+    
+    public function getUsernameById($id) {
+        return Database::getInstance()->query('SELECT username
+                                                FROM users
+                                                WHERE id="'.$id.'";');
     }
     
     public function getRole() {
@@ -65,6 +72,15 @@ class User {
                                                 WHERE username="'.$username.'";');
     }
 
+    public function getUser($id) {
+        return Database::getInstance()->query('SELECT username,
+                                                active,
+                                                name AS role
+                                                FROM users 
+                                                INNER JOIN roles ON users.role = roles.id
+                                                WHERE users.id="'.$id.'";'); 
+    }
+
     public function getAll() {
         return Database::getInstance()->query('SELECT users.id,
                                                 username,
@@ -72,6 +88,16 @@ class User {
                                                 name AS role
                                                 FROM users 
                                                 INNER JOIN roles ON users.role = roles.id;');  
+    }
+
+    public function getAllException() {
+        return Database::getInstance()->query('SELECT users.id,
+                                                username,
+                                                active,
+                                                name AS role
+                                                FROM users 
+                                                INNER JOIN roles ON users.role = roles.id
+                                                WHERE digest<>"'.$_SESSION['digest'].'";');  
     }
 
     public function getAllUsers() {
@@ -85,9 +111,30 @@ class User {
         }
     }
     
+    public function updateDigest($digest) {
+        Database::getInstance()->query('UPDATE users
+                                        SET digest="'.$digest.'"
+                                        WHERE digest="'.$_SESSION['digest'].'";');      
+    }
+    
+    public function updateUser($id, $active, $role) {
+        $row = Role::getInstance()->getId($role)->fetch();
+        Database::getInstance()->query('UPDATE users
+                                        SET active='.$active.', role='.$row['id'].' WHERE id='.$id.';');      
+    }
+    
+    public function updateUserAll($id, $digest, $active, $role) {
+        $row = Role::getInstance()->getId($role)->fetch();
+        Database::getInstance()->query('UPDATE users
+                                        SET digest="'.$digest.'",
+                                        active='.$active.',
+                                        role='.$row['id'].'
+                                        WHERE id='.$id.';');      
+    }
+    
     public function delete($id) {
-        Database::getInstance()->query('UPDATE FROM users
-                                        SET active = 0
+        Database::getInstance()->query('UPDATE users
+                                        SET active=0
                                         WHERE id='.$id.';');
     }
 }

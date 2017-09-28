@@ -11,11 +11,13 @@ date_default_timezone_set('Europe/Zurich');
 * Create tables                       *
 **************************************/
 
-Database::getInstance()->query('CREATE TABLE IF NOT EXISTS roles (
+Database::getInstance()->query('DROP TABLE IF EXISTS roles;
+                CREATE TABLE IF NOT EXISTS roles (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 name VARCHAR(255) UNIQUE NOT NULL);');
                 
-Database::getInstance()->query('CREATE TABLE IF NOT EXISTS users (
+Database::getInstance()->query('DROP TABLE IF EXISTS users;
+                CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username VARCHAR(255) UNIQUE NOT NULL,
                 salt VARCHAR(255) NOT NULL,
@@ -24,7 +26,8 @@ Database::getInstance()->query('CREATE TABLE IF NOT EXISTS users (
                 role INTEGER NOT NULL,
                 FOREIGN KEY(role) REFERENCES roles(id));');
                 
-Database::getInstance()->query('CREATE TABLE IF NOT EXISTS mails (
+Database::getInstance()->query('DROP TABLE IF EXISTS mails;
+                CREATE TABLE IF NOT EXISTS mails (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 date VARCHAR(23) UNIQUE NOT NULL,
                 idSender INTEGER NOT NULL,
@@ -139,44 +142,6 @@ Database::getInstance()->deconnection();
 /**************************************
 * Display data                        *
 **************************************/
-
-echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-      <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
-      <head>
-      <title>WeChat - Display data test</title>
-      <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-      </head>
-      <body>
-      <h1>Display data test</h1>
-      <br>';
-
-echo '<h2>Roles</h2>';
-foreach($resultsRoles as $row) {
-    echo 'Name: '.$row['name'].'<br/>';
-    echo '<br/>';
-}
-
-echo '<h2>Users</h2>';
-foreach($resultsUsers as $row) {
-    echo 'Username: '.$row['username'].'<br/>';
-    echo 'Salt: '.$row['salt'].'<br/>';
-    echo 'Digest: '.$row['digest'].'<br/>';
-    echo 'Active: '.$row['active'].'<br/>';
-    echo 'Role: '.$row['role'].'<br/>';
-    echo '<br/>';
-}
-
-echo '<h2>Mails</h2>';
-foreach($resultsMails as $row) {
-    echo 'Date: '.$row['date'].'<br/>';
-    echo 'idSender: '.$row['idSender'].'<br/>';
-    echo 'idReceiver: '.$row['idReceiver'].'<br/>';
-    echo 'Subject: '.$row['subject'].'<br/>';
-    echo 'Body: '.$row['body'].'<br/>';
-    echo '<br/>';
-}
-        
-echo '</body>
-      </html>';
+header('location:showData.php');
 ?>
 

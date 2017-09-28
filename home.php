@@ -12,7 +12,7 @@ $role = $row['role'] == 1;
 $resultsMail = Mail::getInstance()->getAll();
 
 if ($role) {
-    $resultsUser = User::getInstance()->getAll();
+    $resultsUser = User::getInstance()->getAllException();
 }
 ?>
 

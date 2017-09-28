@@ -17,14 +17,14 @@ class Role {
     
     public function getId($name) {
         return Database::getInstance()->query('SELECT id
-                                                FROM users
+                                                FROM roles
                                                 WHERE name="'.$name.'";');
     }
     
     public function getName($id) {
         return Database::getInstance()->query('SELECT name
-                                                FROM users
-                                                WHERE id="'.$id.'";');
+                                                FROM roles
+                                                WHERE id='.$id.';');
     }
 
     public function getAll() {

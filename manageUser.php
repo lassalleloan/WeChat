@@ -1,7 +1,24 @@
 <?php
+extract(@$_GET);
 require_once('Authentication.php');
+require_once('User.php');
 
 Authentication::getInstance()->toIndex();
+
+if (isset($id)){
+    $row = User::getInstance()->getUser($id)->fetch();
+    $username = 'value="'.$row['username'].'" style="border:none" readonly "';
+    $activeTrue = $row['active'] ? 'checked' : '';
+    $activeFalse = !$row['active'] ? 'checked' : '';
+    $roleAdministrator = $row['role'] === 'Administrator' ? 'checked' : '';
+    $roleCoWorker = $row['role'] === 'Co-worker' ? 'checked' : '';
+} else {
+    $username = '';
+    $activeTrue = 'checked';
+    $activeFalse = '';
+    $roleAdministrator = '';
+    $roleCoWorker = 'checked';
+}
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -16,17 +33,17 @@ Authentication::getInstance()->toIndex();
         <a href="home.php">< Back</a>
         <br>
         <br>
-        <form method="post" action="manageUser.php">
+        <form method="post" action="updateUser.php">
             <table width="500px">
-                <tr>
-                    <td colspan="2">
-                        <select name="usersList" id="usersList" onchange="submit();">
-                            <option value="0" selected>Add a user</option>
-                            <option value="1">User_01</option>
-                            <option value="2">User_02</option>
-                        </select>
-                    </td>
-                </tr>
+                <?php
+                if (isset($error) && $error === 'true') {
+                    echo '<tr>
+                          <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
+                          Incorrect confirm password
+                          </td>
+                          </tr>';
+                }
+                ?>
                 <tr>
                     <td colspan="2">
                         <br>
@@ -37,7 +54,7 @@ Authentication::getInstance()->toIndex();
                         Username
                     </th>
                     <td>
-                        <input type="text" name="usersUsername" size="50" minlength="1" maxlength="50" required>
+                        <input type="text" name="username" size="50" minlength="1" maxlength="50" <?php echo $username; ?> required>
                     </td>
                 </tr>
                 <tr align="left">
@@ -45,7 +62,7 @@ Authentication::getInstance()->toIndex();
                         New Password
                     </th>
                     <td>
-                        <input type="password" name="userNewPassword" size="50" minlength="8" maxlength="50" required>
+                        <input type="password" name="newPassword" size="50" minlength="8" maxlength="50">
                     </td>
                 </tr>
                 <tr align="left">
@@ -53,7 +70,7 @@ Authentication::getInstance()->toIndex();
                         Confirm Password
                     </th>
                     <td>
-                        <input type="password" name="userConfirmPassword" size="50" minlength="8" maxlength="50" required>
+                        <input type="password" name="confirmPassword" size="50" minlength="8" maxlength="50">
                     </td>
                 </tr>
                 <tr align="left">
@@ -61,8 +78,8 @@ Authentication::getInstance()->toIndex();
                         Active
                     </th>
                     <td>
-                        <input type="radio" name="userActive" value="True" checked required>True<br>
-                        <input type="radio" name="userActive" value="False" required>False<br>
+                        <input type="radio" name="active" value="True" <?php echo $activeTrue; ?> required>True<br>
+                        <input type="radio" name="active" value="False" <?php echo $activeFalse; ?>  required>False<br>
                     </td>
                 </tr>
                 <tr align="left">
@@ -70,8 +87,8 @@ Authentication::getInstance()->toIndex();
                         Type of account
                     </th>
                     <td>
-                        <input type="radio" name="userRole" value="Administrator" required>Administrator<br>
-                        <input type="radio" name="userRole" value="Co-worker" checked required>Co-worker<br>
+                        <input type="radio" name="role" value="Administrator" <?php echo $roleAdministrator; ?> required>Administrator<br>
+                        <input type="radio" name="role" value="Co-worker" <?php echo $roleCoWorker; ?> required>Co-worker<br>
                     </td>
                 </tr>
                 <tr>

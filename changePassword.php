@@ -1,4 +1,5 @@
 <?php
+extract(@$_GET);
 require_once('Authentication.php');
 
 Authentication::getInstance()->toIndex();
@@ -16,8 +17,17 @@ Authentication::getInstance()->toIndex();
         <a href="home.php">< Back</a>
         <br>
         <br>
-        <form method="post" action="changePassword.php">
+        <form method="post" action="updatePassword.php">
             <table width="500px">
+                <?php
+                if (isset($error) && $error === 'true') {
+                    echo '<tr>
+                          <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
+                          Incorrect old password or confirm password
+                          </td>
+                          </tr>';
+                }
+                ?>
                 <tr>
                     <td>
                         Old Password

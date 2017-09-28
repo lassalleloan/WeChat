@@ -1,7 +1,7 @@
 <?php
+extract(@$_GET);
 require_once('Authentication.php');
 require_once('User.php');
-extract(@$_GET);
 
 Authentication::getInstance()->toIndex();
 User::getInstance()->delete($id);
