@@ -1,6 +1,14 @@
 <?php
+/**************************************************
+* STI - Project Web
+* WeChat
+* Description: web site to sen mails between users 
+* Authors: Loan Lassalle, Wojciech Myszkorowski
+**************************************************/
+
+require_once('Authentication.php');
 require_once('Database.php');
-require_once('Role.php');
+require_once('Utils.php');
 
 class User {
     private static $_instance;
@@ -17,125 +25,133 @@ class User {
     }
     
     public function getId() {
-        return Database::getInstance()->query('SELECT id
+        return Database::getInstance()->query("SELECT id
                                                 FROM users
-                                                WHERE digest="'.$_SESSION['digest'].'";');
+                                                WHERE digest='{$_SESSION['digest']}';");
     }
     
     public function getIdByUsername($username) {
-        return Database::getInstance()->query('SELECT id
+        return Database::getInstance()->query("SELECT id
                                                 FROM users
-                                                WHERE username="'.$username.'";');
+                                                WHERE username='{$username}';");
     }
     
     public function getUsername() {
-        return Database::getInstance()->query('SELECT username
+        return Database::getInstance()->query("SELECT username
                                                 FROM users
-                                                WHERE digest="'.$_SESSION['digest'].'";');
-    }
-    
-    public function getUsernameById($id) {
-        return Database::getInstance()->query('SELECT username
-                                                FROM users
-                                                WHERE id="'.$id.'";');
-    }
-    
-    public function getRole() {
-        return Database::getInstance()->query('SELECT role
-                                                FROM users
-                                                WHERE digest="'.$_SESSION['digest'].'";');
-    }
-    
-    public function getActive() {
-        return Database::getInstance()->query('SELECT active
-                                                FROM users
-                                                WHERE digest="'.$_SESSION['digest'].'";');
-    }
-    
-    public function getActiveByUsername($username) {
-        return Database::getInstance()->query('SELECT active
-                                                FROM users
-                                                WHERE username="'.$username.'";');
+                                                WHERE digest='{$_SESSION['digest']}';");
     }
     
     public function getCredentials() {
-        return Database::getInstance()->query('SELECT salt,
+        return Database::getInstance()->query("SELECT salt,
                                                 digest
                                                 FROM users
-                                                WHERE digest="'.$_SESSION['digest'].'";');
+                                                WHERE digest='{$_SESSION['digest']}';");
     }
     
     public function getCredentialsByUsername($username) {
-        return Database::getInstance()->query('SELECT salt,
+        return Database::getInstance()->query("SELECT salt,
                                                 digest
                                                 FROM users
-                                                WHERE username="'.$username.'";');
+                                                WHERE username='{$username}';");
+    }
+    
+    public function getRole() {
+        return Database::getInstance()->query("SELECT role
+                                                FROM users
+                                                WHERE digest='{$_SESSION['digest']}';");
+    }
+    
+    public function getRoleByUsername($username) {
+        return Database::getInstance()->query("SELECT role
+                                                FROM users
+                                                WHERE username='{$username}';");
+    }
+    
+    public function getActive() {
+        return Database::getInstance()->query("SELECT active
+                                                FROM users
+                                                WHERE digest='{$_SESSION['digest']}';");
+    }
+    
+    public function getActiveByUsername($username) {
+        return Database::getInstance()->query("SELECT active
+                                                FROM users
+                                                WHERE username='{$username}';");
     }
 
     public function getUser($id) {
-        return Database::getInstance()->query('SELECT username,
+        return Database::getInstance()->query("SELECT username,
                                                 active,
                                                 name AS role
                                                 FROM users 
                                                 INNER JOIN roles ON users.role = roles.id
-                                                WHERE users.id="'.$id.'";'); 
+                                                WHERE users.id={$id};"); 
     }
 
-    public function getAll() {
-        return Database::getInstance()->query('SELECT users.id,
-                                                username,
-                                                active,
-                                                name AS role
-                                                FROM users 
-                                                INNER JOIN roles ON users.role = roles.id;');  
-    }
-
-    public function getAllException() {
-        return Database::getInstance()->query('SELECT users.id,
+    public function getData() {
+        return Database::getInstance()->query("SELECT users.id,
                                                 username,
                                                 active,
                                                 name AS role
                                                 FROM users 
                                                 INNER JOIN roles ON users.role = roles.id
-                                                WHERE digest<>"'.$_SESSION['digest'].'";');  
+                                                WHERE digest<>'{$_SESSION['digest']}';");  
     }
 
-    public function getAllUsers() {
-        return Database::getInstance()->query('SELECT * FROM users;');  
+    public function getTable() {
+        return Database::getInstance()->query("SELECT * FROM users;");  
     }
     
-    public function insert($users) {
-        foreach ($users as $u) {
-            Database::getInstance()->query("INSERT INTO users (username, salt, digest, active, role) 
-                    VALUES ('{$u['username']}', '{$u['salt']}', '{$u['digest']}','{$u['active']}', '{$u['role']}');");
+    public function insertOne($user) {
+        $user['salt'] = Utils::getInstance()->randomStr();
+        $user['digest'] = Authentication::getInstance()->getDigest("{$user['username']}{$user['salt']}{$user['password']}");
+        Database::getInstance()->query("INSERT INTO users (username, salt, digest, active, role) 
+                                        VALUES ('{$user['username']}', '{$user['salt']}', '{$user['digest']}','{$user['active']}', '{$user['role']}');");
+    }
+    
+    public function insertMultiple($userArray) {
+        foreach ($userArray as $user) {
+            $this->insertOne($user);
         }
     }
     
     public function updateDigest($digest) {
-        Database::getInstance()->query('UPDATE users
-                                        SET digest="'.$digest.'"
-                                        WHERE digest="'.$_SESSION['digest'].'";');      
+        Database::getInstance()->query("UPDATE users
+                                        SET digest='{$digest}'
+                                        WHERE digest='{$_SESSION['digest']}';");      
     }
     
-    public function updateUser($id, $active, $role) {
-        $row = Role::getInstance()->getId($role)->fetch();
-        Database::getInstance()->query('UPDATE users
-                                        SET active='.$active.', role='.$row['id'].' WHERE id='.$id.';');      
+    public function updateOne($user) {
+        $setDigest = '';
+        
+        if (isset($user['digest'])) {
+            $setDigest = "digest='{$user['digest']}',";
+        }
+        
+        Database::getInstance()->query("UPDATE users
+                                        SET {$setDigest}
+                                        active={$user['active']},
+                                        role={$user['role']}
+                                        WHERE id={$user['id']};");       
     }
     
-    public function updateUserAll($id, $digest, $active, $role) {
-        $row = Role::getInstance()->getId($role)->fetch();
-        Database::getInstance()->query('UPDATE users
-                                        SET digest="'.$digest.'",
-                                        active='.$active.',
-                                        role='.$row['id'].'
-                                        WHERE id='.$id.';');      
+    public function updateMultiple($userArray) {
+        foreach ($userArray as $user) {
+            $this->updateOne($user);
+        }
     }
     
-    public function delete($id) {
-        Database::getInstance()->query('UPDATE users
+    public function deleteOne($id) {
+        Database::getInstance()->query("UPDATE users
                                         SET active=0
-                                        WHERE id='.$id.';');
+                                        WHERE id={$id};");
+    }
+    
+    public function deleteMultiple($idArray) {
+        foreach ($idArray as $id) {
+            $this->deleteOne($id);
+        }
     }
 }
 ?>

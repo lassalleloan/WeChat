@@ -1,12 +1,30 @@
 <?php
+/**************************************************
+* STI - Project Web
+* WeChat
+* Description: web site to sen mails between users 
+* Authors: Loan Lassalle, Wojciech Myszkorowski
+**************************************************/
+
 extract(@$_GET);
 require_once('Authentication.php');
+require_once('Mail.php');
 require_once('User.php');
 
-Authentication::getInstance()->toIndex();
-$row = User::getInstance()->getUsername()->fetch();
-?>
+Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
+$valueFrom = 'value="'.User::getInstance()->getUsername()->fetch()['username'].'"';
+$styleFrom = 'style="border:none" readonly ';
+$valueTo = '';
+$valueSubject = '';
+$styleOthers = '';
+
+if (isset($id)) {
+    $valueTo = 'value="'.Mail::getInstance()->getTo($id)->fetch()['to'].'"';
+    $valueSubject = 'value="RE: '.Mail::getInstance()->getSubject($id)->fetch()['subject'].'"';
+    $styleOthers = 'style="border:none" readonly ';
+}
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
@@ -22,12 +40,12 @@ $row = User::getInstance()->getUsername()->fetch();
         <form method="post" action="sendMail.php">
             <table width="500px">
                 <?php
-                if (isset($error) && $error === 'true') {
+                if (isset($error) && $error) {
                     echo '<tr>
-                          <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
-                          Unknown username
-                          </td>
-                          </tr>';
+                        <td colspan="2" align="center" style="color:red; font-weight:bold">
+                        Unknown username
+                        </td>
+                        </tr>';
                 }
                 ?>
                 <tr align="right">
@@ -40,7 +58,7 @@ $row = User::getInstance()->getUsername()->fetch();
                         From
                     </th>
                     <td>
-                        <input type="text" name="from" size="51" maxlength="50" value="<?php echo $row['username']; ?>" style="border:none" readonly required>
+                        <input type="text" name="from" size="51" maxlength="50" <?php echo $valueFrom; echo $styleFrom; ?>required>
                     </td>
                 </tr>
                 <tr align="left">
@@ -48,7 +66,7 @@ $row = User::getInstance()->getUsername()->fetch();
                         To
                     </th>
                     <td>
-                        <input type="text" name="to" size="51" maxlength="50" <?php if (isset($to)) {echo 'value="'.$to.'"'; echo ' style="border:none" readonly"';} ?> required>
+                        <input type="text" name="to" size="51" maxlength="50" <?php echo $valueTo; echo $styleOthers; ?>required>
                     </td>
                 </tr>
                 <tr align="left">
@@ -56,7 +74,7 @@ $row = User::getInstance()->getUsername()->fetch();
                         Subject
                     </th>
                     <td>
-                        <input type="text" name="subject" size="51" maxlength="50" <?php if (isset($subject)) {echo 'value="RE:'.$subject.'"'; echo ' style="border:none" readonly"';} ?> required>
+                        <input type="text" name="subject" size="51" maxlength="50" <?php echo $valueSubject; echo $styleOthers; ?>required>
                     </td>
                 </tr>
                 <tr>

@@ -1,26 +1,41 @@
 <?php
+/**************************************************
+* STI - Project Web
+* WeChat
+* Description: web site to sen mails between users 
+* Authors: Loan Lassalle, Wojciech Myszkorowski
+**************************************************/
+
 extract(@$_GET);
 require_once('Authentication.php');
 require_once('User.php');
 
-Authentication::getInstance()->toIndex();
+Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
+
+$valueUsername = '';
+$styleUsername = '';
+    
+$activeChecked = 'checked';
+
+$roleAdministrator = '';
+$roleCoWorker = 'checked';
 
 if (isset($id)){
-    $row = User::getInstance()->getUser($id)->fetch();
-    $username = 'value="'.$row['username'].'" style="border:none" readonly "';
-    $activeTrue = $row['active'] ? 'checked' : '';
-    $activeFalse = !$row['active'] ? 'checked' : '';
-    $roleAdministrator = $row['role'] === 'Administrator' ? 'checked' : '';
-    $roleCoWorker = $row['role'] === 'Co-worker' ? 'checked' : '';
-} else {
-    $username = '';
-    $activeTrue = 'checked';
-    $activeFalse = '';
-    $roleAdministrator = '';
-    $roleCoWorker = 'checked';
+    $user = User::getInstance()->getUser($id)->fetch();
+    
+    $valueUsername = 'value="'.$user['username'].'"';
+    $styleUsername = 'style="border:none" readonly';
+    
+    if (!$user['active']) {
+        $activeChecked = '';
+    }
+
+    if ($user['role'] === 'Administrator') {
+        $roleAdministrator = 'checked';
+        $roleCoWorker = '';
+    }
 }
 ?>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
@@ -36,12 +51,12 @@ if (isset($id)){
         <form method="post" action="updateUser.php">
             <table width="500px">
                 <?php
-                if (isset($error) && $error === 'true') {
+                if (isset($error) && $error) {
                     echo '<tr>
-                          <td colspan="2" align="center" style="text-align:center; color:red; font-weight:bold">
-                          Incorrect confirm password
-                          </td>
-                          </tr>';
+                        <td colspan="2" align="center" style="color:red; font-weight:bold">
+                        Incorrect confirm password
+                        </td>
+                        </tr>';
                 }
                 ?>
                 <tr>
@@ -54,15 +69,15 @@ if (isset($id)){
                         Username
                     </th>
                     <td>
-                        <input type="text" name="username" size="50" minlength="1" maxlength="50" <?php echo $username; ?> required>
+                        <input type="text" name="username" size="50" minlength="1" maxlength="50" <?php echo $valueUsername; echo $styleUsername; ?> required>
                     </td>
                 </tr>
                 <tr align="left">
                     <th>
-                        New Password
+                        Password
                     </th>
                     <td>
-                        <input type="password" name="newPassword" size="50" minlength="8" maxlength="50">
+                        <input type="password" name="password" size="50" minlength="8" maxlength="50">
                     </td>
                 </tr>
                 <tr align="left">
@@ -78,8 +93,7 @@ if (isset($id)){
                         Active
                     </th>
                     <td>
-                        <input type="radio" name="active" value="True" <?php echo $activeTrue; ?> required>True<br>
-                        <input type="radio" name="active" value="False" <?php echo $activeFalse; ?>  required>False<br>
+                        <input type="checkbox" name="active" value="1" <?php echo $activeChecked?>><br>
                     </td>
                 </tr>
                 <tr align="left">
@@ -87,8 +101,8 @@ if (isset($id)){
                         Type of account
                     </th>
                     <td>
-                        <input type="radio" name="role" value="Administrator" <?php echo $roleAdministrator; ?> required>Administrator<br>
-                        <input type="radio" name="role" value="Co-worker" <?php echo $roleCoWorker; ?> required>Co-worker<br>
+                        <input type="radio" name="role" value="1" <?php echo $roleAdministrator; ?> required>Administrator<br>
+                        <input type="radio" name="role" value="2" <?php echo $roleCoWorker; ?> required>Co-worker<br>
                     </td>
                 </tr>
                 <tr>

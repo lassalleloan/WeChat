@@ -1,21 +1,27 @@
 <?php
+/**************************************************
+* STI - Project Web
+* WeChat
+* Description: web site to sen mails between users 
+* Authors: Loan Lassalle, Wojciech Myszkorowski
+**************************************************/
+
 require_once('Authentication.php');
 require_once('Mail.php');
 require_once('User.php');
 require_once('Utils.php');
 
-Authentication::getInstance()->toIndex();
+Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
-$row = User::getInstance()->getRole()->fetch();
-$role = $row['role'] == 1;
-
-$resultsMail = Mail::getInstance()->getAll();
+$mails = Mail::getInstance()->getData();
+$mail = $mails->fetch();
+$role = User::getInstance()->getRole()->fetch()['role'] === '1';
 
 if ($role) {
-    $resultsUser = User::getInstance()->getAllException();
+    $users = User::getInstance()->getData();
+    $user = $users->fetch();
 }
 ?>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
@@ -33,68 +39,66 @@ if ($role) {
         <br>
         <table width="500px">
             <?php
-            if (($resultsMail->fetch()) > 0) {
+            if ($mail) {                
                 echo '<tr>';
-                for ($i = 1; $i < $resultsMail->columnCount(); $i++) {
-                    $head = $resultsMail->getColumnMeta($i);
-                    echo '<th>'.ucfirst($head['name']).'</th>';
+                
+                for ($i = 1; $i < $mails->columnCount(); $i++) {
+                    echo '<th>'.ucfirst($mails->getColumnMeta($i)['name']).'</th>';
                 }
                 
                 echo '<th colspan="2">
-                      <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';">
-                      </th>
-                      </tr>';  
-                echo '</tr>';               
+                    <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';">
+                    </th>
+                    </tr>';
                 
-                while (($row = $resultsMail->fetch())) {
-                    echo '<tr>';
-                    echo '<td>'.Utils::getInstance()->strDateFormat($row['date']).'</td>';
-                    echo '<td>'.$row['from'].'</td>';
-                    echo '<td>'.$row['subject'].'</td>';
-                    echo '<td>
-                          <input type="button" value="More" onclick="window.location.href=\'readMail.php?id='.$row['id'].'\';">
-                          </td>
-                          <td>
-                          <input type="button" value="Delete" onclick="window.location.href=\'deleteMail.php?id='.$row['id'].'\';">
-                          </td>
-                          </tr>';                    
+                do {
+                    echo "<tr align=\"center\">
+                        <td>".Utils::getInstance()->dateStrFormat($mail['date'])."</td>
+                        <td>{$mail['from']}</td>
+                        <td>{$mail['subject']}</td>
+                        <td>
+                        <input type=\"button\" value=\"More\" onclick=\"window.location.href='readMail.php?id={$mail['id']}';\">
+                        </td>
+                        <td>
+                        <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='deleteMail.php?id={$mail['id']}';\">
+                        </td>
+                        </tr>";
+                } while ($mail = $mails->fetch());
+            
+                if ($role) {
+                    echo '<tr>
+                        <td>
+                        <br>
+                        </td>
+                        </tr>';
                 }
             }
             
-            if ($role && ($resultsMail->fetch()) > 0) {
-                echo '<tr>
-                      <td>
-                      <br>
-                      </td>
-                      </tr>
-                      <tr>';
-            }
-            
-            if ($role) {
-                for ($i = 1; $i < $resultsUser->columnCount(); $i++) {
-                    $head = $resultsUser->getColumnMeta($i);
-                    echo '<th>'.ucfirst($head['name']).'</th>';
+            if ($role && $user) {
+                echo '<tr>';
+                
+                for ($i = 1; $i < $users->columnCount(); $i++) {
+                    echo '<th>'.ucfirst($users->getColumnMeta($i)['name']).'</th>';
                 }
                 
                 echo '<th colspan="2">
-                      <input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';">
-                      </th>
-                      </tr>';  
-                echo '</tr>';     
+                    <input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';">
+                    </th>
+                    </tr>';
                 
-                while (($row = $resultsUser->fetch())) {
-                    echo '<tr align="center">';
-                    echo '<td>'.$row['username'].'</td>';
-                    echo '<td>'.$row['active'].'</td>';
-                    echo '<td>'.$row['role'].'</td>';
-                    echo '<td>
-                          <input type="button" value="Manage" onclick="window.location.href=\'manageUser.php?id='.$row['id'].'\';">
-                          </td>
-                          <td>
-                          <input type="button" value="Unsubscribe" onclick="window.location.href=\'unsubscribeUser.php?id='.$row['id'].'\';">
-                          </td>
-                          </tr>';                    
-                }
+                do {
+                    echo "<tr align=\"center\">
+                        <td>{$user['username']}</td>
+                        <td>{$user['active']}</td>
+                        <td>{$user['role']}</td>
+                        <td>
+                        <input type=\"button\" value=\"Manage\" onclick=\"window.location.href='manageUser.php?id={$user['id']}';\">
+                        </td>
+                        <td>
+                        <input type=\"button\" value=\"Unsubscribe\" onclick=\"window.location.href='unsubscribeUser.php?id={$user['id']}';\">
+                        </td>
+                        </tr>";
+                } while ($user = $users->fetch());
             }
             ?>
         </table>

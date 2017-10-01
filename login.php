@@ -1,16 +1,25 @@
 <?php
+/**************************************************
+* STI - Project Web
+* WeChat
+* Description: web site to sen mails between users 
+* Authors: Loan Lassalle, Wojciech Myszkorowski
+**************************************************/
+
 extract(@$_POST);
 require_once('Authentication.php');
 require_once('User.php');
 session_start();
 
-$row_1 = User::getInstance()->getCredentialsByUsername($username)->fetch();
-$row_2 = User::getInstance()->getActiveByUsername($username)->fetch();
-$digestComp = Authentication::getInstance()->hash($username.$row_1['salt'].$password);
-$_SESSION['logged'] = $row_1['digest'] === $digestComp && $row_2['active'];
+$credentials = User::getInstance()->getCredentialsByUsername($username)->fetch();
+$digest = Authentication::getInstance()->getDigest("{$username}{$credentials['salt']}{$password}");
+
+$active = User::getInstance()->getActiveByUsername($username)->fetch()['active'];
+
+$_SESSION['logged'] = $credentials['digest'] === $digest && $active;
 
 if ($_SESSION['logged']) {
-    $_SESSION['digest'] = $digestComp;
+    $_SESSION['digest'] = $digest;
 	header('location:home.php');
 } else {	
 	header('location:index.php');

@@ -1,31 +1,32 @@
-<?php     
+<?php
+/**************************************************
+* STI - Project Web
+* WeChat
+* Description: web site to sen mails between users 
+* Authors: Loan Lassalle, Wojciech Myszkorowski
+**************************************************/
+
+date_default_timezone_set('Europe/Zurich');
+extract(@$_POST);
 require_once('Authentication.php');
 require_once('Mail.php');
 require_once('User.php');
-extract(@$_POST);
 
-date_default_timezone_set('Europe/Zurich');
+Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
-Authentication::getInstance()->toIndex();
-
-$row = User::getInstance()->getIdByUsername($from)->fetch();
-$idSender = $row['id'];
-
-$row = User::getInstance()->getIdByUsername($to)->fetch();
-$idReceiver = $row['id'];
+$idSender = User::getInstance()->getIdByUsername($from)->fetch()['id'];
+$idReceiver = User::getInstance()->getIdByUsername($to)->fetch()['id'];
 
 if (empty($idReceiver)) {
-    header('location:writeMail.php?error=true');
+    header('location:writeMail.php?error=1');
 } else {      
-    $mail = array(
-                array('date' => substr(date('Y-m-d\TH:i:s.u'), 0, 23),
+    $mail = array('date' => substr(date('Y-m-d\TH:i:s.u'), 0, 23),
                     'idSender' => $idSender,
                     'idReceiver' => $idReceiver,
                     'subject' => $subject,
-                    'body' => $body)
-                );
-                
-    Mail::getInstance()->insert($mail);
+                    'body' => $body);
+    
+    Mail::getInstance()->insertOne($mail);
     header('location:home.php');
 }
 ?>

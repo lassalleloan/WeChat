@@ -1,11 +1,19 @@
 <?php
+/**************************************************
+* STI - Project Web
+* WeChat
+* Description: web site to sen mails between users 
+* Authors: Loan Lassalle, Wojciech Myszkorowski
+**************************************************/
+
 extract(@$_GET);
 require_once('Authentication.php');
 require_once('Mail.php');
+require_once('Utils.php');
 
-Authentication::getInstance()->toIndex();
+Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
-$row = Mail::getInstance()->getById($id)->fetch();
+$mail = Mail::getInstance()->getById($id)->fetch();
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -23,7 +31,7 @@ $row = Mail::getInstance()->getById($id)->fetch();
         <table width="500px">
             <tr align="right">
                 <td colspan="2">
-                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?to=<?php echo $row['from']; ?>&subject=<?php echo $row['subject']; ?>';">
+                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?id=<?php echo $id; ?>';">
                     <input type="button" value="Delete" onclick="window.location.href='deleteMail.php?id=<?php echo $id; ?>';">
                 </td>
             </tr>
@@ -33,7 +41,7 @@ $row = Mail::getInstance()->getById($id)->fetch();
                 </th>
                 <td>
                     <?php
-                    echo (new DateTime($row['date'],new DateTimeZone('UTC')))->format('m.d.Y H:i');
+                    echo Utils::getInstance()->dateStrFormat($mail['date']);
                     ?>
                 </td>
             </tr>
@@ -43,7 +51,7 @@ $row = Mail::getInstance()->getById($id)->fetch();
                 </th>
                 <td>
                     <?php
-                    echo $row['from'];
+                    echo $mail['from'];
                     ?>
                 </td>
             </tr>
@@ -53,7 +61,7 @@ $row = Mail::getInstance()->getById($id)->fetch();
                 </th>
                 <td>
                     <?php
-                    echo $row['to'];
+                    echo $mail['to'];
                     ?>
                 </td>
             </tr>
@@ -63,7 +71,7 @@ $row = Mail::getInstance()->getById($id)->fetch();
                 </th>
                 <td>
                     <?php
-                    echo $row['subject'];
+                    echo $mail['subject'];
                     ?>
                 </td>
             </tr>
@@ -83,7 +91,7 @@ $row = Mail::getInstance()->getById($id)->fetch();
                 <td>
                     <textarea id="mailBody" cols="52" rows="20" maxlength="1000" style="border: none; resize: none;" readonly required>
                     <?php
-                    echo $row['body'];
+                    echo $mail['body'];
                     ?>
                     </textarea>
                 </td>

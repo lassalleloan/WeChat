@@ -1,4 +1,11 @@
 <?php
+/**************************************************
+* STI - Project Web
+* WeChat
+* Description: web site to sen mails between users 
+* Authors: Loan Lassalle, Wojciech Myszkorowski
+**************************************************/
+
 class Authentication {
     private static $_instance;
     
@@ -13,8 +20,8 @@ class Authentication {
         return self::$_instance;
     }
 
-    public function hash($str, $hashFunction = 'sha512') {
-        return base64_encode(hash($hashFunction, $str, true));
+    public function getDigest($str) {
+        return base64_encode(hash('sha512', $str, true));
     }
 
     public function isLogged() {
@@ -23,15 +30,13 @@ class Authentication {
         return isset($_SESSION['logged']) && $_SESSION['logged'];
     }
 
-    public function toIndex() {        
-        if (!$this->isLogged()) {
-            header('location:index.php');
-        }
+    public function isNotLogged() {
+        return !$this->isLogged();
     }
 
-    public function toHome() {        
-        if ($this->isLogged()) {
-            header('location:home.php');
+    public function goToLocation($cond, $location = 'index.php') {        
+        if ($cond) {
+            header("location:{$location}");
         }
     }
 }
