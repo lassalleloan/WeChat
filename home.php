@@ -28,7 +28,7 @@ if ($role) {
         <title>WeChat - Home</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     </head>
-    <body>
+    <body style="background-image: url(./fond2.jpg)">
         <h1>Home</h1>
         <br>
         <a href="logout.php">Logout</a>
