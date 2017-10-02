@@ -46,8 +46,8 @@ if ($role) {
                     echo '<th>'.ucfirst($mails->getColumnMeta($i)['name']).'</th>';
                 }
                 
-                echo '<th colspan="2">
-                    <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';">
+                echo '<th colspan="2" >
+                    <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';" style="background-color: deepskyblue; font-size: medium;" >
                     </th>
                     </tr>';
                 
