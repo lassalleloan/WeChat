@@ -26,7 +26,7 @@ class Utils {
     
     function randomStr($length = 255, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         $str = '';
-        $max = mb_strlen($keyspace, '8bit') - 1;
+        $max = strlen($keyspace) - 1;
         
         for ($i = 0; $i < $length; ++$i) {
             $str .= $keyspace[mt_rand(0, $max)];
