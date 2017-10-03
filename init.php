@@ -113,7 +113,17 @@ $mails = array(
                 'idSender' => '3',
                 'idReceiver' => '4',
                 'subject' => 'RE: CTF to Bucarest !',
-                'body' => 'the PRIVATE JET !!!')
+                'body' => 'the PRIVATE JET !!!'),
+            array('date' => '2017-10-03T07:36:38.698',
+                'idSender' => '3',
+                'idReceiver' => '1',
+                'subject' => 'Administration of website ',
+                'body' => 'Can I join administration of the website ?'),
+            array('date' => '2017-10-03T10:36:38.698',
+                'idSender' => '3',
+                'idReceiver' => '1',
+                'subject' => 'Pentesting',
+                'body' => 'You should think about doing pentest. Because your website is under attack.')
             );
 
 /**************************************

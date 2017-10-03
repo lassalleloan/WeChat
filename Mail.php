@@ -102,11 +102,14 @@ class Mail {
                                                 subject
                                                 FROM mails 
                                                 INNER JOIN users AS uSender ON mails.idSender = uSender.id
-                                                WHERE idReceiver={$user_id};");
+                                                WHERE idReceiver={$user_id}
+                                                ORDER BY date;");
     }
 
     public function getTable() {
-        return Database::getInstance()->query("SELECT * FROM mails;");
+        return Database::getInstance()->query("SELECT *
+                                                FROM mails
+                                                ORDER BY date;");
     }
     
     public function insertOne($mail) {

@@ -46,7 +46,7 @@ if ($role) {
                     echo '<th>'.ucfirst($mails->getColumnMeta($i)['name']).'</th>';
                 }
                 
-                echo '<th colspan="2">
+                echo '<th colspan="3">
                     <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';">
                     </th>
                     </tr>';
@@ -60,6 +60,9 @@ if ($role) {
                         <input type=\"button\" value=\"More\" onclick=\"window.location.href='readMail.php?id={$mail['id']}';\">
                         </td>
                         <td>
+                        <input type=\"button\" value=\"Reply\" onclick=\"window.location.href='writeMail.php?id={$mail['id']}';\">
+                        </td>
+                        <td>
                         <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='deleteMail.php?id={$mail['id']}';\">
                         </td>
                         </tr>";
@@ -67,7 +70,7 @@ if ($role) {
             
                 if ($role) {
                     echo '<tr>
-                        <td>
+                        <td colspan="6">
                         <br>
                         </td>
                         </tr>';
@@ -81,7 +84,7 @@ if ($role) {
                     echo '<th>'.ucfirst($users->getColumnMeta($i)['name']).'</th>';
                 }
                 
-                echo '<th colspan="2">
+                echo '<th colspan="3">
                     <input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';">
                     </th>
                     </tr>';
@@ -93,6 +96,8 @@ if ($role) {
                         <td>{$user['role']}</td>
                         <td>
                         <input type=\"button\" value=\"Manage\" onclick=\"window.location.href='manageUser.php?id={$user['id']}';\">
+                        </td>
+                        <td>
                         </td>
                         <td>
                         <input type=\"button\" value=\"Unsubscribe\" onclick=\"window.location.href='unsubscribeUser.php?id={$user['id']}';\">
