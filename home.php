@@ -100,7 +100,7 @@ if ($role) {
                         <td>
                         </td>
                         <td>
-                        <input type=\"button\" value=\"Unsubscribe\" onclick=\"window.location.href='unsubscribeUser.php?id={$user['id']}';\">
+                        <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='deleteUser.php?id={$user['id']}';\">
                         </td>
                         </tr>";
                 } while ($user = $users->fetch());

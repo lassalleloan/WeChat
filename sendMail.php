@@ -7,6 +7,7 @@
 **************************************************/
 
 date_default_timezone_set('Europe/Zurich');
+extract(@$_GET);
 extract(@$_POST);
 require_once('Authentication.php');
 require_once('Mail.php');
@@ -17,8 +18,10 @@ Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNot
 $idSender = User::getInstance()->getIdByUsername($from)->fetch()['id'];
 $idReceiver = User::getInstance()->getIdByUsername($to)->fetch()['id'];
 
-if (empty($idReceiver)) {
-    header('location:writeMail.php?error=1');
+if (isset($id) && empty($idReceiver)) {
+    header("location:writeMail.php?id={$id}&error=1");
+} else if (empty($idReceiver)) {
+    header("location:writeMail.php?error=1");
 } else {      
     $mail = array('date' => substr(date('Y-m-d\TH:i:s.u'), 0, 23),
                     'idSender' => $idSender,

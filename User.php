@@ -8,6 +8,7 @@
 
 require_once('Authentication.php');
 require_once('Database.php');
+require_once('Mail.php');
 require_once('Utils.php');
 
 class User {
@@ -143,8 +144,8 @@ class User {
     }
     
     public function deleteOne($id) {
-        Database::getInstance()->query("UPDATE users
-                                        SET active=0
+        Mail::getInstance()->updateOne($id);
+        Database::getInstance()->query("DELETE FROM users
                                         WHERE id={$id};");
     }
     

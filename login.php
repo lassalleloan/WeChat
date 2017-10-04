@@ -11,6 +11,11 @@ require_once('Authentication.php');
 require_once('User.php');
 session_start();
 
+if (isset($_SESSION['logged']) && $_SESSION['logged']) {
+    header("location:home.php");
+    exit();
+}
+
 $credentials = User::getInstance()->getCredentialsByUsername($username)->fetch();
 $digest = Authentication::getInstance()->getDigest("{$username}{$credentials['salt']}{$password}");
 

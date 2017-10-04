@@ -13,6 +13,7 @@ require_once('User.php');
 
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
+$idMail = '';
 $valueFrom = 'value="'.User::getInstance()->getUsername()->fetch()['username'].'"';
 $styleFrom = 'style="border:none" readonly ';
 $valueTo = '';
@@ -20,6 +21,7 @@ $valueSubject = '';
 $styleOthers = '';
 
 if (isset($id)) {
+    $idMail = "?id={$id}";    
     $valueTo = 'value="'.Mail::getInstance()->getTo($id)->fetch()['to'].'"';
     $valueSubject = 'value="RE: '.Mail::getInstance()->getSubject($id)->fetch()['subject'].'"';
     $styleOthers = 'style="border:none" readonly ';
@@ -37,7 +39,7 @@ if (isset($id)) {
         <a href="home.php">< Back</a>
         <br>
         <br>
-        <form method="post" action="sendMail.php">
+        <form method="post" action="sendMail.php<?php echo $idMail; ?>">
             <table width="500px">
                 <?php
                 if (isset($error) && $error) {

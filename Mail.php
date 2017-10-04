@@ -73,7 +73,7 @@ class Mail {
                                                 subject,
                                                 body
                                                 FROM mails 
-                                                INNER JOIN users AS uSender ON mails.idSender = uSender.id
+                                                LEFT JOIN users AS uSender ON mails.idSender = uSender.id
                                                 INNER JOIN users AS uReceiver ON mails.idReceiver = uReceiver.id
                                                 WHERE mails.id={$id}
                                                 AND idReceiver={$user_id};");
@@ -101,7 +101,7 @@ class Mail {
                                                 uSender.username AS 'from',
                                                 subject
                                                 FROM mails 
-                                                INNER JOIN users AS uSender ON mails.idSender = uSender.id
+                                                LEFT JOIN users AS uSender ON mails.idSender = uSender.id
                                                 WHERE idReceiver={$user_id}
                                                 ORDER BY date;");
     }
@@ -120,6 +120,20 @@ class Mail {
     public function insertMultiple($mailArray) {
         foreach ($mailArray as $mail) {
             $this->insertOne($mail);
+        }
+    }
+    
+    public function updateOne($id) {
+        $user_id = User::getInstance()->getId()->fetch()['id'];
+        Database::getInstance()->query("UPDATE mails
+                                        SET idSender=NULL
+                                        WHERE idSender={$id}
+                                        AND idReceiver={$user_id};");
+    }
+    
+    public function updateMultiple($idArray) {
+        foreach ($idArray as $id) {
+            $this->updateOne($id);
         }
     }
     

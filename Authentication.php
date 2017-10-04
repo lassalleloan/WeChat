@@ -34,7 +34,7 @@ class Authentication {
         return !$this->isLogged();
     }
 
-    public function goToLocation($cond, $location = 'index.php') {        
+    public function goToLocation($cond, $location = 'index.php') {
         if ($cond) {
             header("location:{$location}");
         }

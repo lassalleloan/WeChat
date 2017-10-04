@@ -34,8 +34,8 @@ Database::getInstance()->query('CREATE TABLE IF NOT EXISTS users (
 Database::getInstance()->query('CREATE TABLE IF NOT EXISTS mails (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 date VARCHAR(23) UNIQUE NOT NULL,
-                                idSender INTEGER NOT NULL,
-                                idReceiver INTEGER NOT NULL,
+                                idSender INTEGER,
+                                idReceiver INTEGER,
                                 subject VARCHAR(255) NOT NULL,
                                 body TEXT(1024) NOT NULL,
                                 FOREIGN KEY(idSender) REFERENCES users(id),
