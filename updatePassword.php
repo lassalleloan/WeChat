@@ -8,6 +8,7 @@
 
 extract(@$_POST);
 require_once('Authentication.php');
+require_once('Database.php');
 require_once('User.php');
 
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
@@ -19,9 +20,12 @@ $oldDigest = Authentication::getInstance()->getDigest("{$username}{$salt}{$oldPa
 if ($_SESSION['digest'] === $oldDigest && $newPassword === $confirmPassword) {
     $newDigest = Authentication::getInstance()->getDigest("{$username}{$salt}{$newPassword}");
     User::getInstance()->updateDigest($newDigest);
+    
     $_SESSION['digest'] = $newDigest;
     header('location:logout.php');
 } else {
     header('location:changePassword.php?error=1');
 }
+
+Database::getInstance()->deconnection();
 ?>

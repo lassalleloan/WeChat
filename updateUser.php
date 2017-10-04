@@ -8,6 +8,7 @@
 
 extract(@$_POST);
 require_once('Authentication.php');
+require_once('Database.php');
 require_once('User.php');
 require_once('Utils.php');
 
@@ -44,4 +45,6 @@ if (!isset($id)) {
 } else {
     header('location:manageUser.php?id='.$id.'&error=true');
 }
+
+Database::getInstance()->deconnection();
 ?>

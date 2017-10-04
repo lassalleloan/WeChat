@@ -8,12 +8,14 @@
 
 extract(@$_GET);
 require_once('Authentication.php');
+require_once('Database.php');
 require_once('Mail.php');
 require_once('Utils.php');
 
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
 $mail = Mail::getInstance()->getById($id)->fetch();
+Database::getInstance()->deconnection();
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

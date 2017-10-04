@@ -10,6 +10,7 @@ date_default_timezone_set('Europe/Zurich');
 extract(@$_GET);
 extract(@$_POST);
 require_once('Authentication.php');
+require_once('Database.php');
 require_once('Mail.php');
 require_once('User.php');
 
@@ -32,4 +33,6 @@ if (isset($id) && empty($idReceiver)) {
     Mail::getInstance()->insertOne($mail);
     header('location:home.php');
 }
+
+Database::getInstance()->deconnection();
 ?>

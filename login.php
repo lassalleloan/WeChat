@@ -8,6 +8,7 @@
 
 extract(@$_POST);
 require_once('Authentication.php');
+require_once('Database.php');
 require_once('User.php');
 session_start();
 
@@ -18,13 +19,14 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
 
 $credentials = User::getInstance()->getCredentialsByUsername($username)->fetch();
 $digest = Authentication::getInstance()->getDigest("{$username}{$credentials['salt']}{$password}");
-
 $active = User::getInstance()->getActiveByUsername($username)->fetch()['active'];
+Database::getInstance()->deconnection();
 
 $_SESSION['logged'] = $credentials['digest'] === $digest && $active;
 
 if ($_SESSION['logged']) {
     $_SESSION['digest'] = $digest;
+    
 	header('location:home.php');
 } else {	
 	header('location:index.php');

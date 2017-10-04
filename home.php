@@ -7,6 +7,7 @@
 **************************************************/
 
 require_once('Authentication.php');
+require_once('Database.php');
 require_once('Mail.php');
 require_once('User.php');
 require_once('Utils.php');
@@ -21,6 +22,8 @@ if ($role) {
     $users = User::getInstance()->getData();
     $user = $users->fetch();
 }
+
+Database::getInstance()->deconnection();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
