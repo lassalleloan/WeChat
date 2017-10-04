@@ -1,10 +1,10 @@
 <?php
-/**************************************************
-* STI - Project Web
-* WeChat
-* Description: web site to sen mails between users 
-* Authors: Loan Lassalle, Wojciech Myszkorowski
-**************************************************/
+/**
+ * STI - Project Web
+ * WeChat
+ * Description: web site to send mails between users 
+ * Authors: Loan Lassalle, Wojciech Myszkorowski
+ */
 
 extract(@$_GET);
 require_once('Authentication.php');
@@ -12,9 +12,13 @@ require_once('Database.php');
 require_once('Mail.php');
 require_once('Utils.php');
 
+// Redirige l'utilisateur vers index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
+// Récupère les emails de l'utilisateur
 $mail = Mail::getInstance()->getById($id)->fetch();
+
+// Ferme la connexion à la base de données
 Database::getInstance()->deconnection();
 ?>
 

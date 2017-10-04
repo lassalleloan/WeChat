@@ -1,11 +1,17 @@
 <?php
-/**************************************************
-* STI - Project Web
-* WeChat
-* Description: web site to sen mails between users 
-* Authors: Loan Lassalle, Wojciech Myszkorowski
-**************************************************/
-
+/**
+ * STI - Project Web
+ * WeChat
+ * Description: web site to send mails between users 
+ * Authors: Loan Lassalle, Wojciech Myszkorowski
+ */
+ 
+/**
+ * Gère la communication avec la base de données
+ *
+ * @author Lassalle Loan, Wojciech Myszkorowski
+ * @since 27.09.2017
+ */
 class Database {
     private static $_instance;
     private $_database;
@@ -21,7 +27,10 @@ class Database {
         
         return self::$_instance;
     }
-    
+
+    /**
+     * Récupère la connexion à la base de données
+     */
     public function connection($file = 'sqlite:./weChat.sqlite') {
         try {
             $this->_database = new PDO($file);
@@ -32,11 +41,17 @@ class Database {
             exit();
         }
     }
-    
+
+    /**
+     * Ferme la connexion à la base de données
+     */
     public function deconnection() {
         $this->_database = null;
     }
-    
+
+    /**
+     * Récupère le résultat d'une requête
+     */
     public function query($sql) {
         if (!isset($this->_database)) {
             $this->connection();

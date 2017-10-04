@@ -1,13 +1,14 @@
 <?php
-/**************************************************
-* STI - Project Web
-* WeChat
-* Description: web site to sen mails between users 
-* Authors: Loan Lassalle, Wojciech Myszkorowski
-**************************************************/
+/**
+ * STI - Project Web
+ * WeChat
+ * Description: web site to send mails between users 
+ * Authors: Loan Lassalle, Wojciech Myszkorowski
+ */
 
 require_once('Authentication.php');
 
+// Redirige l'utilisateur vers home.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isLogged(), 'home.php');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

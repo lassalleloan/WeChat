@@ -1,14 +1,20 @@
 <?php
-/**************************************************
-* STI - Project Web
-* WeChat
-* Description: web site to sen mails between users 
-* Authors: Loan Lassalle, Wojciech Myszkorowski
-**************************************************/
+/**
+ * STI - Project Web
+ * WeChat
+ * Description: web site to send mails between users 
+ * Authors: Loan Lassalle, Wojciech Myszkorowski
+ */
 
 require_once('Database.php');
 require_once('User.php');
 
+/**
+ * Gère les emails
+ *
+ * @author Lassalle Loan, Wojciech Myszkorowski
+ * @since 27.09.2017
+ */
 class Mail {
     private static $_instance;
     
@@ -23,6 +29,9 @@ class Mail {
         return self::$_instance;
     }
 
+    /**
+     * Récupère l'ID d'un email de l'utilisateur
+     */
     public function getId($date) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         return Database::getInstance()->query("SELECT id
@@ -32,6 +41,9 @@ class Mail {
                                                 AND idReceiver={$user_id};");
     }
 
+    /**
+     * Récupère la date d'un email de l'utilisateur
+     */
     public function getDate($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         return Database::getInstance()->query("SELECT date
@@ -40,6 +52,9 @@ class Mail {
                                                 AND idReceiver={$user_id};");
     }
 
+    /**
+     * Récupère le destinataire d'un email de l'utilisateur
+     */
     public function getTo($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         return Database::getInstance()->query("SELECT username AS 'to'
@@ -49,6 +64,9 @@ class Mail {
                                                 AND idReceiver={$user_id};");
     }
 
+    /**
+     * Récupère le sujet d'un email de l'utilisateur
+     */
     public function getSubject($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         return Database::getInstance()->query("SELECT subject
@@ -57,6 +75,9 @@ class Mail {
                                                 AND idReceiver={$user_id};");
     }
 
+    /**
+     * Récupère le corps d'un email de l'utilisateur
+     */
     public function getBody($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         return Database::getInstance()->query("SELECT body
@@ -65,6 +86,9 @@ class Mail {
                                                 AND idReceiver={$user_id};");
     }
 
+    /**
+     * Récupère un email de l'utilisateur
+     */
     public function getById($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         return Database::getInstance()->query("SELECT date,
@@ -79,6 +103,9 @@ class Mail {
                                                 AND idReceiver={$user_id};");
     }
 
+    /**
+     * Récupère un email de l'utilisateur
+     */
     public function getByDate($date) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         return Database::getInstance()->query("SELECT mails.id,
@@ -94,6 +121,9 @@ class Mail {
                                                 AND idReceiver={$user_id};");
     }
 
+    /**
+     * Récupère un email de l'utilisateur
+     */
     public function getData() {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         return Database::getInstance()->query("SELECT mails.id,
@@ -106,23 +136,35 @@ class Mail {
                                                 ORDER BY date;");
     }
 
+    /**
+     * Récupère la table complète
+     */
     public function getTable() {
         return Database::getInstance()->query("SELECT *
                                                 FROM mails
                                                 ORDER BY date;");
     }
     
+    /**
+     * Insère un email
+     */
     public function insertOne($mail) {
         Database::getInstance()->query("INSERT INTO mails (date, idSender, idReceiver, subject, body) 
                                         VALUES ('{$mail['date']}', '{$mail['idSender']}', '{$mail['idReceiver']}', '{$mail['subject']}', '{$mail['body']}');");
     }
     
+    /**
+     * Insère des emails
+     */
     public function insertMultiple($mailArray) {
         foreach ($mailArray as $mail) {
             $this->insertOne($mail);
         }
     }
     
+    /**
+     * Met à jour un emails
+     */
     public function updateOne($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         Database::getInstance()->query("UPDATE mails
@@ -131,12 +173,18 @@ class Mail {
                                         AND idReceiver={$user_id};");
     }
     
+    /**
+     * Met à jour des emails
+     */
     public function updateMultiple($idArray) {
         foreach ($idArray as $id) {
             $this->updateOne($id);
         }
     }
     
+    /**
+     * Supprime un emails
+     */
     public function deleteOne($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
         Database::getInstance()->query("DELETE FROM mails
@@ -144,6 +192,9 @@ class Mail {
                                         AND idReceiver={$user_id};");
     }
     
+    /**
+     * Supprime des emails
+     */
     public function deleteMultiple($idArray) {
         foreach ($idArray as $id) {
             $this->deleteOne($id);

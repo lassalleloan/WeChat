@@ -1,16 +1,17 @@
 <?php
-/**************************************************
-* STI - Project Web
-* WeChat
-* Description: web site to sen mails between users 
-* Authors: Loan Lassalle, Wojciech Myszkorowski
-**************************************************/
+/**
+ * STI - Project Web
+ * WeChat
+ * Description: web site to send mails between users 
+ * Authors: Loan Lassalle, Wojciech Myszkorowski
+ */
 
 extract(@$_GET);
 require_once('Authentication.php');
 require_once('Database.php');
 require_once('User.php');
 
+// Redirige l'utilisateur vers index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
 $valueUsername = '';
@@ -21,6 +22,7 @@ $activeChecked = 'checked';
 $roleAdministrator = '';
 $roleCoWorker = 'checked';
 
+// Si un utilisateur est sélectionné
 if (isset($id)){
     $user = User::getInstance()->getUser($id)->fetch();
     
@@ -37,6 +39,7 @@ if (isset($id)){
     }
 }
 
+// Ferme la connexion à la base de données
 Database::getInstance()->deconnection();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

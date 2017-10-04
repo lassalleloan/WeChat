@@ -1,12 +1,12 @@
 <?php
-/**************************************************
-* STI - Project Web
-* WeChat
-* Description: web site to sen mails between users 
-* Authors: Loan Lassalle, Wojciech Myszkorowski
-**************************************************/
+/**
+ * STI - Project Web
+ * WeChat
+ * Description: web site to send mails between users 
+ * Authors: Loan Lassalle, Wojciech Myszkorowski
+ */
 
-// Set default timezone
+// Paramètre de la zone du temps
 date_default_timezone_set('Europe/Zurich');
 
 require_once('Database.php');
@@ -14,9 +14,9 @@ require_once('Mail.php');
 require_once('Role.php');
 require_once('User.php');
 
-/**************************************
-* Create tables                       *
-**************************************/
+/**
+ * Crée les tables
+ */
 
 Database::getInstance()->query('CREATE TABLE IF NOT EXISTS roles (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -41,9 +41,9 @@ Database::getInstance()->query('CREATE TABLE IF NOT EXISTS mails (
                                 FOREIGN KEY(idSender) REFERENCES users(id),
                                 FOREIGN KEY(idReceiver) REFERENCES users(id));'); 
 
-/**************************************
-* Set initial data                    *
-**************************************/
+/**
+ * Paramètre les données
+ */
 
 $roles = array(
             array('name' => 'Administrator'),
@@ -126,23 +126,22 @@ $mails = array(
                 'body' => 'You should think about doing pentest. Because your website is under attack.')
             );
 
-/**************************************
-* Play with databases and tables      *
-**************************************/
+/**
+ * Insert les données
+ */
 
 Role::getInstance()->insertMultiple($roles);
 User::getInstance()->insertMultiple($users);
 Mail::getInstance()->insertMultiple($mails);
 
-/**************************************
-* Close db connections                *
-**************************************/
-
+/**
+ * Ferme la connexion à la base de données
+ */
 Database::getInstance()->deconnection();
 
-/**************************************
-* Display data                        *
-**************************************/
+/**
+ * Affiche les données
+ */
 header('location:showData.php');
 ?>
 

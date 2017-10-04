@@ -1,10 +1,10 @@
 <?php
-/**************************************************
-* STI - Project Web
-* WeChat
-* Description: web site to sen mails between users 
-* Authors: Loan Lassalle, Wojciech Myszkorowski
-**************************************************/
+/**
+ * STI - Project Web
+ * WeChat
+ * Description: web site to send mails between users 
+ * Authors: Loan Lassalle, Wojciech Myszkorowski
+ */
 
 require_once('Authentication.php');
 require_once('Database.php');
@@ -12,17 +12,25 @@ require_once('Mail.php');
 require_once('User.php');
 require_once('Utils.php');
 
+// Redirige l'utilisateur vers index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
+// Récupère les emails reçus
 $mails = Mail::getInstance()->getData();
 $mail = $mails->fetch();
+
+// Récupère le rôle de l'utilisateur
 $role = User::getInstance()->getRole()->fetch()['role'] === '1';
 
 if ($role) {
+    
+    // Récupère les utilisateurs
+    // en fonction du rôle de l'utilisateur connecté
     $users = User::getInstance()->getData();
     $user = $users->fetch();
 }
 
+// Ferme la connexion à la base de données
 Database::getInstance()->deconnection();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -45,6 +53,7 @@ Database::getInstance()->deconnection();
             if ($mail) {                
                 echo '<tr>';
                 
+                // Affiche les en-têtes des colonnes
                 for ($i = 1; $i < $mails->columnCount(); $i++) {
                     echo '<th>'.ucfirst($mails->getColumnMeta($i)['name']).'</th>';
                 }
@@ -54,6 +63,7 @@ Database::getInstance()->deconnection();
                     </th>
                     </tr>';
                 
+                // Affiche les emails reçus
                 do {
                     echo "<tr align=\"center\">
                         <td>".Utils::getInstance()->dateStrFormat($mail['date'])."</td>
@@ -83,6 +93,7 @@ Database::getInstance()->deconnection();
             if ($role && $user) {
                 echo '<tr>';
                 
+                // Affiche les en-têtes des colonnes
                 for ($i = 1; $i < $users->columnCount(); $i++) {
                     echo '<th>'.ucfirst($users->getColumnMeta($i)['name']).'</th>';
                 }
@@ -92,6 +103,7 @@ Database::getInstance()->deconnection();
                     </th>
                     </tr>';
                 
+                // Affiche les informations des utilisateurs
                 do {
                     echo "<tr align=\"center\">
                         <td>{$user['username']}</td>
