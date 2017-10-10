@@ -28,7 +28,7 @@ Database::getInstance()->deconnection();
         <title>WeChat - Read a mail</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     </head>
-    <body>
+    <body style="background-image: url(./fond2.jpg)">
         <h1>Read a mail</h1>
         <br>
         <a href="home.php">< Back</a>
