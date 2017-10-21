@@ -34,7 +34,7 @@ La base de données à été correctement initialisée. Il est maintenant possib
 ## Accès à l'application Web
 
 * Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/home.php
-![alt text](./images/fenetre de connexion.PNG "Page de connexion")
+![alt text](./images/connexion.PNG "Page de connexion")
 
 * Saisir un nom d'utilisateur et mot de passe afin d'accéder à la page d'acceuil de l'application Web.
 Plusieurs utilisateurs sont déjà présents dans la base de données :
