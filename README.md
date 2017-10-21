@@ -34,7 +34,7 @@ La base de données à été correctement initialisée. Il est maintenant possib
 ## Accès à l'application Web
 
 * Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/home.php
-![alt text](./images_manuel/login.jpg "Page de connexion")
+![alt text](./images_manuel/fenetre de connexion.PNG "Page de connexion")
 
 * Saisir un nom d'utilisateur et mot de passe afin d'accéder à la page d'acceuil de l'application Web.
 Plusieurs utilisateurs sont déjà présents dans la base de données :
@@ -48,22 +48,22 @@ Plusieurs utilisateurs sont déjà présents dans la base de données :
 |        tano       |   78907890   |  non  |       non      |
 
 * Plusieurs actions sont à votre disposition une fois connecté à l'application Web.
-![alt text](./images_manuel/home.jpg "Page principale")
+![alt text](./images_manuel/homePage.PNG "Page principale")
 
 ## Actions disponibles
 
 * Changer le mot de passe
 Il est nécessaire de saisir l’ancien mot de passe et deux fois le nouveau.
-![alt text](./images_manuel/changePassword.jpg "Changer le mot de passe")
+![alt text](./images_manuel/passwd.PNG "Changer le mot de passe")
    
 * Envoyer un nouveau email
 Il est nécessaire de saisir le nom exact du destinataire, un sujet et un contenu pour l'email.
-![alt text](./images_manuel/writeMail.jpg "Envoyer un nouveau email")
+![alt text](./images_manuel/newEmail.PNG "Envoyer un nouveau email")
    
 * Répondre à un email
 L'email contient l'expéditeur, le destinataire et le sujet de l'email auquel on veut répondre.
 Il suffit de saisir le contenu principal de l'email et de presser le bouton envoyer.
-![alt text](./images_manuel/reply.jpg "Répondre à un email")
+![alt text](./images_manuel/replay.PNG "Répondre à un email")
    
 * Supprimer un email
 Une pression sur le bouton permettra de supprimer l'email sélectionné.
@@ -73,11 +73,11 @@ Les opérations suivantes sont disponible seulement pour les comptes administrat
 
 * Créer un nouvel utilisateur
 Il est nécessaire de saisir un nom d'utilisateur, un mot de passee et sa confirmation et le type de compte, Administrateur ou non.
-![alt text](./images_manuel/create_user.jpg "Créer un nouvel utilisateur")
+![alt text](./images_manuel/newUser.PNG "Créer un nouvel utilisateur")
 
 * Gérer un utilisateur
 Il est possible de changer le mot de passe et/ou le type de compte d’un utilisateur.
-![alt text](./images_manuel/manage_user.jpg "Gérer un utilisateur")
+![alt text](./images_manuel/manageUser.PNG "Gérer un utilisateur")
 
 * Supprimer un utilisateur
 Une pression sur le bouton permettra de supprimer l'utisateur sélectionné.
