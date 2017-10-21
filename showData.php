@@ -25,7 +25,7 @@ Database::getInstance()->deconnection();
         <title>WeChat - Show data</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     </head>
-    <body style="background-image: url(./fond2.jpg)">
+    <body style="background-image: url(./images/background.jpg)">
         <h1>Show data</h1>
         <h2>Roles</h2>
         <?php

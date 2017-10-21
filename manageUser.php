@@ -48,7 +48,7 @@ Database::getInstance()->deconnection();
         <title>WeChat - Users manager</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     </head>
-    <body style="background-image: url(./fond2.jpg)">
+    <body style="background-image: url(./images/background.jpg)">
         <h1>Users manager</h1>
         <br>
         <a href="home.php">< Back</a>
