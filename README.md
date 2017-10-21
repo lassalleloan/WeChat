@@ -15,28 +15,29 @@ Le but de ce repo est de concevoir une application Web permettant, dans le cadre
 ## Installation
 
 * Récupérer l'archive de l'application Web à [cette adresse](https://github.com/lassalleloan/WeChat/archive/master.zip "Archive ZIP").
-   `$ wget -O ~/Downloads/weChat.zip "https://github.com/lassalleloan/WeChat/archive/master.zip"`
+`$ wget -O ~/Downloads/weChat.zip "https://github.com/lassalleloan/WeChat/archive/master.zip"`
 
 * Dézipper l'archive dans le dossier `/var/www/html/`
-   `$ unzip ~/Downloads/weChat.zip -d /var/www/html/`
+`$ unzip ~/Downloads/weChat.zip -d /var/www/html/`
 
 * Changer le groupe propriétaire du dossier `/var/www/html/WeChat-master` 
-   `$ sudo chgrp -R apache /var/www/html/WeChat-master`
+`$ sudo chgrp -R apache /var/www/html/WeChat-master`
 
 * Démarrer le service httpd
-   `$ sudo systemctl start httpd`
+`$ sudo systemctl start httpd`
 
 * Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/init.php
-  La base de données à été correctement initialisée. Il est maintenant possible d'utiliser l'application Web.
-  ![alt text](./images_manuel/init.jpg "Initialisation de la base de données")
+
+La base de données à été correctement initialisée. Il est maintenant possible d'utiliser l'application Web.
+![alt text](./images_manuel/init.jpg "Initialisation de la base de données")
 
 ## Accès à l'application Web
 
 * Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/home.php
-  ![alt text](./images_manuel/login.jpg "Page de connexion")
+![alt text](./images_manuel/login.jpg "Page de connexion")
 
 * Saisir un nom d'utilisateur et mot de passe afin d'accéder à la page d'acceuil de l'application Web.
-  Plusieurs utilisateurs sont déjà présents dans la base de données :
+Plusieurs utilisateurs sont déjà présents dans la base de données :
 
 | Nom d'utilisateur | Mot de passe | Actif | Administrateur |
 |:-----------------:|:------------:|:-----:|:--------------:|
@@ -47,37 +48,37 @@ Le but de ce repo est de concevoir une application Web permettant, dans le cadre
 |        tano       |   78907890   |  non  |       non      |
 
 * Plusieurs actions sont à votre disposition une fois connecté à l'application Web.
-  ![alt text](./images_manuel/home.jpg "Page principale")
+![alt text](./images_manuel/home.jpg "Page principale")
 
 ## Actions disponibles
 
 * Changer le mot de passe
-   Il est nécessaire de saisir l’ancien mot de passe et deux fois le nouveau.
-   ![alt text](./images_manuel/changePassword.jpg "Changer le mot de passe")
+Il est nécessaire de saisir l’ancien mot de passe et deux fois le nouveau.
+![alt text](./images_manuel/changePassword.jpg "Changer le mot de passe")
    
 * Envoyer un nouveau email
-   Il est nécessaire de saisir le nom exact du destinataire, un sujet et un contenu pour l'email.
-   ![alt text](./images_manuel/writeMail.jpg "Envoyer un nouveau email")
+Il est nécessaire de saisir le nom exact du destinataire, un sujet et un contenu pour l'email.
+![alt text](./images_manuel/writeMail.jpg "Envoyer un nouveau email")
    
 * Répondre à un email
-   L'email contient l'expéditeur, le destinataire et le sujet de l'email auquel on veut répondre.
-   Il suffit de saisir le contenu principal de l'email et de presser le bouton envoyer.
-   ![alt text](./images_manuel/reply.jpg "Répondre à un email")
+L'email contient l'expéditeur, le destinataire et le sujet de l'email auquel on veut répondre.
+Il suffit de saisir le contenu principal de l'email et de presser le bouton envoyer.
+![alt text](./images_manuel/reply.jpg "Répondre à un email")
    
 * Supprimer un email
-   Une pression sur le bouton permettra de supprimer l'email sélectionné.
-   ![alt text](./images_manuel/delete_mail.jpg "Supprimer un email")
+Une pression sur le bouton permettra de supprimer l'email sélectionné.
+![alt text](./images_manuel/delete_mail.jpg "Supprimer un email")
 
 Les opérations suivantes sont disponible seulement pour les comptes administrateurs :
 
 * Créer un nouvel utilisateur
-   Il est nécessaire de saisir un nom d'utilisateur, un mot de passee et sa confirmation et le type de compte, Administrateur ou non.
-   ![alt text](./images_manuel/create_user.jpg "Créer un nouvel utilisateur")
+Il est nécessaire de saisir un nom d'utilisateur, un mot de passee et sa confirmation et le type de compte, Administrateur ou non.
+![alt text](./images_manuel/create_user.jpg "Créer un nouvel utilisateur")
 
 * Gérer un utilisateur
-   Il est possible de changer le mot de passe et/ou le type de compte d’un utilisateur.
-   ![alt text](./images_manuel/manage_user.jpg "Gérer un utilisateur")
+Il est possible de changer le mot de passe et/ou le type de compte d’un utilisateur.
+![alt text](./images_manuel/manage_user.jpg "Gérer un utilisateur")
 
 * Supprimer un utilisateur
-   Une pression sur le bouton permettra de supprimer l'utisateur sélectionné.
-   ![alt text](./images_manuel/delete_user.jpg "Supprimer un utilisateur")
+Une pression sur le bouton permettra de supprimer l'utisateur sélectionné.
+![alt text](./images_manuel/delete_user.jpg "Supprimer un utilisateur")
