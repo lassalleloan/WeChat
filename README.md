@@ -47,50 +47,48 @@ La base de données à été correctement initialisée. Il est maintenant possib
 * Saisir un nom d'utilisateur et mot de passe afin d'accéder à la page d'acceuil de l'application Web.
 Plusieurs utilisateurs sont déjà présents dans la base de données :
 
-<center>
-   <table>
-      <thead>
-         <tr>
-            <th style="text-align:center;">Nom d'utilisateur</th>
-            <th style="text-align:center;">Mot de passe</th>
-            <th style="text-align:center;">Actif</th>
-            <th style="text-align:center;">Administrateur</th>
-         </tr>
-      </thead>
-      <tbody>
-         <tr>
-            <td style="text-align:center;">root</td>
-            <td style="text-align:center;">toortoor</td>
-            <td style="text-align:center;">oui</td>
-            <td style="text-align:center;">oui</td>
-         </tr>
-         <tr>
-            <td style="text-align:center;">toor</td>
-            <td style="text-align:center;">rootroot</td>
-            <td style="text-align:center;">non</td>
-            <td style="text-align:center;">oui</td>
-         </tr>
-         <tr>
-            <td style="text-align:center;">loan</td>
-            <td style="text-align:center;">12341234</td>
-            <td style="text-align:center;">oui</td>
-            <td style="text-align:center;">non</td>
-         </tr>
-         <tr>
-            <td style="text-align:center;">wojciech</td>
-            <td style="text-align:center;">45674567</td>
-            <td style="text-align:center;">oui</td>
-            <td style="text-align:center;">non</td>
-         </tr>
-         <tr>
-            <td style="text-align:center;">tano</td>
-            <td style="text-align:center;">78907890</td>
-            <td style="text-align:center;">non</td>
-            <td style="text-align:center;">non</td>
-         </tr>
-      </tbody>
-   </table>
-</center>
+<table align="center">
+  <thead>
+     <tr>
+        <th style="text-align:center;">Nom d'utilisateur</th>
+        <th style="text-align:center;">Mot de passe</th>
+        <th style="text-align:center;">Actif</th>
+        <th style="text-align:center;">Administrateur</th>
+     </tr>
+  </thead>
+  <tbody>
+     <tr>
+        <td style="text-align:center;">root</td>
+        <td style="text-align:center;">toortoor</td>
+        <td style="text-align:center;">oui</td>
+        <td style="text-align:center;">oui</td>
+     </tr>
+     <tr>
+        <td style="text-align:center;">toor</td>
+        <td style="text-align:center;">rootroot</td>
+        <td style="text-align:center;">non</td>
+        <td style="text-align:center;">oui</td>
+     </tr>
+     <tr>
+        <td style="text-align:center;">loan</td>
+        <td style="text-align:center;">12341234</td>
+        <td style="text-align:center;">oui</td>
+        <td style="text-align:center;">non</td>
+     </tr>
+     <tr>
+        <td style="text-align:center;">wojciech</td>
+        <td style="text-align:center;">45674567</td>
+        <td style="text-align:center;">oui</td>
+        <td style="text-align:center;">non</td>
+     </tr>
+     <tr>
+        <td style="text-align:center;">tano</td>
+        <td style="text-align:center;">78907890</td>
+        <td style="text-align:center;">non</td>
+        <td style="text-align:center;">non</td>
+     </tr>
+  </tbody>
+</table>
 
 * Plusieurs actions sont à votre disposition une fois connecté à l'application Web.
 <p align="center">
