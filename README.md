@@ -51,42 +51,42 @@ Plusieurs utilisateurs sont déjà présents dans la base de données :
    <table>
       <thead>
          <tr>
-            <th>Nom d'utilisateur</th>
-            <th>Mot de passe</th>
-            <th>Actif</th>
-            <th>Administrateur</th>
+            <th style="text-align:center;">Nom d'utilisateur</th>
+            <th style="text-align:center;">Mot de passe</th>
+            <th style="text-align:center;">Actif</th>
+            <th style="text-align:center;">Administrateur</th>
          </tr>
       </thead>
       <tbody>
          <tr>
-            <td>root</td>
-            <td>toortoor</td>
-            <td>oui</td>
-            <td>oui</td>
+            <td style="text-align:center;">root</td>
+            <td style="text-align:center;">toortoor</td>
+            <td style="text-align:center;">oui</td>
+            <td style="text-align:center;">oui</td>
          </tr>
          <tr>
-            <td>toor</td>
-            <td>rootroot</td>
-            <td>non</td>
-            <td>oui</td>
+            <td style="text-align:center;">toor</td>
+            <td style="text-align:center;">rootroot</td>
+            <td style="text-align:center;">non</td>
+            <td style="text-align:center;">oui</td>
          </tr>
          <tr>
-            <td>loan</td>
-            <td>12341234</td>
-            <td>oui</td>
-            <td>non</td>
+            <td style="text-align:center;">loan</td>
+            <td style="text-align:center;">12341234</td>
+            <td style="text-align:center;">oui</td>
+            <td style="text-align:center;">non</td>
          </tr>
          <tr>
-            <td>wojciech</td>
-            <td>45674567</td>
-            <td>oui</td>
-            <td>non</td>
+            <td style="text-align:center;">wojciech</td>
+            <td style="text-align:center;">45674567</td>
+            <td style="text-align:center;">oui</td>
+            <td style="text-align:center;">non</td>
          </tr>
          <tr>
-            <td>tano</td>
-            <td>78907890</td>
-            <td>non</td>
-            <td>non</td>
+            <td style="text-align:center;">tano</td>
+            <td style="text-align:center;">78907890</td>
+            <td style="text-align:center;">non</td>
+            <td style="text-align:center;">non</td>
          </tr>
       </tbody>
    </table>
