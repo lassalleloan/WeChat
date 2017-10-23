@@ -37,9 +37,15 @@ La base de données à été correctement initialisée. Il est maintenant possib
   <img src="./images_manuel/init.png" alt="Initialisation de la base de données>
 </p>
 
+![Initialisation de la base de données](./images_manuel/init.png "Initialisation de la base de données")
+
 ## Accès à l'application Web
 
 * Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/home.php
+<p align="center">
+  <img src="./images_manuel/login.png" alt="Page de connexion>
+</p>
+
 ![Page de connexion](./images_manuel/login.png "Page de connexion")
 
 * Saisir un nom d'utilisateur et mot de passe afin d'accéder à la page d'acceuil de l'application Web.
@@ -54,12 +60,20 @@ Plusieurs utilisateurs sont déjà présents dans la base de données :
 |        tano       |   78907890   |  non  |       non      |
 
 * Plusieurs actions sont à votre disposition une fois connecté à l'application Web.
+<p align="center">
+  <img src="./images_manuel/home.png" alt="Page principale>
+</p>
+
 ![Page principale](./images_manuel/home.png "Page principale")
 
 ## Actions disponibles
 
 * Changer le mot de passe
 Il est nécessaire de saisir l’ancien mot de passe et deux fois le nouveau.
+<p align="center">
+  <img src="./images_manuel/changePassword.png" alt="Changer le mot de passe>
+</p>
+
 ![Changer le mot de passe](./images_manuel/changePassword.png "Changer le mot de passe")
    
 * Envoyer un nouveau email
