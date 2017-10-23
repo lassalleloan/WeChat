@@ -33,7 +33,9 @@ Le but de ce repo est de concevoir une application Web permettant, dans le cadre
 * Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/init.php
 
 La base de données à été correctement initialisée. Il est maintenant possible d'utiliser l'application Web.
-![Initialisation de la base de données](./images_manuel/init.png "Initialisation de la base de données")
+<p align="center">
+  <img src="./images_manuel/init.png" alt="Initialisation de la base de données>
+</p>
 
 ## Accès à l'application Web
 
