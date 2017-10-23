@@ -48,14 +48,48 @@ La base de données à été correctement initialisée. Il est maintenant possib
 Plusieurs utilisateurs sont déjà présents dans la base de données :
 
 <center>
-| Nom d'utilisateur | Mot de passe | Actif | Administrateur |
-|:-----------------:|:------------:|:-----:|:--------------:|
-|        root       |   toortoor   |  oui  |       oui      |
-|        toor       |   rootroot   |  non  |       oui      |
-|        loan       |   12341234   |  oui  |       non      |
-|      wojciech     |   45674567   |  oui  |       non      |
-|        tano       |   78907890   |  non  |       non      |
-
+   <table>
+      <thead>
+         <tr>
+            <th>Nom d'utilisateur</th>
+            <th>Mot de passe</th>
+            <th>Actif</th>
+            <th>Administrateur</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>root</td>
+            <td>toortoor</td>
+            <td>oui</td>
+            <td>oui</td>
+         </tr>
+         <tr>
+            <td>toor</td>
+            <td>rootroot</td>
+            <td>non</td>
+            <td>oui</td>
+         </tr>
+         <tr>
+            <td>loan</td>
+            <td>12341234</td>
+            <td>oui</td>
+            <td>non</td>
+         </tr>
+         <tr>
+            <td>wojciech</td>
+            <td>45674567</td>
+            <td>oui</td>
+            <td>non</td>
+         </tr>
+         <tr>
+            <td>tano</td>
+            <td>78907890</td>
+            <td>non</td>
+            <td>non</td>
+         </tr>
+      </tbody>
+   </table>
 </center>
 
 * Plusieurs actions sont à votre disposition une fois connecté à l'application Web.
