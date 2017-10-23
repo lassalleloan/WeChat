@@ -15,15 +15,19 @@ Le but de ce repo est de concevoir une application Web permettant, dans le cadre
 ## Installation
 
 * Récupérer l'archive de l'application Web à [cette adresse](https://github.com/lassalleloan/WeChat/archive/master.zip "Archive ZIP").
+
 `$ wget -O ~/Downloads/weChat.zip "https://github.com/lassalleloan/WeChat/archive/master.zip"`
 
 * Dézipper l'archive dans le dossier `/var/www/html/`
+
 `$ unzip ~/Downloads/weChat.zip -d /var/www/html/`
 
-* Changer le groupe propriétaire du dossier `/var/www/html/WeChat-master` 
+* Changer le groupe propriétaire du dossier `/var/www/html/WeChat-master`
+
 `$ sudo chgrp -R apache /var/www/html/WeChat-master`
 
 * Démarrer le service httpd
+
 `$ sudo systemctl start httpd`
 
 * Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/init.php
