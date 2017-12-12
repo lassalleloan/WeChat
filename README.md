@@ -4,105 +4,94 @@ Authors: Loan Lassalle & Wojcieh Myszkorowski
 
 ## Introduction
 
-Le but de ce repo est de concevoir une application Web permettant, dans le cadre d’une entreprise, d’envoyer des messages de texte entre les collaborateurs.
+The purpose of this repo is to design a Web application, within the framework of a company, to send text messages between collaborators.
 
-**Contraintes**
-- Utiliser PHP
-- Utiliser SQLite (éventuellement MySQL)
-- Si d’autres librairies ou technologies doivent être utilisées, elles doivent être validées par le professeur
-- L’ensemble de l’application devra fonctionner sur la machine virtuelle fournie (CentOS)
+**Constraints**
+
+- Use PHP
+- Use SQLite (possibly MySQL)
+- If other libraries or technologies are to be used, they must be validated by the teacher
+- The whole application will have to work on the provided virtual machine (CentOS)
 
 ## Installation
 
-* Récupérer l'archive de l'application Web à [cette adresse](https://github.com/lassalleloan/WeChat/archive/master.zip "Archive ZIP").
+* Get the web application archive [here](https://github.com/lassalleloan/WeChat/archive/master.zip "ZIP Archive").
 
-`$ wget -O ~/Downloads/weChat.zip "https://github.com/lassalleloan/WeChat/archive/master.zip"`
+* Run the script file `run.sh`
 
-* Dézipper l'archive dans le dossier `/var/www/html/`
+`$ sh run.sh`
 
-`$ unzip ~/Downloads/weChat.zip -d /var/www/html/`
-
-* Changer le groupe propriétaire du dossier `/var/www/html/WeChat-master`
-
-`$ sudo chgrp -R apache /var/www/html/WeChat-master`
-
-* Démarrer le service httpd
-
-`$ sudo systemctl start httpd`
-
-* Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/init.php
-
-La base de données à été correctement initialisée. Il est maintenant possible d'utiliser l'application Web.
+The database has been successfully initialized. It is now possible to use the web application.
 <p align="center">
-  <img src="./images_manuel/init.png" alt="Initialisation de la base de données">
+  <img src="./readme_images/init.png" alt="Initializing the database">
 </p>
 
-## Accès à l'application Web
+## Access to the web application
 
-* Saisir dans votre navigateur Internet l'adresse suivante : http://localhost/WeChat-master/home.php
+* Enter in your Internet browser the following address: http://localhost/WeChat-master/home.php
 <p align="center">
-  <img src="./images_manuel/login.png" alt="Page de connexion">
+  <img src="./readme_images/login.png" alt="Login page">
 </p>
 
-* Saisir un nom d'utilisateur et mot de passe afin d'accéder à la page d'acceuil de l'application Web.
-Plusieurs utilisateurs sont déjà présents dans la base de données :
+* Enter a username and a password to access the home page of the Web application.
+Several users are already present in the database:
 
- | Nom d'utilisateur | Mot de passe | Actif | Administrateur |
+ |      Username     |   Password   | Active|  Administrator |
  |:-----------------:|:------------:|:-----:|:--------------:|
- |        root       |   toortoor   |  oui  |       oui      |
- |        toor       |   rootroot   |  non  |       oui      |
- |        loan       |   12341234   |  oui  |       non      |
- |      wojciech     |   45674567   |  oui  |       non      |
- |        tano       |   78907890   |  non  |       non      |
+ |        root       |   toortoor   |  yes  |       yes      |
+ |        toor       |   rootroot   |  no   |       yes      |
+ |        loan       |   12341234   |  yes  |       no       |
+ |      wojciech     |   45674567   |  yes  |       no       |
+ |        tano       |   78907890   |  no   |       no       |
 
-* Plusieurs actions sont à votre disposition une fois connecté à l'application Web.
+* Several actions are available when connected to the web application.
 <p align="center">
-  <img src="./images_manuel/home.png" alt="Page principale">
+  <img src="./readme_images/home.png" alt="Main page">
 </p>
 
-## Actions disponibles
+## Available actions
 
-* Changer le mot de passe
-Il est nécessaire de saisir l’ancien mot de passe et deux fois le nouveau.
+* To change the password
+It is necessary to enter the old password and the new one twice.
 <p align="center">
-  <img src="./images_manuel/changePassword.png" alt="Changer le mot de passe">
+  <img src="./readme_images/changePassword.png" alt="Change password">
 </p>
-   
-* Envoyer un nouveau email
-Il est nécessaire de saisir le nom exact du destinataire, un sujet et un contenu pour l'email.
+   
+* Send a new email
+It is necessary to enter the exact name of the recipient, a subject and a content for the email.
 <p align="center">
-  <img src="./images_manuel/writeEmail.png" alt="Envoyer un nouveau email">
+  <img src="./readme_images/writeEmail.png" alt="Send new email">
 </p>
-   
-* Répondre à un email
-L'email contient l'expéditeur, le destinataire et le sujet de l'email auquel on veut répondre.
-Il suffit de saisir le contenu principal de l'email et de presser le bouton envoyer.
+   
+* Reply to an email
+The email contains the sender, the recipient and the subject of the email to be answered.
+Just enter the main content of the email and press the send button.
 <p align="center">
-  <img src="./images_manuel/reply.png" alt="Répondre à un email">
+  <img src="./readme_images/reply.png" alt="Reply to an email">
 </p>
-   
-* Supprimer un email
-Une pression sur le bouton permettra de supprimer l'email sélectionné.
+   
+* Delete an email
+Pressing the button will delete the selected email.
 <p align="center">
-  <img src="./images_manuel/deleteEmail.png" alt="Supprimer un email">
-</p>
-
-Les opérations suivantes sont disponible seulement pour les comptes administrateurs :
-
-* Créer un nouvel utilisateur
-Il est nécessaire de saisir un nom d'utilisateur, un mot de passee et sa confirmation et le type de compte, Administrateur ou non.
-<p align="center">
-  <img src="./images_manuel/newUser.png" alt="Créer un nouvel utilisateur">
+  <img src="./readme_images/deleteEmail.png" alt="Delete an email">
 </p>
 
-* Gérer un utilisateur
-Il est possible de changer le mot de passe et/ou le type de compte d’un utilisateur.
+The following operations are available only for administrator accounts:
+
+* Create a new user
+It is necessary to enter a username, a password and its confirmation and the type of account, Administrator or not.
 <p align="center">
-  <img src="./images_manuel/manageUser.png" alt="Gérer un utilisateur">
+  <img src="./readme_images/newUser.png" alt="Create a new user">
 </p>
 
-* Supprimer un utilisateur
-Une pression sur le bouton permettra de supprimer l'utisateur sélectionné.
+* Manage a user
+It is possible to change the password and/or account type of a user.
 <p align="center">
-  <img src="./images_manuel/deleteUser.png" alt="Supprimer un utilisateur">
+  <img src="./readme_images/manageUser.png" alt="Manage a user">
+</p>
+
+* Delete a user
+Pressing the button will delete the selected user.
+<p align="center">
+  <img src="./readme_images/deleteUser.png" alt="Delete a user">
 </p>
