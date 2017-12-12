@@ -7,19 +7,16 @@
 wget -O ~/Downloads/weChat.zip "https://github.com/lassalleloan/WeChat/archive/master.zip"
 
 # Unzip the archive
-unzip ~/Downloads/weChat.zip -d ~/Downloads/
+unzip ~/Downloads/weChat.zip -d /var/www/html/
 
-# Create a folder
-mkdir -p /var/www/html/wechat
-
-# Move content of web application
-mv ~/Downloads/WeChat-master/* /var/www/html/wechat
-
-# Remove unused folder
-rm -rf ~/Downloads/WeChat-master ~/Downloads/weChat.zip
+# Rename folder of web application
+mv /var/www/html/WeChat-master /var/www/html/wechat
 
 # Change the owner group of the folder
 sudo chgrp -R apache /var/www/html/wechat
+
+# Remove unused folder
+rm -rf ~/Downloads/WeChat-master ~/Downloads/weChat.zip
 
 # Start the httpd service
 sudo systemctl start httpd
