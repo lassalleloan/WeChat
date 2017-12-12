@@ -10,7 +10,7 @@
 date_default_timezone_set('Europe/Zurich');
 
 require_once(dirname(__DIR__).'/models/Database.php');
-require_once(dirname(__DIR__).'/models/Mails.php');
+require_once(dirname(__DIR__).'/models/Mail.php');
 require_once(dirname(__DIR__).'/models/Role.php');
 require_once(dirname(__DIR__).'/models/User.php');
 

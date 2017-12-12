@@ -9,7 +9,7 @@
 extract(@$_GET);
 require_once('models/Authentication.php');
 require_once('models/Database.php');
-require_once('models/Mails.php');
+require_once('models/Mail.php');
 
 // Redirige l'utilisateur vers index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
