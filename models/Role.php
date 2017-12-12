@@ -6,7 +6,7 @@
  * Authors: Loan Lassalle, Wojciech Myszkorowski
  */
 
-require_once('models/Database.php');
+require_once('Database.php');
 
 /**
  * Gère les rôles
