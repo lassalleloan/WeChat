@@ -142,6 +142,6 @@ Database::getInstance()->deconnection();
 /**
  * Affiche les données
  */
-header('location:'.dirname(__DIR__).'/index.php');
+header('location:../index.php');
 ?>
 

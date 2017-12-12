@@ -27,7 +27,7 @@ if ($_SESSION['digest'] === $oldDigest && $newPassword === $confirmPassword) {
     $_SESSION['digest'] = $newDigest;
     header('location:logout.php');
 } else {
-    header('location:'.dirname(__DIR__).'/changePassword.php?error=1');
+    header('location:../changePassword.php?error=1');
 }
 
 // Ferme la connexion à la base de données

@@ -14,7 +14,7 @@ session_start();
 
 // Redirige l'utilisateur vers home.php
 if (isset($_SESSION['logged']) && $_SESSION['logged']) {
-    header('location:'.dirname(__DIR__).'/home.php');
+    header('location:../home.php');
     exit();
 }
 
@@ -37,8 +37,8 @@ $_SESSION['logged'] = $credentials['digest'] === $digest && $active;
 if ($_SESSION['logged']) {
     $_SESSION['digest'] = $digest;
     
-    header('location:'.dirname(__DIR__).'/home.php');
+    header('location:../home.php');
 } else {
-    header('location:'.dirname(__DIR__).'/index.php');
+    header('location:../index.php');
 }
 ?> 

@@ -20,5 +20,5 @@ User::getInstance()->deleteOne($id);
 // Ferme la connexion à la base de données
 Database::getInstance()->deconnection();
 
-header('location:'.dirname(__DIR__).'/home.php');
+header('location:../home.php');
 ?>

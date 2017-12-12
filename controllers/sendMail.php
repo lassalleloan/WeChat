@@ -23,9 +23,9 @@ $idReceiver = User::getInstance()->getIdByUsername($to)->fetch()['id'];
 
 // Redirige l'utilisateur
 if (isset($id) && empty($idReceiver)) {
-    header('location:'.dirname(__DIR__).'/writeMail.php?id={$id}&error=1');
+    header('location:../writeMail.php?id={$id}&error=1');
 } else if (empty($idReceiver)) {
-    header('location:'.dirname(__DIR__).'/writeMail.php?error=1');
+    header('location:../writeMail.php?error=1');
 } else {
     
     // Insère un email
@@ -37,7 +37,7 @@ if (isset($id) && empty($idReceiver)) {
     
     Mail::getInstance()->insertOne($mail);
     
-    header('location:'.dirname(__DIR__).'/home.php');
+    header('location:../home.php');
 }
 
 // Ferme la connexion à la base de données

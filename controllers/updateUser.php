@@ -27,7 +27,7 @@ if (!isset($id)) {
                     'role' => $role);
     
     User::getInstance()->insertOne($user);
-    header('location:'.dirname(__DIR__).'/home.php');
+    header('location:../home.php');
 } else if (empty($password) && empty($confirmPassword)) {   
 
     // Met à jour l'utilisateur sans mettre à jour le mot de passe
@@ -36,7 +36,7 @@ if (!isset($id)) {
                     'role' => $role);
     
     User::getInstance()->updateOne($user);
-    header('location:'.dirname(__DIR__).'/home.php');
+    header('location:../home.php');
 } else if ($password === $confirmPassword) {
     
     // Met à jour l'utilisateur et son mot de passe
@@ -49,9 +49,9 @@ if (!isset($id)) {
                     'role' => $role);
     
     User::getInstance()->updateOne($user);
-    header('location:'.dirname(__DIR__).'/home.php');
+    header('location:../home.php');
 } else {
-    header('location:'.dirname(__DIR__).'/manageUser.php?id='.$id.'&error=true');
+    header('location:../manageUser.php?id='.$id.'&error=true');
 }
 
 // Ferme la connexion à la base de données
