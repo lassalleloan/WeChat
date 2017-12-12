@@ -38,7 +38,7 @@ Database::getInstance()->deconnection();
             <tr align="right">
                 <td colspan="2">
                     <input type="button" value="Reply" onclick="window.location.href='writeMail.php?id=<?php echo $id; ?>';">
-                    <input type="button" value="Delete" onclick="window.location.href='deleteMail.php?id=<?php echo $id; ?>';">
+                    <input type="button" value="Delete" onclick="window.location.href='controllers/deleteMail.php?id=<?php echo $id; ?>';">
                 </td>
             </tr>
             <tr align="left">

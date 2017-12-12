@@ -54,7 +54,7 @@ Database::getInstance()->deconnection();
         <a href="home.php">< Back</a>
         <br>
         <br>
-        <form method="post" action="updateUser.php">
+        <form method="post" action="controllers/updateUser.php">
             <table width="500px">
                 <?php
                 if (isset($error) && $error) {

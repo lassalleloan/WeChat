@@ -42,7 +42,7 @@ Database::getInstance()->deconnection();
     <body style="background-image: url(./images/background.jpg)">
         <h1>Home</h1>
         <br>
-        <a href="logout.php">Logout</a>
+        <a href="controllers/logout.php">Logout</a>
         <br>
         <br>
         <a href="changePassword.php">Change Password</a>
@@ -76,7 +76,7 @@ Database::getInstance()->deconnection();
                         <input type=\"button\" value=\"Reply\" onclick=\"window.location.href='writeMail.php?id={$mail['id']}';\">
                         </td>
                         <td>
-                        <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='deleteMail.php?id={$mail['id']}';\">
+                        <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='controllers/deleteMail.php?id={$mail['id']}';\">
                         </td>
                         </tr>";
                 } while ($mail = $mails->fetch());
@@ -115,7 +115,7 @@ Database::getInstance()->deconnection();
                         <td>
                         </td>
                         <td>
-                        <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='deleteUser.php?id={$user['id']}';\">
+                        <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='controllers/deleteUser.php?id={$user['id']}';\">
                         </td>
                         </tr>";
                 } while ($user = $users->fetch());

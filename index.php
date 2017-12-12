@@ -20,7 +20,7 @@ Authentication::getInstance()->goToLocation(Authentication::getInstance()->isLog
     <body style="background-image: url(./images/background.jpg)">
         <h1 align = "center">Login</h1>
         <br>
-		<form method="post" action="login.php">
+		<form method="post" action="controllers/login.php">
 			<table align="center">
                 <?php
                 if (isset($_SESSION['logged']) && !$_SESSION['logged']) {

@@ -45,7 +45,7 @@ Database::getInstance()->deconnection();
         <a href="home.php">< Back</a>
         <br>
         <br>
-        <form method="post" action="sendMail.php<?php echo $idMail; ?>">
+        <form method="post" action="controllers/sendMail.php<?php echo $idMail; ?>">
             <table width="500px">
                 <?php
                 if (isset($error) && $error) {

@@ -8,7 +8,7 @@
 
 require_once('Authentication.php');
 require_once('Database.php');
-require_once('Mails.php');
+require_once('Mail.php');
 require_once('Utils.php');
 
 /**

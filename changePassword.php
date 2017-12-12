@@ -24,7 +24,7 @@ Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNot
         <a href="home.php">< Back</a>
         <br>
         <br>
-        <form method="post" action="updatePassword.php">
+        <form method="post" action="controllers/updatePassword.php">
             <table width="500px">
                 <?php
                 if (isset($error) && $error) {
