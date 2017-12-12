@@ -15,11 +15,9 @@ The purpose of this repo is to design a Web application, within the framework of
 
 ## Installation
 
-* Get the web application archive [here](https://github.com/lassalleloan/WeChat/archive/master.zip "ZIP Archive").
+* Get the script file `run.sh` and run it
 
-* Run the script file `run.sh`
-
-`$ sh run.sh`
+`$ wget -O "~/Downloads/run.sh" "https://raw.githubusercontent.com/lassalleloan/WeChat/master/run.sh" && sh "~/Downloads/run.sh"`
 
 The database has been successfully initialized. It is now possible to use the web application.
 <p align="center">
@@ -28,7 +26,7 @@ The database has been successfully initialized. It is now possible to use the we
 
 ## Access to the web application
 
-* Enter in your Internet browser the following address: http://localhost/WeChat-master/home.php
+* Enter in your Internet browser the following address: http://localhost/wechat/home.php
 <p align="center">
   <img src="./readme_images/login.png" alt="Login page">
 </p>
