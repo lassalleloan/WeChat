@@ -15,5 +15,5 @@ session_destroy();
 Database::getInstance()->deconnection();
 
 // Redirige l'utilisateur vers index.php
-header('location:..index.php');
+header('location:../index.php');
 ?> 
