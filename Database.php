@@ -31,7 +31,7 @@ class Database {
     /**
      * Récupère la connexion à la base de données
      */
-    public function connection($file = 'sqlite:/var/www/databases/weChat.sqlite') {
+    public function connection($file = 'sqlite:/var/www/databases/wechat.sqlite') {
         try {
             $this->_database = new PDO($file);
             $this->_database->setAttribute(PDO::ATTR_ERRMODE, 
