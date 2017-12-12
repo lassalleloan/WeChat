@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Prepared and run environment
+# Prepare and run environment
 # author: Loan Lassalle
 
 # Get the web application archive
@@ -22,4 +22,4 @@ rm -rf ~/Downloads/WeChat-master ~/Downloads/weChat.zip
 sudo systemctl start httpd
 
 # Open home page of web application in browser
-xdg-open "http://localhost/wechat/init.php"
+xdg-open "http://localhost/wechat/controllers/init.php"

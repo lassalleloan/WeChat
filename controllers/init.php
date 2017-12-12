@@ -9,10 +9,10 @@
 // Paramètre de la zone du temps
 date_default_timezone_set('Europe/Zurich');
 
-require_once('Database.php');
-require_once('Mail.php');
-require_once('Role.php');
-require_once('User.php');
+require_once('models/Database.php');
+require_once('models/Mails.php');
+require_once('models/Role.php');
+require_once('models/User.php');
 
 /**
  * Crée les tables
@@ -142,6 +142,6 @@ Database::getInstance()->deconnection();
 /**
  * Affiche les données
  */
-header('location:index.php');
+header('location:../index.php');
 ?>
 

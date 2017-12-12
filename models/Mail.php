@@ -6,8 +6,8 @@
  * Authors: Loan Lassalle, Wojciech Myszkorowski
  */
 
-require_once('Database.php');
-require_once('User.php');
+require_once('models/Database.php');
+require_once('models/User.php');
 
 /**
  * Gère les emails

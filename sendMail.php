@@ -9,10 +9,10 @@
 date_default_timezone_set('Europe/Zurich');
 extract(@$_GET);
 extract(@$_POST);
-require_once('Authentication.php');
-require_once('Database.php');
-require_once('Mail.php');
-require_once('User.php');
+require_once('models/Authentication.php');
+require_once('models/Database.php');
+require_once('models/Mails.php');
+require_once('models/User.php');
 
 // Redirige l'utilisateur vers index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());

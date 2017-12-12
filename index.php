@@ -6,7 +6,7 @@
  * Authors: Loan Lassalle, Wojciech Myszkorowski
  */
 
-require_once('Authentication.php');
+require_once('models/Authentication.php');
 
 // Redirige l'utilisateur vers home.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isLogged(), 'home.php');

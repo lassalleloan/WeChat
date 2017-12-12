@@ -7,9 +7,9 @@
  */
 
 extract(@$_POST);
-require_once('Authentication.php');
-require_once('Database.php');
-require_once('User.php');
+require_once('models/Authentication.php');
+require_once('models/Database.php');
+require_once('models/User.php');
 session_start();
 
 // Redirige l'utilisateur vers home.php

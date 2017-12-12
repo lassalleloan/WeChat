@@ -6,7 +6,7 @@
  * Authors: Loan Lassalle, Wojciech Myszkorowski
  */
 
-require_once('Database.php');
+require_once('models/Database.php');
 
 session_start();
 session_destroy();
