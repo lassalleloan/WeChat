@@ -16,7 +16,7 @@ mv /var/www/html/WeChat-master /var/www/html/wechat
 sudo chgrp -R apache /var/www/html/wechat
 
 # Remove unused folder
-rm -rf ~/Downloads/WeChat-master ~/Downloads/weChat.zip
+rm -rf ~/Downloads/weChat.zip
 
 # Start the httpd service
 sudo systemctl start httpd

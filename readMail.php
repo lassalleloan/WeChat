@@ -2,8 +2,8 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 extract(@$_GET);
@@ -12,13 +12,13 @@ require_once('models/Database.php');
 require_once('models/Mail.php');
 require_once('models/Utils.php');
 
-// Redirige l'utilisateur vers index.php
+// Redirect the user to index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
-// Récupère les emails de l'utilisateur
+// Retrieves the user's emails
 $mail = Mail::getInstance()->getById($id)->fetch();
 
-// Ferme la connexion à la base de données
+// Closes the connection to the database
 Database::getInstance()->deconnection();
 ?>
 

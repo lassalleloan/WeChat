@@ -2,8 +2,8 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 extract(@$_GET);
@@ -12,7 +12,7 @@ require_once('models/Database.php');
 require_once('models/Mail.php');
 require_once('models/User.php');
 
-// Redirige l'utilisateur vers index.php
+// Redirect the user to index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
 $idMail = '';
@@ -22,7 +22,7 @@ $valueTo = '';
 $valueSubject = '';
 $styleOthers = '';
 
-// Si c'est la réponse à un email
+// If it's the answer to an email
 if (isset($id)) {
     $idMail = "?id={$id}";    
     $valueTo = 'value="'.Mail::getInstance()->getTo($id)->fetch()['to'].'"';
@@ -30,7 +30,7 @@ if (isset($id)) {
     $styleOthers = 'style="border:none" readonly ';
 }
 
-// Ferme la connexion à la base de données
+// Closes the connection to the database
 Database::getInstance()->deconnection();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

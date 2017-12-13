@@ -1,10 +1,10 @@
 <?php
-/**************************************************
-* STI - Project Web
-* WeChat
-* Description: web site to sen mails between users 
-* Authors: Loan Lassalle, Wojciech Myszkorowski
-**************************************************/
+/**
+ * STI - Project Web
+ * WeChat
+ * Description: Web site to sen mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
+ **/
 
 require_once('Authentication.php');
 require_once('Database.php');
@@ -12,9 +12,9 @@ require_once('Mail.php');
 require_once('Utils.php');
 
 /**
- * Gère les utilisateurs
+ * Manages users
  *
- * @author Lassalle Loan, Wojciech Myszkorowski
+ * @author Matthieu Chatelan, Lassalle Loan, Wojciech Myszkorowski
  * @since 27.09.2017
  */
 class User {
@@ -32,7 +32,7 @@ class User {
     }
     
     /**
-     * Récupère l'ID de l'utilisateur
+     * Retrieves the user ID
      */
     public function getId() {
         return Database::getInstance()->query("SELECT id
@@ -41,7 +41,7 @@ class User {
     }
     
     /**
-     * Récupère l'ID d'un utilisateur
+     * Retrieves a user's ID
      */
     public function getIdByUsername($username) {
         return Database::getInstance()->query("SELECT id
@@ -50,7 +50,7 @@ class User {
     }
     
     /**
-     * Récupère le nom d'utilisateur de l'utilisateur
+     * Retrieves the user name of the user
      */
     public function getUsername() {
         return Database::getInstance()->query("SELECT username
@@ -59,7 +59,7 @@ class User {
     }
     
     /**
-     * Récupère les credentials de l'utilisateur
+     * Retrieves the credentials of the user
      */
     public function getCredentials() {
         return Database::getInstance()->query("SELECT salt,
@@ -69,7 +69,7 @@ class User {
     }
     
     /**
-     * Récupère les credentials d'un utilisateur
+     * Retrieves a user's credentials
      */    
     public function getCredentialsByUsername($username) {
         return Database::getInstance()->query("SELECT salt,
@@ -79,7 +79,7 @@ class User {
     }
     
     /**
-     * Récupère le rôle d'un utilisateur
+     * Retrieves the role of a user
      */
     public function getRole() {
         return Database::getInstance()->query("SELECT role
@@ -88,7 +88,7 @@ class User {
     }
     
     /**
-     * Récupère le rôle d'un utilisateur
+     * Retrieves the role of a user
      */
     public function getRoleByUsername($username) {
         return Database::getInstance()->query("SELECT role
@@ -97,7 +97,7 @@ class User {
     }
     
     /**
-     * Récupère l'état d'un utilisateur
+     * Retrieves the status of a user
      */
     public function getActive() {
         return Database::getInstance()->query("SELECT active
@@ -106,7 +106,7 @@ class User {
     }
     
     /**
-     * Récupère l'état d'un utilisateur
+     * Retrieves the status of a user
      */
     public function getActiveByUsername($username) {
         return Database::getInstance()->query("SELECT active
@@ -115,7 +115,7 @@ class User {
     }
 
     /**
-     * Récupère les informations d'un utilisateur
+     * Retrieves a user's information
      */
     public function getUser($id) {
         return Database::getInstance()->query("SELECT username,
@@ -127,7 +127,7 @@ class User {
     }
 
     /**
-     * Récupère les informations de l'utilisateur
+     * Retrieves user information
      */
     public function getData() {
         return Database::getInstance()->query("SELECT users.id,
@@ -140,14 +140,14 @@ class User {
     }
 
     /**
-     * Récupère la table complète
+     * Get the whole table
      */
     public function getTable() {
         return Database::getInstance()->query("SELECT * FROM users;");  
     }
     
     /**
-     * Insère un utilisateur
+     * Insert a user
      */
     public function insertOne($user) {
         $user['salt'] = Utils::getInstance()->randomStr();
@@ -157,7 +157,7 @@ class User {
     }
     
     /**
-     * Insère des utilisateurs
+     * Insert users
      */
     public function insertMultiple($userArray) {
         foreach ($userArray as $user) {
@@ -166,7 +166,7 @@ class User {
     }
     
     /**
-     * Met à jour l'empreinte de l'utilisateur
+     * Update the user's fingerprint
      */
     public function updateDigest($digest) {
         Database::getInstance()->query("UPDATE users
@@ -175,7 +175,7 @@ class User {
     }
     
     /**
-     * Met à jour un utilisateur
+     * Update a user
      */
     public function updateOne($user) {
         $setDigest = '';
@@ -192,7 +192,7 @@ class User {
     }
     
     /**
-     * Met à jour des utilisateur
+     * Update users
      */
     public function updateMultiple($userArray) {
         foreach ($userArray as $user) {
@@ -201,7 +201,7 @@ class User {
     }
     
     /**
-     * Supprime un utilisateur
+     * Deletes a user
      */
     public function deleteOne($id) {
         Mail::getInstance()->updateOne($id);
@@ -210,7 +210,7 @@ class User {
     }
     
     /**
-     * Supprime des utilisateurs
+     * Deletes users
      */
     public function deleteMultiple($idArray) {
         foreach ($idArray as $id) {

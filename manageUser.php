@@ -2,8 +2,8 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 extract(@$_GET);
@@ -11,7 +11,7 @@ require_once('models/Authentication.php');
 require_once('models/Database.php');
 require_once('models/User.php');
 
-// Redirige l'utilisateur vers index.php
+// Redirect the user to index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
 $valueUsername = '';
@@ -22,7 +22,7 @@ $activeChecked = 'checked';
 $roleAdministrator = '';
 $roleCoWorker = 'checked';
 
-// Si un utilisateur est sélectionné
+// If a user is selected
 if (isset($id)){
     $user = User::getInstance()->getUser($id)->fetch();
     
@@ -39,7 +39,7 @@ if (isset($id)){
     }
 }
 
-// Ferme la connexion à la base de données
+// Closes the connection to the database
 Database::getInstance()->deconnection();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

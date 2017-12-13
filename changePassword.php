@@ -2,14 +2,14 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 extract(@$_GET);
 require_once('models/Authentication.php');
 
-// Redirige l'utilisateur vers index.php
+// Redirect the user to index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

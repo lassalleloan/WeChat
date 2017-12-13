@@ -2,16 +2,16 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 require_once('Database.php');
 
 /**
- * Gère les rôles
+ * Manages roles
  *
- * @author Lassalle Loan, Wojciech Myszkorowski
+ * @author Matthieu Chatelan, Lassalle Loan, Wojciech Myszkorowski
  * @since 27.09.2017
  */
 class Role {
@@ -29,7 +29,7 @@ class Role {
     }
     
     /**
-     * Récupère l'ID d'un rôle
+     * Retrieves the ID of a role
      */
     public function getId($name) {
         return Database::getInstance()->query("SELECT id
@@ -38,7 +38,7 @@ class Role {
     }
     
     /**
-     * Récupère le nom d'un rôle
+     * Retrieves the name of a role
      */
     public function getName($id) {
         return Database::getInstance()->query("SELECT name
@@ -47,7 +47,7 @@ class Role {
     }
     
     /**
-     * Récupère la date d'un rôle
+     * Retrieves the date of a role
      */
     public function getData($id) {
         return Database::getInstance()->query("SELECT id,
@@ -57,14 +57,14 @@ class Role {
     }
 
     /**
-     * Récupère la table complète
+     * Get the whole table
      */
     public function getTable() {
         return Database::getInstance()->query("SELECT * FROM roles;");  
     }
     
     /**
-     * Insère un rôle
+     * Insert a role
      */
     public function insertOne($role) {
         Database::getInstance()->query("INSERT INTO roles (name) 
@@ -72,7 +72,7 @@ class Role {
     }
     
     /**
-     * Insère des rôles
+     * Insert roles
      */
     public function insertMultiple($roleArray) {
         foreach ($roleArray as $role) {
@@ -81,7 +81,7 @@ class Role {
     }
     
     /**
-     * Met à jour un rôle
+     * Update a role
      */
     public function updateOne($role) {        
         Database::getInstance()->query("UPDATE roles
@@ -91,7 +91,7 @@ class Role {
     
     
     /**
-     * Met à jour des rôles
+     * Update roles
      */
     public function updateMultiple($roleArray) {
         foreach ($roleArray as $role) {

@@ -2,14 +2,14 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 /**
- * Boîte à outils
+ * Toolbox
  *
- * @author Lassalle Loan, Wojciech Myszkorowski
+ * @author Matthieu Chatelan, Lassalle Loan, Wojciech Myszkorowski
  * @since 27.09.2017
  */
 class Utils {
@@ -27,14 +27,14 @@ class Utils {
     }
 
     /**
-     * Formate une date en chaîne de caractères
+     * Formats a date into a character string
      */
     public function dateStrFormat($date, $timeZone = 'UTC', $format = 'm.d.Y H:i') {
         return (new DateTime($date, new DateTimeZone($timeZone)))->format($format);
     }
 
     /**
-     * Génère une chaîne de caractères aléatoire
+     * Generates a random string
      */
     function randomStr($length = 255, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         $str = '';

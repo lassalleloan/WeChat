@@ -2,8 +2,8 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 extract(@$_POST);
@@ -12,15 +12,15 @@ require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
 require_once(dirname(__DIR__).'/models/Utils.php');
 
-// Redirige l'utilisateur vers index.php
+// Redirect the user to index.php
 Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
 
-// Récupère l'ID de l'utilisateur
+// Retrieves the user ID
 $id = User::getInstance()->getIdByUsername($username)->fetch()['id'];
 
 if (!isset($id)) {
     
-    // Insère un utilisateur
+    // Insert a user
     $user = array('username' => $username,
                     'password' => $password,
                     'active' => isset($active) ? 1 : 0,
@@ -30,7 +30,7 @@ if (!isset($id)) {
     header('location:../home.php');
 } else if (empty($password) && empty($confirmPassword)) {   
 
-    // Met à jour l'utilisateur sans mettre à jour le mot de passe
+    // Update the user without updating the password
     $user = array('id' => $id,
                     'active' => isset($active) ? 1 : 0,
                     'role' => $role);
@@ -39,7 +39,7 @@ if (!isset($id)) {
     header('location:../home.php');
 } else if ($password === $confirmPassword) {
     
-    // Met à jour l'utilisateur et son mot de passe
+    // Update the user and his password
     $credentials = User::getInstance()->getCredentialsByUsername($username)->fetch();
     $digest = Authentication::getInstance()->getDigest("{$username}{$credentials['salt']}{$password}");
     
@@ -54,6 +54,6 @@ if (!isset($id)) {
     header('location:../manageUser.php?id='.$id.'&error=true');
 }
 
-// Ferme la connexion à la base de données
+// Closes the connection to the database
 Database::getInstance()->deconnection();
 ?>

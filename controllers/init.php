@@ -2,11 +2,11 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
-// Paramètre de la zone du temps
+// Parameter of the time zone
 date_default_timezone_set('Europe/Zurich');
 
 require_once(dirname(__DIR__).'/models/Database.php');
@@ -15,7 +15,7 @@ require_once(dirname(__DIR__).'/models/Role.php');
 require_once(dirname(__DIR__).'/models/User.php');
 
 /**
- * Crée les tables
+ * Create the tables
  */
 
 Database::getInstance()->query('CREATE TABLE IF NOT EXISTS roles (
@@ -42,7 +42,7 @@ Database::getInstance()->query('CREATE TABLE IF NOT EXISTS mails (
                                 FOREIGN KEY(idReceiver) REFERENCES users(id));'); 
 
 /**
- * Paramètre les données
+ * Set the data
  */
 
 $roles = array(
@@ -127,7 +127,7 @@ $mails = array(
             );
 
 /**
- * Insert les données
+ * Inserts data
  */
 
 Role::getInstance()->insertMultiple($roles);
@@ -135,12 +135,12 @@ User::getInstance()->insertMultiple($users);
 Mail::getInstance()->insertMultiple($mails);
 
 /**
- * Ferme la connexion à la base de données
+ * Closes the connection to the database
  */
 Database::getInstance()->deconnection();
 
 /**
- * Affiche les données
+ * Displays the data
  */
 header('location:../index.php');
 ?>

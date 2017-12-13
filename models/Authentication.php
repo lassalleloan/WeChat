@@ -2,14 +2,14 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
  
 /**
- * Gère l'authentification et la redirection du l'utilisateur
+ * Manages user authentication and redirection
  *
- * @author Lassalle Loan, Wojciech Myszkorowski
+ * @author Matthieu Chatelan, Lassalle Loan, Wojciech Myszkorowski
  * @since 27.09.2017
  */
 class Authentication {
@@ -27,14 +27,14 @@ class Authentication {
     }
 
     /**
-     * Récupère l'empreinte dd'un chaîne de caractères
+     * Get the footprint of a character string
      */
     public function getDigest($str) {
         return base64_encode(hash('sha512', $str, true));
     }
 
     /**
-     * Vérifie si l'utilisateur est authentifié et autorisé
+     * Check if the user is authenticated and authorized
      */
     public function isLogged() {
         session_start();
@@ -43,14 +43,14 @@ class Authentication {
     }
 
     /**
-     * Vérifie si l'utilisateur n'est pas authentifié et autorisé
+     * Check if the user is not authenticated and authorized
      */
     public function isNotLogged() {
         return !$this->isLogged();
     }
 
     /**
-     * Redirige l'utilisateur selon une condition
+     * Redirect the user according to a condition
      */
     public function goToLocation($cond, $location = 'index.php') {
         if ($cond) {

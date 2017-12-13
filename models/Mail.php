@@ -2,17 +2,17 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 require_once('Database.php');
 require_once('User.php');
 
 /**
- * Gère les emails
+ * Manage emails
  *
- * @author Lassalle Loan, Wojciech Myszkorowski
+ * @author Matthieu Chatelan, Lassalle Loan, Wojciech Myszkorowski
  * @since 27.09.2017
  */
 class Mail {
@@ -30,7 +30,7 @@ class Mail {
     }
 
     /**
-     * Récupère l'ID d'un email de l'utilisateur
+     * Retrieves an email ID of the user
      */
     public function getId($date) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -42,7 +42,7 @@ class Mail {
     }
 
     /**
-     * Récupère la date d'un email de l'utilisateur
+     * Retrieves the date of an email from the user
      */
     public function getDate($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -53,7 +53,7 @@ class Mail {
     }
 
     /**
-     * Récupère le destinataire d'un email de l'utilisateur
+     * Retrieves the recipient of an email from the user
      */
     public function getTo($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -65,7 +65,7 @@ class Mail {
     }
 
     /**
-     * Récupère le sujet d'un email de l'utilisateur
+     * Retrieves the subject of an email from the user
      */
     public function getSubject($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -76,7 +76,7 @@ class Mail {
     }
 
     /**
-     * Récupère le corps d'un email de l'utilisateur
+     * Get the body of an email from the user
      */
     public function getBody($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -87,7 +87,7 @@ class Mail {
     }
 
     /**
-     * Récupère un email de l'utilisateur
+     * Retrieves an email from the user
      */
     public function getById($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -104,7 +104,7 @@ class Mail {
     }
 
     /**
-     * Récupère un email de l'utilisateur
+     * Retrieves an email from the user
      */
     public function getByDate($date) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -122,7 +122,7 @@ class Mail {
     }
 
     /**
-     * Récupère un email de l'utilisateur
+     * Retrieves an email from the user
      */
     public function getData() {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -137,7 +137,7 @@ class Mail {
     }
 
     /**
-     * Récupère la table complète
+     * Get the whole table
      */
     public function getTable() {
         return Database::getInstance()->query("SELECT *
@@ -146,7 +146,7 @@ class Mail {
     }
     
     /**
-     * Insère un email
+     * Insert an email
      */
     public function insertOne($mail) {
         Database::getInstance()->query("INSERT INTO mails (date, idSender, idReceiver, subject, body) 
@@ -154,7 +154,7 @@ class Mail {
     }
     
     /**
-     * Insère des emails
+     * Inserts emails
      */
     public function insertMultiple($mailArray) {
         foreach ($mailArray as $mail) {
@@ -163,7 +163,7 @@ class Mail {
     }
     
     /**
-     * Met à jour un emails
+     * Update an emails
      */
     public function updateOne($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -174,7 +174,7 @@ class Mail {
     }
     
     /**
-     * Met à jour des emails
+     * Update emails
      */
     public function updateMultiple($idArray) {
         foreach ($idArray as $id) {
@@ -183,7 +183,7 @@ class Mail {
     }
     
     /**
-     * Supprime un emails
+     * Deletes an email
      */
     public function deleteOne($id) {
         $user_id = User::getInstance()->getId()->fetch()['id'];
@@ -193,7 +193,7 @@ class Mail {
     }
     
     /**
-     * Supprime des emails
+     * Deletes emails
      */
     public function deleteMultiple($idArray) {
         foreach ($idArray as $id) {

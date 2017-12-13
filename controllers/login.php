@@ -2,8 +2,8 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
 extract(@$_POST);
@@ -12,28 +12,28 @@ require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
 session_start();
 
-// Redirige l'utilisateur vers home.php
+// Redirect the user to home.php
 if (isset($_SESSION['logged']) && $_SESSION['logged']) {
     header('location:../home.php');
     exit();
 }
 
-// Récupère les credentials de l'utilisateur
+// Retrieves the credentials of the user
 $credentials = User::getInstance()->getCredentialsByUsername($username)->fetch();
 
-// Calcule l'empreinte de l'utilisateur
+// Computes the user's fingerprint
 $digest = Authentication::getInstance()->getDigest("{$username}{$credentials['salt']}{$password}");
 
-// Récupère l'état du compte de l'utilisateur
+// Retrieves the account status of the user
 $active = User::getInstance()->getActiveByUsername($username)->fetch()['active'];
 
-// Ferme la connexion à la base de données
+// Closes the connection to the database
 Database::getInstance()->deconnection();
 
-// Autorise et authentifie l'utilisateur
+// Authorizes and authenticates the user
 $_SESSION['logged'] = $credentials['digest'] === $digest && $active;
 
-// Redirige l'utilisateur
+// Redirect the user
 if ($_SESSION['logged']) {
     $_SESSION['digest'] = $digest;
     

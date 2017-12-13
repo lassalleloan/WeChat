@@ -2,14 +2,14 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: web site to send mails between users 
- * Authors: Loan Lassalle, Wojciech Myszkorowski
+ * Description: Web site to send mails between users 
+ * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
  
 /**
- * Gère la communication avec la base de données
+ * Manages the communication with the database
  *
- * @author Lassalle Loan, Wojciech Myszkorowski
+ * @author Matthieu Chatelan, Lassalle Loan, Wojciech Myszkorowski
  * @since 27.09.2017
  */
 class Database {
@@ -29,7 +29,7 @@ class Database {
     }
 
     /**
-     * Récupère la connexion à la base de données
+     * Retrieves the connection to the database
      */
     public function connection($file = 'sqlite:/var/www/databases/wechat.sqlite') {
         try {
@@ -43,14 +43,14 @@ class Database {
     }
 
     /**
-     * Ferme la connexion à la base de données
+     * Closes the connection to the database
      */
     public function deconnection() {
         $this->_database = null;
     }
 
     /**
-     * Récupère le résultat d'une requête
+     * Get the result of a query
      */
     public function query($sql) {
         if (!isset($this->_database)) {

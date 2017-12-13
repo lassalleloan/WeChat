@@ -1,5 +1,5 @@
 # WeChat :: A STI Project
-Authors: Loan Lassalle & Wojcieh Myszkorowski
+Authors: Matthieu Chatelan, Loan Lassalle & Wojcieh Myszkorowski
 ***
 
 ## Introduction
