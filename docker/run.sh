@@ -51,14 +51,14 @@ function stop {
 # Delete all data created by docker
 function docker_clear {
     echo "Delete everything that was saved by docker (containers, volumes, images)"
-    docker stop $(docker ps --all --quiet) 2>/dev/null && \
-    docker kill $(docker ps --all --quiet) 2>/dev/null && \
-    docker rm --force --volumes $(docker ps --all --quiet) 2>/dev/null && \
-    docker volume rm --force $(docker volume ls --quiet) 2>/dev/null && \
-    docker volume prune --force \
-    docker volume rm --force $(docker volume ls --filter "dangling=true" --quiet) \
-    docker image rm --force $(docker image ls --all --quiet) 2>/dev/null && \
-    docker image prune --force 2>/dev/null && \
+    docker stop $(docker ps --all --quiet) 2>/dev/null
+    docker kill $(docker ps --all --quiet) 2>/dev/null
+    docker rm --force --volumes $(docker ps --all --quiet) 2>/dev/null
+    docker volume rm --force $(docker volume ls --quiet) 2>/dev/null
+    docker volume prune --force 2>/dev/null
+    docker volume rm --force $(docker volume ls --filter "dangling=true" --quiet) 2>/dev/null
+    docker image rm --force $(docker image ls --all --quiet) 2>/dev/null
+    docker image prune --force 2>/dev/null
     docker image rm --force $(docker image ls --all --filter "dangling=true" --quiet) 2>/dev/null
 }
 
