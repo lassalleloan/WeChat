@@ -13,7 +13,9 @@ require_once('models/User.php');
 require_once('models/Utils.php');
 
 // Redirect the user to index.php
-Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
+if (Authentication::getInstance()->isNotLogged()) {
+    Utils::getInstance()->goToLocation();
+}
 
 // Recover received emails
 $mails = Mail::getInstance()->getData();
@@ -25,7 +27,7 @@ $role = User::getInstance()->getRole()->fetch()['role'] === '1';
 if ($role) {
     
     // Retrieves users
-    // depending on the role of the logged in user
+    // depending on the role of the logged in user
     $users = User::getInstance()->getData();
     $user = $users->fetch();
 }
@@ -39,7 +41,7 @@ Database::getInstance()->deconnection();
         <title>WeChat - Home</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     </head>
-    <body style="background-image: url(./images/background.jpg)">
+    <body>
         <h1>Home</h1>
         <br>
         <a href="controllers/logout.php">Logout</a>
@@ -59,7 +61,7 @@ Database::getInstance()->deconnection();
                 }
                 
                 echo '<th colspan="3" >
-                    <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';" style="background-color: deepskyblue; font-size: medium;" >
+                    <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';" >
                     </th>
                     </tr>';
                 

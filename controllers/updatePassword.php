@@ -10,9 +10,12 @@ extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
+require_once(dirname(__DIR__).'/models/Utils.php');
 
 // Redirect the user to index.php
-Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
+if (Authentication::getInstance()->isNotLogged()) {
+    Utils::getInstance()->goToLocation();
+}
 
 // Retrieves user name, salt and user's fingerprint
 $username = User::getInstance()->getUsername()->fetch()['username'];
@@ -25,9 +28,9 @@ if ($_SESSION['digest'] === $oldDigest && $newPassword === $confirmPassword) {
     User::getInstance()->updateDigest($newDigest);
     
     $_SESSION['digest'] = $newDigest;
-    header('location:logout.php');
+    Utils::getInstance()->goToLocation('logout.php');
 } else {
-    header('location:../changePassword.php?error=1');
+    Utils::getInstance()->goToLocation('../changePassword.php?error=1');
 }
 
 // Closes the connection to the database

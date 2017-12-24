@@ -10,11 +10,12 @@ extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
+require_once(dirname(__DIR__).'/models/Utils.php');
 session_start();
 
 // Redirect the user to home.php
 if (isset($_SESSION['logged']) && $_SESSION['logged']) {
-    header('location:../home.php');
+    Utils::getInstance()->goToLocation('../home.php');
     exit();
 }
 
@@ -35,10 +36,11 @@ $_SESSION['logged'] = $credentials['digest'] === $digest && $active;
 
 // Redirect the user
 if ($_SESSION['logged']) {
+    $_SESSION['username'] = $username;
     $_SESSION['digest'] = $digest;
     
-    header('location:../home.php');
+    Utils::getInstance()->goToLocation('../home.php');
 } else {
-    header('location:../index.php');
+    Utils::getInstance()->goToLocation('../index.php');
 }
 ?> 

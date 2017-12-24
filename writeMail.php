@@ -10,10 +10,12 @@ extract(@$_GET);
 require_once('models/Authentication.php');
 require_once('models/Database.php');
 require_once('models/Mail.php');
-require_once('models/User.php');
+require_once('models/Utils.php');
 
 // Redirect the user to index.php
-Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
+if (Authentication::getInstance()->isNotLogged()) {
+    Utils::getInstance()->goToLocation();
+}
 
 $idMail = '';
 $valueFrom = 'value="'.User::getInstance()->getUsername()->fetch()['username'].'"';
@@ -39,7 +41,7 @@ Database::getInstance()->deconnection();
         <title>WeChat - Write a mail</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     </head>
-    <body style="background-image: url(./images/background.jpg)">
+    <body>
         <h1>Write a mail</h1>
         <br>
         <a href="home.php">< Back</a>

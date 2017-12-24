@@ -7,9 +7,12 @@
  */
 
 require_once('models/Authentication.php');
+require_once('models/Utils.php');
 
-// Redirect the user to home.php
-Authentication::getInstance()->goToLocation(Authentication::getInstance()->isLogged(), 'home.php');
+// Redirect the user to index.php
+if (Authentication::getInstance()->isLogged()) {
+    Utils::getInstance()->goToLocation('home.php');
+}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -17,15 +20,15 @@ Authentication::getInstance()->goToLocation(Authentication::getInstance()->isLog
         <title>WeChat - Login</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     </head>
-    <body style="background-image: url(./images/background.jpg)">
-        <h1 align = "center">Login</h1>
+    <body>
+        <h1>Login</h1>
         <br>
 		<form method="post" action="controllers/login.php">
-			<table align="center">
+			<table>
                 <?php
                 if (isset($_SESSION['logged']) && !$_SESSION['logged']) {
                     echo '<tr>
-                        <td colspan="2" align="center" style="color: red; font-weight: bold">
+                        <td colspan="2" style="color: red; font-weight: bold">
                         Incorrect username or password
                         </td>
                         </tr>';

@@ -48,14 +48,5 @@ class Authentication {
     public function isNotLogged() {
         return !$this->isLogged();
     }
-
-    /**
-     * Redirect the user according to a condition
-     */
-    public function goToLocation($cond, $location = 'index.php') {
-        if ($cond) {
-            header("location:{$location}");
-        }
-    }
 }
 ?>

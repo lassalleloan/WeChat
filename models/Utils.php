@@ -27,6 +27,13 @@ class Utils {
     }
 
     /**
+     * Redirect the user according to a condition
+     */
+    public function goToLocation($location = 'index.php') {
+        header("location:{$location}");
+    }
+
+    /**
      * Formats a date into a character string
      */
     public function dateStrFormat($date, $timeZone = 'UTC', $format = 'm.d.Y H:i') {
@@ -36,7 +43,7 @@ class Utils {
     /**
      * Generates a random string
      */
-    function randomStr($length = 255, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+    public function randomStr($length = 255, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         $str = '';
         $max = strlen($keyspace) - 1;
         

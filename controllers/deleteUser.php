@@ -10,9 +10,12 @@ extract(@$_GET);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
+require_once(dirname(__DIR__).'/models/Utils.php');
 
 // Redirect the user to index.php
-Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
+if (Authentication::getInstance()->isNotLogged()) {
+    Utils::getInstance()->goToLocation();
+}
 
 // Deletes the user
 User::getInstance()->deleteOne($id);
@@ -20,5 +23,5 @@ User::getInstance()->deleteOne($id);
 // Closes the connection to the database
 Database::getInstance()->deconnection();
 
-header('location:../home.php');
+Utils::getInstance()->goToLocation('../home.php');
 ?>

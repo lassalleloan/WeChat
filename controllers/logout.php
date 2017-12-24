@@ -7,6 +7,7 @@
  */
 
 require_once(dirname(__DIR__).'/models/Database.php');
+require_once(dirname(__DIR__).'/models/Utils.php');
 
 session_start();
 session_destroy();
@@ -15,5 +16,5 @@ session_destroy();
 Database::getInstance()->deconnection();
 
 // Redirect the user to index.php
-header('location:../index.php');
+Utils::getInstance()->goToLocation('../index.php');
 ?> 

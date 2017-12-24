@@ -13,9 +13,12 @@ require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/Mail.php');
 require_once(dirname(__DIR__).'/models/User.php');
+require_once(dirname(__DIR__).'/models/Utils.php');
 
 // Redirect the user to index.php
-Authentication::getInstance()->goToLocation(Authentication::getInstance()->isNotLogged());
+if (Authentication::getInstance()->isNotLogged()) {
+    Utils::getInstance()->goToLocation();
+}
 
 // Retrieves the sender and the recipient of the email
 $idSender = User::getInstance()->getIdByUsername($from)->fetch()['id'];
@@ -23,9 +26,9 @@ $idReceiver = User::getInstance()->getIdByUsername($to)->fetch()['id'];
 
 // Redirect the user
 if (isset($id) && empty($idReceiver)) {
-    header('location:../writeMail.php?id={$id}&error=1');
+    Utils::getInstance()->goToLocation('../writeMail.php?id={$id}&error=1');
 } else if (empty($idReceiver)) {
-    header('location:../writeMail.php?error=1');
+    Utils::getInstance()->goToLocation('../writeMail.php?error=1');
 } else {
     
     // Insert an email
@@ -36,8 +39,7 @@ if (isset($id) && empty($idReceiver)) {
                     'body' => $body);
     
     Mail::getInstance()->insertOne($mail);
-    
-    header('location:../home.php');
+    Utils::getInstance()->goToLocation('../home.php');
 }
 
 // Closes the connection to the database
