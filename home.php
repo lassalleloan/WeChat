@@ -22,9 +22,9 @@ $mails = Mail::getInstance()->getData();
 $mail = $mails->fetch();
 
 // Retrieves the role of the user
-$role = User::getInstance()->getRole()->fetch()['role'] === '1';
+$isAdmin = Authentication::getInstance()->isAuthorized();
 
-if ($role) {
+if ($isAdmin) {
     
     // Retrieves users
     // depending on the role of the logged in user
@@ -83,7 +83,7 @@ Database::getInstance()->deconnection();
                         </tr>";
                 } while ($mail = $mails->fetch());
             
-                if ($role) {
+                if ($isAdmin) {
                     echo '<tr>
                         <td colspan="6">
                         <br>
@@ -92,7 +92,7 @@ Database::getInstance()->deconnection();
                 }
             }
             
-            if ($role && $user) {
+            if ($isAdmin && $user) {
                 echo '<tr>';
                 
                 // Displays column headers

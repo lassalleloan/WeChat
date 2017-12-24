@@ -13,7 +13,7 @@ require_once('models/User.php');
 require_once('models/Utils.php');
 
 // Redirect the user to index.php
-if (Authentication::getInstance()->isNotLogged()) {
+if (Authentication::getInstance()->isNotLogged() || Authentication::getInstance()->isNotAuthorized()) {
     Utils::getInstance()->goToLocation();
 }
 

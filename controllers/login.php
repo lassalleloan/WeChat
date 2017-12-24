@@ -36,7 +36,6 @@ $_SESSION['logged'] = $credentials['digest'] === $digest && $active;
 
 // Redirect the user
 if ($_SESSION['logged']) {
-    $_SESSION['username'] = $username;
     $_SESSION['digest'] = $digest;
     
     Utils::getInstance()->goToLocation('../home.php');

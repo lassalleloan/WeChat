@@ -5,6 +5,8 @@
  * Description: Web site to send mails between users 
  * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
+
+require_once('User.php');
  
 /**
  * Manages user authentication and redirection
@@ -47,6 +49,14 @@ class Authentication {
      */
     public function isNotLogged() {
         return !$this->isLogged();
+    }
+
+    public function isAuthorized() {
+        return User::getInstance()->getRole()->fetch()['role'] === '1';
+    }
+
+    public function isNotAuthorized() {
+        return !$this->isAuthorized();
     }
 }
 ?>
