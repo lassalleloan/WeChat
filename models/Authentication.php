@@ -22,7 +22,7 @@ class Authentication {
     private static $_database;
     private static $_user;
     private static $_role;
-    private static $_token;
+    private static $_digest;
     
     private function __construct() {
 
@@ -40,10 +40,10 @@ class Authentication {
     }
 
     /**
-     * Get user's token
+     * Get user's digest
      */
-    public function getToken() {
-        return self::$_token;
+    public function getDigest() {
+        return self::$_digest;
     }
 
     /**
@@ -55,7 +55,7 @@ class Authentication {
         $credentials = self::$_user->getCredentialsByUsername($username)->fetch();
     
         // Computes the user's fingerprint
-        self::$_token = self::hashStr("{$username}{$credentials['salt']}{$password}");
+        self::$_digest = self::hashStr("{$username}{$credentials['salt']}{$password}");
     
         // Retrieves the account status of the user
         $active = self::$_user->getActiveByUsername($username)->fetch()['active'];
@@ -64,7 +64,7 @@ class Authentication {
         self::$_database->deconnection();
 
         // Authorizes and authenticates the user
-        return $credentials['digest'] === self::$_token && $active;
+        return $credentials['digest'] === self::$_digest && $active;
     }
 
     /**
