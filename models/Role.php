@@ -15,14 +15,18 @@ require_once('Database.php');
  * @since 27.09.2017
  */
 class Role {
+
     private static $_instance;
+    private static $_database;
     
     private function __construct() {
+
     }
 
     public static function getInstance() {
-        if (is_null(self::$_instance )) {
-          self::$_instance = new self();
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
+            self::$_database = Database::getInstance();
         }
         
         return self::$_instance;
@@ -32,7 +36,7 @@ class Role {
      * Retrieves the ID of a role
      */
     public function getId($name) {
-        return Database::getInstance()->query("SELECT id
+        return self::$_database->query("SELECT id
                                                 FROM roles
                                                 WHERE id={$name};");  
     }
@@ -41,7 +45,7 @@ class Role {
      * Retrieves the name of a role
      */
     public function getName($id) {
-        return Database::getInstance()->query("SELECT name
+        return self::$_database->query("SELECT name
                                                 FROM roles
                                                 WHERE id={$id};");  
     }
@@ -50,7 +54,7 @@ class Role {
      * Retrieves the date of a role
      */
     public function getData($id) {
-        return Database::getInstance()->query("SELECT id,
+        return self::$_database->query("SELECT id,
                                                 name
                                                 FROM roles
                                                 WHERE id={$id};");  
@@ -60,14 +64,14 @@ class Role {
      * Get the whole table
      */
     public function getTable() {
-        return Database::getInstance()->query("SELECT * FROM roles;");  
+        return self::$_database->query("SELECT * FROM roles;");  
     }
     
     /**
      * Insert a role
      */
     public function insertOne($role) {
-        Database::getInstance()->query("INSERT INTO roles (name) 
+        self::$_database->query("INSERT INTO roles (name) 
                                         VALUES ('{$role['name']}');");
     }
     
@@ -76,7 +80,7 @@ class Role {
      */
     public function insertMultiple($roleArray) {
         foreach ($roleArray as $role) {
-            $this->insertOne($role);
+            self::insertOne($role);
         }
     }
     
@@ -84,18 +88,17 @@ class Role {
      * Update a role
      */
     public function updateOne($role) {        
-        Database::getInstance()->query("UPDATE roles
+        self::$_database->query("UPDATE roles
                                         SET name={$role['name']}
                                         WHERE id={$role['id']};");       
     }
-    
     
     /**
      * Update roles
      */
     public function updateMultiple($roleArray) {
         foreach ($roleArray as $role) {
-            $this->updateOne(role);
+            self::updateOne(role);
         }
     }
 }

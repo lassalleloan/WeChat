@@ -13,24 +13,19 @@
  * @since 27.09.2017
  */
 class Utils {
+    
     private static $_instance;
     
     private function __construct() {
+        
     }
 
     public static function getInstance() {
-        if (is_null(self::$_instance )) {
-          self::$_instance = new self();
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
         }
         
         return self::$_instance;
-    }
-
-    /**
-     * Redirect the user according to a condition
-     */
-    public function goToLocation($location = 'index.php') {
-        header("location:{$location}");
     }
 
     /**

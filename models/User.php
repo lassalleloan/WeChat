@@ -18,14 +18,24 @@ require_once('Utils.php');
  * @since 27.09.2017
  */
 class User {
+
     private static $_instance;
+    private static $_authentication;
+    private static $_database;
+    private static $_mail;
+    private static $_utils;
     
     private function __construct() {
+
     }
 
     public static function getInstance() {
-        if (is_null(self::$_instance )) {
-          self::$_instance = new self();
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
+            self::$_authentication = Authentication::getInstance();
+            self::$_database = Database::getInstance();
+            self::$_mail = Mail::getInstance();
+            self::$_utils = Utils::getInstance();
         }
         
         return self::$_instance;
@@ -35,7 +45,7 @@ class User {
      * Retrieves the user ID
      */
     public function getId() {
-        return Database::getInstance()->query("SELECT id
+        return self::$_database->query("SELECT id
                                                 FROM users
                                                 WHERE digest='{$_SESSION['digest']}';");
     }
@@ -44,7 +54,7 @@ class User {
      * Retrieves a user's ID
      */
     public function getIdByUsername($username) {
-        return Database::getInstance()->query("SELECT id
+        return self::$_database->query("SELECT id
                                                 FROM users
                                                 WHERE username='{$username}';");
     }
@@ -53,7 +63,7 @@ class User {
      * Retrieves the user name of the user
      */
     public function getUsername() {
-        return Database::getInstance()->query("SELECT username
+        return self::$_database->query("SELECT username
                                                 FROM users
                                                 WHERE digest='{$_SESSION['digest']}';");
     }
@@ -62,7 +72,7 @@ class User {
      * Retrieves the credentials of the user
      */
     public function getCredentials() {
-        return Database::getInstance()->query("SELECT salt,
+        return self::$_database->query("SELECT salt,
                                                 digest
                                                 FROM users
                                                 WHERE digest='{$_SESSION['digest']}';");
@@ -72,7 +82,7 @@ class User {
      * Retrieves a user's credentials
      */    
     public function getCredentialsByUsername($username) {
-        return Database::getInstance()->query("SELECT salt,
+        return self::$_database->query("SELECT salt,
                                                 digest
                                                 FROM users
                                                 WHERE username='{$username}';");
@@ -82,7 +92,7 @@ class User {
      * Retrieves the role of a user
      */
     public function getRole() {
-        return Database::getInstance()->query("SELECT role
+        return self::$_database->query("SELECT role
                                                 FROM users
                                                 WHERE digest='{$_SESSION['digest']}';");
     }
@@ -91,7 +101,7 @@ class User {
      * Retrieves the role of a user
      */
     public function getRoleByUsername($username) {
-        return Database::getInstance()->query("SELECT role
+        return self::$_database->query("SELECT role
                                                 FROM users
                                                 WHERE username='{$username}';");
     }
@@ -100,7 +110,7 @@ class User {
      * Retrieves the status of a user
      */
     public function getActive() {
-        return Database::getInstance()->query("SELECT active
+        return self::$_database->query("SELECT active
                                                 FROM users
                                                 WHERE digest='{$_SESSION['digest']}';");
     }
@@ -109,7 +119,7 @@ class User {
      * Retrieves the status of a user
      */
     public function getActiveByUsername($username) {
-        return Database::getInstance()->query("SELECT active
+        return self::$_database->query("SELECT active
                                                 FROM users
                                                 WHERE username='{$username}';");
     }
@@ -118,7 +128,7 @@ class User {
      * Retrieves a user's information
      */
     public function getUser($id) {
-        return Database::getInstance()->query("SELECT username,
+        return self::$_database->query("SELECT username,
                                                 active,
                                                 name AS role
                                                 FROM users 
@@ -130,7 +140,7 @@ class User {
      * Retrieves user information
      */
     public function getData() {
-        return Database::getInstance()->query("SELECT users.id,
+        return self::$_database->query("SELECT users.id,
                                                 username,
                                                 active,
                                                 name AS role
@@ -143,16 +153,16 @@ class User {
      * Get the whole table
      */
     public function getTable() {
-        return Database::getInstance()->query("SELECT * FROM users;");  
+        return self::$_database->query("SELECT * FROM users;");  
     }
     
     /**
      * Insert a user
      */
     public function insertOne($user) {
-        $user['salt'] = Utils::getInstance()->randomStr();
-        $user['digest'] = Authentication::getInstance()->getDigest("{$user['username']}{$user['salt']}{$user['password']}");
-        Database::getInstance()->query("INSERT INTO users (username, salt, digest, active, role) 
+        $user['salt'] = self::$_utils->randomStr();
+        $user['digest'] = self::$_authentication->getDigest("{$user['username']}{$user['salt']}{$user['password']}");
+        self::$_database->query("INSERT INTO users (username, salt, digest, active, role) 
                                         VALUES ('{$user['username']}', '{$user['salt']}', '{$user['digest']}','{$user['active']}', '{$user['role']}');");
     }
     
@@ -161,7 +171,7 @@ class User {
      */
     public function insertMultiple($userArray) {
         foreach ($userArray as $user) {
-            $this->insertOne($user);
+            self::insertOne($user);
         }
     }
     
@@ -169,7 +179,7 @@ class User {
      * Update the user's fingerprint
      */
     public function updateDigest($digest) {
-        Database::getInstance()->query("UPDATE users
+        self::$_database->query("UPDATE users
                                         SET digest='{$digest}'
                                         WHERE digest='{$_SESSION['digest']}';");      
     }
@@ -184,7 +194,7 @@ class User {
             $setDigest = "digest='{$user['digest']}',";
         }
         
-        Database::getInstance()->query("UPDATE users
+        self::$_database->query("UPDATE users
                                         SET {$setDigest}
                                         active={$user['active']},
                                         role={$user['role']}
@@ -196,7 +206,7 @@ class User {
      */
     public function updateMultiple($userArray) {
         foreach ($userArray as $user) {
-            $this->updateOne($user);
+            self::updateOne($user);
         }
     }
     
@@ -204,8 +214,8 @@ class User {
      * Deletes a user
      */
     public function deleteOne($id) {
-        Mail::getInstance()->updateOne($id);
-        Database::getInstance()->query("DELETE FROM users
+        self::$_mail->updateOne($id);
+        self::$_database->query("DELETE FROM users
                                         WHERE id={$id};");
     }
     
@@ -214,7 +224,7 @@ class User {
      */
     public function deleteMultiple($idArray) {
         foreach ($idArray as $id) {
-            $this->deleteOne($id);
+            self::deleteOne($id);
         }
     }
 }

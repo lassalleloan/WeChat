@@ -16,14 +16,20 @@ require_once('User.php');
  * @since 27.09.2017
  */
 class Mail {
+
     private static $_instance;
+    private static $_database;
+    private static $_user;
     
     private function __construct() {
+        
     }
 
     public static function getInstance() {
-        if (is_null(self::$_instance )) {
-          self::$_instance = new self();
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
+            self::$_database = Database::getInstance();
+            self::$_user = User::getInstance();
         }
         
         return self::$_instance;
@@ -33,8 +39,8 @@ class Mail {
      * Retrieves an email ID of the user
      */
     public function getId($date) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        return Database::getInstance()->query("SELECT id
+        $user_id = self::$_user->getId()->fetch()['id'];
+        return self::$_database->query("SELECT id
                                                 FROM mails 
                                                 INNER JOIN users ON mails.idReceiver = users.id
                                                 WHERE date='{$date}'
@@ -45,8 +51,8 @@ class Mail {
      * Retrieves the date of an email from the user
      */
     public function getDate($id) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        return Database::getInstance()->query("SELECT date
+        $user_id = self::$_user->getId()->fetch()['id'];
+        return self::$_database->query("SELECT date
                                                 FROM mails
                                                 WHERE id={$id}
                                                 AND idReceiver={$user_id};");
@@ -56,8 +62,8 @@ class Mail {
      * Retrieves the recipient of an email from the user
      */
     public function getTo($id) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        return Database::getInstance()->query("SELECT username AS 'to'
+        $user_id = self::$_user->getId()->fetch()['id'];
+        return self::$_database->query("SELECT username AS 'to'
                                                 FROM mails
                                                 INNER JOIN users ON mails.idSender = users.id
                                                 WHERE mails.id={$id}
@@ -68,8 +74,8 @@ class Mail {
      * Retrieves the subject of an email from the user
      */
     public function getSubject($id) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        return Database::getInstance()->query("SELECT subject
+        $user_id = self::$_user->getId()->fetch()['id'];
+        return self::$_database->query("SELECT subject
                                                 FROM mails
                                                 WHERE id={$id}
                                                 AND idReceiver={$user_id};");
@@ -79,8 +85,8 @@ class Mail {
      * Get the body of an email from the user
      */
     public function getBody($id) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        return Database::getInstance()->query("SELECT body
+        $user_id = self::$_user->getId()->fetch()['id'];
+        return self::$_database->query("SELECT body
                                                 FROM mails
                                                 WHERE id={$id}
                                                 AND idReceiver={$user_id};");
@@ -90,8 +96,8 @@ class Mail {
      * Retrieves an email from the user
      */
     public function getById($id) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        return Database::getInstance()->query("SELECT date,
+        $user_id = self::$_user->getId()->fetch()['id'];
+        return self::$_database->query("SELECT date,
                                                 uSender.username AS 'from',
                                                 uReceiver.username AS 'to',
                                                 subject,
@@ -107,8 +113,8 @@ class Mail {
      * Retrieves an email from the user
      */
     public function getByDate($date) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        return Database::getInstance()->query("SELECT mails.id,
+        $user_id = self::$_user->getId()->fetch()['id'];
+        return self::$_database->query("SELECT mails.id,
                                                 date,
                                                 uSender.username AS 'from',
                                                 uReceiver.username AS 'to',
@@ -125,8 +131,8 @@ class Mail {
      * Retrieves an email from the user
      */
     public function getData() {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        return Database::getInstance()->query("SELECT mails.id,
+        $user_id = self::$_user->getId()->fetch()['id'];
+        return self::$_database->query("SELECT mails.id,
                                                 date, 
                                                 uSender.username AS 'from',
                                                 subject
@@ -140,7 +146,7 @@ class Mail {
      * Get the whole table
      */
     public function getTable() {
-        return Database::getInstance()->query("SELECT *
+        return self::$_database->query("SELECT *
                                                 FROM mails
                                                 ORDER BY date;");
     }
@@ -149,7 +155,7 @@ class Mail {
      * Insert an email
      */
     public function insertOne($mail) {
-        Database::getInstance()->query("INSERT INTO mails (date, idSender, idReceiver, subject, body) 
+        self::$_database->query("INSERT INTO mails (date, idSender, idReceiver, subject, body) 
                                         VALUES ('{$mail['date']}', '{$mail['idSender']}', '{$mail['idReceiver']}', '{$mail['subject']}', '{$mail['body']}');");
     }
     
@@ -158,7 +164,7 @@ class Mail {
      */
     public function insertMultiple($mailArray) {
         foreach ($mailArray as $mail) {
-            $this->insertOne($mail);
+            self::insertOne($mail);
         }
     }
     
@@ -166,8 +172,8 @@ class Mail {
      * Update an emails
      */
     public function updateOne($id) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        Database::getInstance()->query("UPDATE mails
+        $user_id = self::$_user->getId()->fetch()['id'];
+        self::$_database->query("UPDATE mails
                                         SET idSender=NULL
                                         WHERE idSender={$id}
                                         AND idReceiver={$user_id};");
@@ -178,7 +184,7 @@ class Mail {
      */
     public function updateMultiple($idArray) {
         foreach ($idArray as $id) {
-            $this->updateOne($id);
+            self::updateOne($id);
         }
     }
     
@@ -186,8 +192,8 @@ class Mail {
      * Deletes an email
      */
     public function deleteOne($id) {
-        $user_id = User::getInstance()->getId()->fetch()['id'];
-        Database::getInstance()->query("DELETE FROM mails
+        $user_id = self::$_user->getId()->fetch()['id'];
+        self::$_database->query("DELETE FROM mails
                                         WHERE id={$id}
                                         AND idReceiver={$user_id};");
     }
@@ -197,7 +203,7 @@ class Mail {
      */
     public function deleteMultiple($idArray) {
         foreach ($idArray as $id) {
-            $this->deleteOne($id);
+            self::deleteOne($id);
         }
     }
 }
