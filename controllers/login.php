@@ -8,38 +8,36 @@
 
 extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
-require_once(dirname(__DIR__).'/models/Database.php');
-require_once(dirname(__DIR__).'/models/User.php');
-require_once(dirname(__DIR__).'/models/Utils.php');
 session_start();
 
-// Redirect the user to home.php
-if (isset($_SESSION['logged']) && $_SESSION['logged']) {
-    Utils::getInstance()->goToLocation('../home.php');
-    exit();
+$MIN_LENGTH_USERNAME = 3;
+$MAX_LENGTH_USERNAME = 50;
+$MIN_LENGTH_PASSWORD = 8;
+$MAX_LENGTH_PASSWORD = 50;
+
+$strlenUsername = strlen($username);
+$isCorrectUsername = is_string($username) && 
+                        $strlenUsername >= $MIN_LENGTH_USERNAME && 
+                        $strlenUsername <= $MAX_LENGTH_USERNAME;
+                        
+$strlenPassword = strlen($password);
+$isCorrectPassword = is_string($password) && 
+                        $strlenPassword >= $MIN_LENGTH_USERNAME && 
+                        $strlenPassword <= $MAX_LENGTH_USERNAME;
+
+// Authenticates the user
+if ($isCorrectUsername && $isCorrectPassword) {
+    // TODO: Filtres XSS, filtres SQL
+
+    $_SESSION['logged'] = Authentication::getInstance()->isAuthenticated($username, $password);
 }
 
-// Retrieves the credentials of the user
-$credentials = User::getInstance()->getCredentialsByUsername($username)->fetch();
-
-// Computes the user's fingerprint
-$digest = Authentication::getInstance()->getDigest("{$username}{$credentials['salt']}{$password}");
-
-// Retrieves the account status of the user
-$active = User::getInstance()->getActiveByUsername($username)->fetch()['active'];
-
-// Closes the connection to the database
-Database::getInstance()->deconnection();
-
-// Authorizes and authenticates the user
-$_SESSION['logged'] = $credentials['digest'] === $digest && $active;
-
-// Redirect the user
-if ($_SESSION['logged']) {
-    $_SESSION['digest'] = $digest;
-    
-    Utils::getInstance()->goToLocation('../home.php');
+// Redirect the user after authentication
+if (isset($_SESSION['logged']) && $_SESSION['logged']) {
+    $_SESSION['digest'] = Authentication::getInstance()->getDigest();
+    header("location:../home.php");
 } else {
-    Utils::getInstance()->goToLocation('../index.php');
+    $_SESSION['logged'] = false;
+    header("location:../index.php");
 }
 ?> 

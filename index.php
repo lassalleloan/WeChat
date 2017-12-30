@@ -23,7 +23,7 @@ Authentication::getInstance()->redirectIfIsLogged();
 		<form method="post" action="controllers/login.php">
 			<table>
                 <?php
-                if (isset($_SESSION['logged']) && !$_SESSION['logged']) {
+                if (is_bool($_SESSION['logged']) && !$_SESSION['logged']) {
                     echo '<tr>
                         <td colspan="2" style="color: red; font-weight: bold">
                         Incorrect username or password
