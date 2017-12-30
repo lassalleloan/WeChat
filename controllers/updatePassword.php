@@ -52,7 +52,7 @@ if (isset($oldDigest) && $_SESSION['digest'] === $oldDigest && $newPassword === 
     
     header("location:logout.php");
 } else {
-    header("location:../changePassword.php?error=1");
+    header("location:../changePassword.php?isError=true");
 }
 
 // Closes the connection to the database
