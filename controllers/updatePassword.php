@@ -10,27 +10,49 @@ extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
-require_once(dirname(__DIR__).'/models/Utils.php');
 
 // Redirect the user to index.php
-if (Authentication::getInstance()->isNotLogged()) {
-    Utils::getInstance()->goToLocation();
+Authentication::getInstance()->redirectIfIsNotLogged();
+
+$MIN_LENGTH_PASSWORD = 8;
+$MAX_LENGTH_PASSWORD = 50;
+
+$strlenOldPassword = strlen($oldPassword);
+$isCorrectOldPassword = is_string($oldPassword) && 
+                        $strlenOldPassword >= $MIN_LENGTH_PASSWORD && 
+                        $strlenOldPassword <= $MAX_LENGTH_PASSWORD;
+
+$strlenNewPassword = strlen($newPassword);
+$isCorrectNewPassword = is_string($newPassword) && 
+                        $strlenNewPassword >= $MIN_LENGTH_PASSWORD && 
+                        $strlenNewPassword <= $MAX_LENGTH_PASSWORD;
+
+$strlenConfirmPassword = strlen($confirmPassword);
+$isCorrectConfirmPassword = is_string($confirmPassword) && 
+                            $strlenConfirmPassword >= $MIN_LENGTH_PASSWORD && 
+                            $strlenConfirmPassword <= $MAX_LENGTH_PASSWORD;
+
+// Check inputs
+if ($isCorrectOldPassword && $isCorrectNewPassword && $isCorrectConfirmPassword) {
+    // TODO: Filtres XSS, filtres SQL
+
+    // Retrieves user name, salt and user's fingerprint
+    $username = User::getInstance()->getUsername()->fetch()['username'];
+    $salt = User::getInstance()->getCredentialsByUsername($username)->fetch()['salt'];
+    $oldDigest = Authentication::getInstance()->hashStr("{$username}{$salt}{$oldPassword}");
 }
 
-// Retrieves user name, salt and user's fingerprint
-$username = User::getInstance()->getUsername()->fetch()['username'];
-$salt = User::getInstance()->getCredentialsByUsername($username)->fetch()['salt'];
-$oldDigest = Authentication::getInstance()->getDigest("{$username}{$salt}{$oldPassword}");
+// Authenticates the user
+if (isset($oldDigest) && $_SESSION['digest'] === $oldDigest && $newPassword === $confirmPassword) {
+    $salt = Utils::getInstance()->randomStr();
+    User::getInstance()->updateSalt($salt);
 
-// Authorizes and authenticates the user
-if ($_SESSION['digest'] === $oldDigest && $newPassword === $confirmPassword) {
-    $newDigest = Authentication::getInstance()->getDigest("{$username}{$salt}{$newPassword}");
+    $newDigest = Authentication::getInstance()->hashStr("{$username}{$salt}{$newPassword}");
     User::getInstance()->updateDigest($newDigest);
     
-    $_SESSION['digest'] = $newDigest;
-    Utils::getInstance()->goToLocation('logout.php');
+    header("location:logout.php");
 } else {
-    Utils::getInstance()->goToLocation('../changePassword.php?error=1');
+    header("location:../changePassword.php?error=1");
 }
 
 // Closes the connection to the database

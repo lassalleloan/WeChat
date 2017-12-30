@@ -27,7 +27,7 @@ Authentication::getInstance()->redirectIfIsNotLogged();
         <form method="post" action="controllers/updatePassword.php">
             <table width="500px">
                 <?php
-                if (isset($error) && $error) {
+                if (is_bool($isError) && $isError) {
                     echo '<tr>
                         <td colspan="2" align="center" style="color:red; font-weight:bold">
                         Incorrect old password or confirm password
