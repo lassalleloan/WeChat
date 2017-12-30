@@ -10,12 +10,10 @@ extract(@$_GET);
 require_once('models/Authentication.php');
 require_once('models/Database.php');
 require_once('models/User.php');
-require_once('models/Utils.php');
 
 // Redirect the user to index.php
-if (Authentication::getInstance()->isNotLogged() || Authentication::getInstance()->isNotAuthorized()) {
-    Utils::getInstance()->goToLocation();
-}
+Authentication::getInstance()->redirectIfIsNotLogged();
+Authentication::getInstance()->redirectIfIsNotAuthorized("Administrator");
 
 $valueUsername = '';
 $styleUsername = '';
@@ -26,7 +24,7 @@ $roleAdministrator = '';
 $roleCoWorker = 'checked';
 
 // If a user is selected
-if (isset($id)){
+if (isset($id)) {
     $user = User::getInstance()->getUser($id)->fetch();
     
     $valueUsername = 'value="'.$user['username'].'"';

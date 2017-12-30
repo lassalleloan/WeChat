@@ -7,12 +7,9 @@
  */
 
 require_once('models/Authentication.php');
-require_once('models/Utils.php');
 
 // Redirect the user to index.php
-if (Authentication::getInstance()->isLogged()) {
-    Utils::getInstance()->goToLocation('home.php');
-}
+Authentication::getInstance()->redirectIfIsLogged();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -39,7 +36,7 @@ if (Authentication::getInstance()->isLogged()) {
                         Username
                     </th>
                     <td>
-                        <input type="text" name="username" size="50" minlength="1" maxlength="50" required="">
+                        <input type="text" name="username" size="50" minlength="3" maxlength="50" required/>
                     </td>
 				<tr>
 					<th>

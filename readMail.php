@@ -13,9 +13,7 @@ require_once('models/Mail.php');
 require_once('models/Utils.php');
 
 // Redirect the user to index.php
-if (Authentication::getInstance()->isNotLogged()) {
-    Utils::getInstance()->goToLocation();
-}
+Authentication::getInstance()->redirectIfIsNotLogged();
 
 // Retrieves the user's emails
 $mail = Mail::getInstance()->getById($id)->fetch();

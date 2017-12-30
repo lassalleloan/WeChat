@@ -10,12 +10,9 @@ extract(@$_GET);
 require_once('models/Authentication.php');
 require_once('models/Database.php');
 require_once('models/Mail.php');
-require_once('models/Utils.php');
 
 // Redirect the user to index.php
-if (Authentication::getInstance()->isNotLogged()) {
-    Utils::getInstance()->goToLocation();
-}
+Authentication::getInstance()->redirectIfIsNotLogged();
 
 $idMail = '';
 $valueFrom = 'value="'.User::getInstance()->getUsername()->fetch()['username'].'"';

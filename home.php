@@ -13,18 +13,16 @@ require_once('models/User.php');
 require_once('models/Utils.php');
 
 // Redirect the user to index.php
-if (Authentication::getInstance()->isNotLogged()) {
-    Utils::getInstance()->goToLocation();
-}
+Authentication::getInstance()->redirectIfIsNotLogged();
 
 // Recover received emails
 $mails = Mail::getInstance()->getData();
 $mail = $mails->fetch();
 
 // Retrieves the role of the user
-$isAdmin = Authentication::getInstance()->isAuthorized();
+$isAdministrator = Authentication::getInstance()->isAuthorized("Administrator");
 
-if ($isAdmin) {
+if ($isAdministrator) {
     
     // Retrieves users
     // depending on the role of the logged in user
@@ -83,7 +81,7 @@ Database::getInstance()->deconnection();
                         </tr>";
                 } while ($mail = $mails->fetch());
             
-                if ($isAdmin) {
+                if ($isAdministrator) {
                     echo '<tr>
                         <td colspan="6">
                         <br>
@@ -92,7 +90,7 @@ Database::getInstance()->deconnection();
                 }
             }
             
-            if ($isAdmin && $user) {
+            if ($isAdministrator && $user) {
                 echo '<tr>';
                 
                 // Displays column headers

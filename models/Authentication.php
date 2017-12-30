@@ -68,24 +68,6 @@ class Authentication {
     }
 
     /**
-     * Redirect the user if is logged
-     */
-    public function redirectIfIsLogged() {
-        if (self::isLogged()) {
-            header("location:home.php");
-        }
-    }
-
-    /**
-     * Redirect the user if is not logged
-     */
-    public function redirectIfIsNotLogged() {
-        if (!self::isLogged()) {
-            header("location:index.php");
-        }
-    }
-
-    /**
      * Check if the user is logged
      */
     public function isLogged() {
@@ -101,19 +83,52 @@ class Authentication {
         return !self::isLogged();
     }
 
+    /**
+     * Redirect the user if is logged
+     */
+    public function redirectIfIsLogged() {
+        if (self::isLogged()) {
+            header("location:home.php");
+        }
+    }
+
+    /**
+     * Redirect the user if is not logged
+     */
+    public function redirectIfIsNotLogged() {
+        if (self::isNotLogged()) {
+            header("location:index.php");
+        }
+    }
+
+    /**
+     * Check if the user is authorized
+     */
     public function isAuthorized($role) {
         $userRole = self::$_role->getName(self::$_user->getRole()->fetch()['role']);
         return $userRole === $role;
     }
 
-    public function isNotAuthorized() {
-        return !self::isAuthorized();
+    /**
+     * Check if the user is not authorized
+     */
+    public function isNotAuthorized($role) {
+        return !self::isAuthorized($role);
+    }
+
+    /**
+     * Redirect the user if is not authorized
+     */
+    public function redirectIfIsNotAuthorized($role) {
+        if (self::isNotAuthorized($role)) {
+            header("location:index.php");
+        }
     }
 
     /**
      * Get the footprint of a character string
      */
-    private function hashStr($str) {
+    public function hashStr($str) {
         return base64_encode(hash('sha512', $str, true));
     }
 }

@@ -161,7 +161,7 @@ class User {
      */
     public function insertOne($user) {
         $user['salt'] = self::$_utils->randomStr();
-        $user['digest'] = self::$_authentication->getDigest("{$user['username']}{$user['salt']}{$user['password']}");
+        $user['digest'] = self::$_authentication->hashStr("{$user['username']}{$user['salt']}{$user['password']}");
         self::$_database->query("INSERT INTO users (username, salt, digest, active, role) 
                                         VALUES ('{$user['username']}', '{$user['salt']}', '{$user['digest']}','{$user['active']}', '{$user['role']}');");
     }
@@ -173,6 +173,15 @@ class User {
         foreach ($userArray as $user) {
             self::insertOne($user);
         }
+    }
+    
+    /**
+     * Update the user's fingerprint
+     */
+    public function updateSalt($salt) {
+        self::$_database->query("UPDATE users
+                                        SET salt='{$salt}'
+                                        WHERE digest='{$_SESSION['digest']}';");      
     }
     
     /**
