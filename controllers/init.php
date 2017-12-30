@@ -13,7 +13,6 @@ require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/Mail.php');
 require_once(dirname(__DIR__).'/models/Role.php');
 require_once(dirname(__DIR__).'/models/User.php');
-require_once(dirname(__DIR__).'/models/Utils.php');
 
 /**
  * Create the tables
@@ -143,6 +142,5 @@ Database::getInstance()->deconnection();
 /**
  * Displays the data
  */
-Utils::getInstance()->goToLocation('../index.php');
+header("location:../index.php");
 ?>
-
