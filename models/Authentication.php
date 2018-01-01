@@ -49,7 +49,7 @@ class Authentication {
     /**
      * Check if the user is authenticated
      */
-    public function isAuthenticated($username, $password) {
+    public function is_authenticated($username, $password) {
 
         // Retrieves the credentials of the user
         $credentials = self::$_user->get_credentials_by_username($username);
@@ -76,7 +76,7 @@ class Authentication {
     /**
      * Check if the user is logged
      */
-    public function isLogged() {
+    public function is_logged() {
         session_start();
         
         return isset($_SESSION['logged']) && $_SESSION['logged'];
@@ -85,15 +85,15 @@ class Authentication {
     /**
      * Check if the user is not logged
      */
-    public function isNotLogged() {
-        return !$this->isLogged();
+    public function is_not_logged() {
+        return !$this->is_logged();
     }
 
     /**
      * Redirect the user if is logged
      */
     public function redirect_if_is_logged() {
-        if ($this->isLogged()) {
+        if ($this->is_logged()) {
             header("location:home.php");
         }
     }
@@ -102,7 +102,7 @@ class Authentication {
      * Redirect the user if is not logged
      */
     public function redirect_if_is_not_logged() {
-        if ($this->isNotLogged()) {
+        if ($this->is_not_logged()) {
             header("location:index.php");
         }
     }
@@ -110,22 +110,22 @@ class Authentication {
     /**
      * Check if the user is authorized
      */
-    public function isAuthorized($role) {
+    public function is_authorized($role) {
         return self::$_user->get_role() === $role;
     }
 
     /**
      * Check if the user is not authorized
      */
-    public function isNotAuthorized($role) {
-        return !$this->isAuthorized($role);
+    public function is_not_authorized($role) {
+        return !$this->is_authorized($role);
     }
 
     /**
      * Redirect the user if is not authorized
      */
     public function redirect_if_is_not_authorized($role) {
-        if ($this->isNotAuthorized($role)) {
+        if ($this->is_not_authorized($role)) {
             header("location:index.php");
         }
     }

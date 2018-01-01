@@ -156,6 +156,29 @@ class Mail {
     }
 
     /**
+     * Check if the user is associate to email
+     */
+    public function is_associate_to_user($id) {
+        return !$this->is_not_associate_to_user($id);
+    }
+
+    /**
+     * Check if the user is not associate to email
+     */
+    public function is_not_associate_to_user($id) {
+        return empty($this->get_by_id($id));
+    }
+
+    /**
+     * Redirect the user if is not associated to email
+     */
+    public function redirect_if_is_not_associate_to_user($id) {
+        if ($this->is_not_associate_to_user($id)) {
+            header("location:home.php");
+        }
+    }
+
+    /**
      * Retrieves all user's email information
      */
     public function get_data() {

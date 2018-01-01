@@ -16,14 +16,22 @@ class Database {
 
     const PHP_INT_MIN = 1;
     const PHP_INT_MAX = 2147483647;
+
+    const PHP_STR_MIN = 3;
     const PHP_STR_MAX = 255;
+    
+    const PHP_TEXT_MIN = 3;
     const PHP_TEXT_MAX = 1024;
-    const PHP_DATE_MAX = 23;
+    
+    const PHP_DATE_LEN = 23;
+    
     const USERNAME_MIN = 3;
     const USERNAME_MAX = 50;
+    
     const PASSWORD_MIN = 8;
     const PASSWORD_MAX = 50;
-    const DIGEST_MAX = 88;
+    
+    const DIGEST_LEN = 88;
 
     private static $_instance;
     private $_pdo;
@@ -49,7 +57,6 @@ class Database {
             $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $ex) {
             echo $ex->getMessage();
-            exit();
         }
     }
 
