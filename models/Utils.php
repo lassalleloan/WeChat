@@ -20,7 +20,7 @@ class Utils {
         
     }
 
-    public static function getInstance() {
+    public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
         }
@@ -31,14 +31,14 @@ class Utils {
     /**
      * Formats a date into a character string
      */
-    public function dateStrFormat($date, $timeZone = 'UTC', $format = 'm.d.Y H:i') {
+    public function date_str_format($date, $timeZone = 'UTC', $format = 'm.d.Y H:i') {
         return (new DateTime($date, new DateTimeZone($timeZone)))->format($format);
     }
 
     /**
      * Generates a random string
      */
-    public function randomStr($length = 255, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+    public function random_str($length = 255, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         $str = '';
         $max = strlen($keyspace) - 1;
         

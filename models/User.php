@@ -2,13 +2,14 @@
 /**
  * STI - Project Web
  * WeChat
- * Description: Web site to sen mails between users 
+ * Description: Web site to send mails between users 
  * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  **/
 
 require_once('Authentication.php');
 require_once('Database.php');
 require_once('Mail.php');
+require_once('Parameter.php');
 require_once('Utils.php');
 
 /**
@@ -29,211 +30,307 @@ class User {
 
     }
 
-    public static function getInstance() {
+    public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
-            self::$_authentication = Authentication::getInstance();
-            self::$_database = Database::getInstance();
-            self::$_mail = Mail::getInstance();
-            self::$_utils = Utils::getInstance();
+            self::$_authentication = Authentication::get_instance();
+            self::$_database = Database::get_instance();
+            self::$_mail = Mail::get_instance();
+            self::$_utils = Utils::get_instance();
         }
         
         return self::$_instance;
     }
     
     /**
-     * Retrieves the user ID
+     * Retrieves user's ID with digest
      */
-    public function getId() {
-        return self::$_database->query("SELECT id
-                                                FROM users
-                                                WHERE digest='{$_SESSION['digest']}';");
+    public function get_id() {
+        $query = "SELECT id 
+                        FROM users 
+                        WHERE digest=:digest;";
+        $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['id'];
     }
     
     /**
-     * Retrieves a user's ID
+     * Retrieves a user's ID with username
      */
-    public function getIdByUsername($username) {
-        return self::$_database->query("SELECT id
-                                                FROM users
-                                                WHERE username='{$username}';");
+    public function get_id_by_username($username) {
+        $query = "SELECT id 
+                        FROM users 
+                        WHERE username=:username;";
+        $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['id'];
     }
     
     /**
-     * Retrieves the user name of the user
+     * Retrieves user's username with digest
      */
-    public function getUsername() {
-        return self::$_database->query("SELECT username
-                                                FROM users
-                                                WHERE digest='{$_SESSION['digest']}';");
+    public function get_username() {
+        $query = "SELECT username 
+                        FROM users 
+                        WHERE digest=:digest;";
+        $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['username'];
     }
     
     /**
-     * Retrieves the credentials of the user
+     * Retrieves user's credentials with digest
      */
-    public function getCredentials() {
-        return self::$_database->query("SELECT salt,
-                                                digest
-                                                FROM users
-                                                WHERE digest='{$_SESSION['digest']}';");
+    public function get_credentials() {
+        $query = "SELECT salt, 
+                        digest 
+                        FROM users 
+                        WHERE digest=:digest;";
+        $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0];
     }
     
     /**
-     * Retrieves a user's credentials
+     * Retrieves user's credentials with username
      */    
-    public function getCredentialsByUsername($username) {
-        return self::$_database->query("SELECT salt,
-                                                digest
-                                                FROM users
-                                                WHERE username='{$username}';");
+    public function get_credentials_by_username($username) {
+        $query = "SELECT salt, 
+                        digest 
+                        FROM users 
+                        WHERE username=:username;";
+        $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0];
     }
     
     /**
-     * Retrieves the role of a user
+     * Retrieves user's role with digest
      */
-    public function getRole() {
-        return self::$_database->query("SELECT role
-                                                FROM users
-                                                WHERE digest='{$_SESSION['digest']}';");
+    public function get_role() {
+        $query = "SELECT name AS role 
+                        FROM users 
+                        INNER JOIN roles ON users.role = roles.id 
+                        WHERE digest=:digest;";
+        $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['role'];
     }
     
     /**
-     * Retrieves the role of a user
+     * Retrieves user's role with username
      */
-    public function getRoleByUsername($username) {
-        return self::$_database->query("SELECT role
-                                                FROM users
-                                                WHERE username='{$username}';");
+    public function get_role_by_username($username) {
+        $query = "SELECT name AS role 
+                        FROM users 
+                        INNER JOIN roles ON users.role = roles.id 
+                        WHERE username=:username;";
+        $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['role'];
     }
     
     /**
-     * Retrieves the status of a user
+     * Retrieves user's status with digest
      */
-    public function getActive() {
-        return self::$_database->query("SELECT active
-                                                FROM users
-                                                WHERE digest='{$_SESSION['digest']}';");
+    public function get_active() {
+        $query = "SELECT active 
+                        FROM users 
+                        WHERE digest=:digest;";
+        $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['active'];
     }
     
     /**
-     * Retrieves the status of a user
+     * Retrieves user's status with username
      */
-    public function getActiveByUsername($username) {
-        return self::$_database->query("SELECT active
-                                                FROM users
-                                                WHERE username='{$username}';");
+    public function get_active_by_username($username) {
+        $query = "SELECT active 
+                        FROM users 
+                        WHERE username=:username;";
+        $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['active'];
     }
 
     /**
-     * Retrieves a user's information
+     * Retrieves user's information with digest
      */
-    public function getUser($id) {
-        return self::$_database->query("SELECT username,
-                                                active,
-                                                name AS role
-                                                FROM users 
-                                                INNER JOIN roles ON users.role = roles.id
-                                                WHERE users.id={$id};"); 
+    public function get_user() {
+        $query = "SELECT username, 
+                        active, 
+                        name AS role 
+                        FROM users 
+                        INNER JOIN roles ON users.role = roles.id 
+                        WHERE digest=:digest;";
+        $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0];
     }
 
     /**
-     * Retrieves user information
+     * Retrieves user's information with ID
      */
-    public function getData() {
-        return self::$_database->query("SELECT users.id,
-                                                username,
-                                                active,
-                                                name AS role
-                                                FROM users 
-                                                INNER JOIN roles ON users.role = roles.id
-                                                WHERE digest<>'{$_SESSION['digest']}';");  
+    public function get_user_by_id($id) {
+        $query = "SELECT username, 
+                        active, 
+                        name AS role 
+                        FROM users 
+                        INNER JOIN roles ON users.role = roles.id 
+                        WHERE users.id=:id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters)[0];
+    }
+
+    /**
+     * Retrieves user's information with username
+     */
+    public function get_user_by_username($username) {
+        $query = "SELECT username, 
+                        active, 
+                        name AS role 
+                        FROM users 
+                        INNER JOIN roles ON users.role = roles.id 
+                        WHERE username=:username;";
+        $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0];
+    }
+
+    /**
+     * Retrieves all user's information except current user
+     */
+    public function get_data() {
+        $query = "SELECT users.id, 
+                        username, 
+                        active, 
+                        name AS role 
+                        FROM users 
+                        INNER JOIN roles ON users.role = roles.id 
+                        WHERE digest<>:digest;";
+        $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters);
     }
 
     /**
      * Get the whole table
      */
-    public function getTable() {
-        return self::$_database->query("SELECT * FROM users;");  
+    public function get_table() {
+        $query = "SELECT *
+                        FROM users;";
+
+        return self::$_database->query($query);
     }
     
     /**
      * Insert a user
      */
-    public function insertOne($user) {
-        $user['salt'] = self::$_utils->randomStr();
-        $user['digest'] = self::$_authentication->hashStr("{$user['username']}{$user['salt']}{$user['password']}");
-        self::$_database->query("INSERT INTO users (username, salt, digest, active, role) 
-                                        VALUES ('{$user['username']}', '{$user['salt']}', '{$user['digest']}','{$user['active']}', '{$user['role']}');");
+    public function insert_one($user) {
+        $user['salt'] = self::$_utils->random_str();
+        $user['digest'] = self::$_authentication->hash_str("{$user['username']}{$user['salt']}{$user['password']}");
+        
+        $query = "INSERT INTO users (username, salt, digest, active, role) 
+                        VALUES (:username, :salt, :digest, :active, :role);";
+
+        $parameters = array(new Parameter(':username', $user['username'], PDO::PARAM_STR),
+                new Parameter(':salt', $user['salt'], PDO::PARAM_STR),
+                new Parameter(':digest', $user['digest'], PDO::PARAM_STR),
+                new Parameter(':active', $user['active'], PDO::PARAM_BOOL),
+                new Parameter(':role', $user['role'], PDO::PARAM_INT));
+
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Insert users
      */
-    public function insertMultiple($userArray) {
+    public function insert_multiple($userArray) {
         foreach ($userArray as $user) {
-            self::insertOne($user);
+            $this->insert_one($user);
         }
     }
     
     /**
      * Update the user's fingerprint
      */
-    public function updateSalt($salt) {
-        self::$_database->query("UPDATE users
-                                        SET salt='{$salt}'
-                                        WHERE digest='{$_SESSION['digest']}';");      
+    public function update_salt($salt) { 
+        $query = "UPDATE users 
+                        SET salt=:salt 
+                        WHERE digest=:digest;";
+        $parameters = array(new Parameter(':salt', $salt, PDO::PARAM_STR),
+                            new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Update the user's fingerprint
      */
-    public function updateDigest($digest) {
-        self::$_database->query("UPDATE users
-                                        SET digest='{$digest}'
-                                        WHERE digest='{$_SESSION['digest']}';");      
+    public function update_digest($digest) {
+        $query = "UPDATE users 
+                        SET digest=:newDigest 
+                        WHERE digest=:oldDigest;";
+        $parameters = array(new Parameter(':newDigest', $digest, PDO::PARAM_STR),
+                            new Parameter(':oldDigest', $_SESSION['digest'], PDO::PARAM_STR));
+
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Update a user
      */
-    public function updateOne($user) {
+    public function update_one($user) {
         $setDigest = '';
+        $parameters = array();
         
-        if (isset($user['digest'])) {
-            $setDigest = "digest='{$user['digest']}',";
+        if (is_string($user['digest'])) {
+            $setDigest = "digest=:digest,";
+            array_push($parameters, new Parameter(':digest', $user['digest'], PDO::PARAM_STR));
         }
         
-        self::$_database->query("UPDATE users
-                                        SET {$setDigest}
-                                        active={$user['active']},
-                                        role={$user['role']}
-                                        WHERE id={$user['id']};");       
+        $query = "UPDATE users 
+                        SET {$setDigest} 
+                        active=:active, 
+                        role=:role 
+                        WHERE id=:id";
+        array_push($parameters, new Parameter(':active', $user['active'], PDO::PARAM_BOOL),
+                                new Parameter(':role', $user['role'], PDO::PARAM_INT),
+                                new Parameter(':id', $user['id'], PDO::PARAM_INT));
+        
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Update users
      */
-    public function updateMultiple($userArray) {
+    public function update_multiple($userArray) {
         foreach ($userArray as $user) {
-            self::updateOne($user);
+            $this->update_one($user);
         }
     }
     
     /**
      * Deletes a user
      */
-    public function deleteOne($id) {
-        self::$_mail->updateOne($id);
-        self::$_database->query("DELETE FROM users
-                                        WHERE id={$id};");
+    public function delete_one($id) {
+        $this->$_mail->update_one($id);
+
+        $query = "DELETE FROM users 
+                            WHERE id=:id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT));
+
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Deletes users
      */
-    public function deleteMultiple($idArray) {
+    public function delete_multiple($idArray) {
         foreach ($idArray as $id) {
-            self::deleteOne($id);
+            $this->delete_one($id);
         }
     }
 }

@@ -21,7 +21,7 @@ class Database {
         self::connection();
     }
 
-    public static function getInstance() {
+    public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
         }
@@ -52,18 +52,20 @@ class Database {
     /**
      * Get the result of a query
      */
-    public function query($sql) {
+    public function query($sql, $parameters) {
         if (!isset(self::$_pdo)) {
             self::connection();
         }
+
+        $stmt = self::$_pdo->prepare($sql);
         
-        if (substr($sql, 0, 6) === 'SELECT') {
-            $results = self::$_pdo->query($sql);
-        } else {
-            $results = self::$_pdo->exec($sql);
+        foreach($parameters as $parameter) {
+            $stmt->bindParam($parameter->get_name(), $parameter->get_value(), $parameter->get_pdo_type());
         }
-        
-        return $results;
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
 }
 ?>

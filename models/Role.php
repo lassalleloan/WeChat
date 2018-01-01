@@ -23,82 +23,101 @@ class Role {
 
     }
 
-    public static function getInstance() {
+    public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
-            self::$_database = Database::getInstance();
+            self::$_database = Database::get_instance();
         }
         
         return self::$_instance;
     }
     
     /**
-     * Retrieves the ID of a role
+     * Retrieves role's ID
      */
-    public function getId($name) {
-        return self::$_database->query("SELECT id
-                                                FROM roles
-                                                WHERE id={$name};");  
+    public function get_id($name) {
+        $query = "SELECT id 
+                        FROM roles 
+                        WHERE id=:name;";
+        $parameters = array(new Parameter(':name', $name, PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['id'];
     }
     
     /**
-     * Retrieves the name of a role
+     * Retrieves role's name
      */
-    public function getName($id) {
-        return self::$_database->query("SELECT name
-                                                FROM roles
-                                                WHERE id={$id};");  
+    public function get_name($id) {
+        $query = "SELECT name 
+                        FROM roles 
+                        WHERE id=:id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0]['name'];
     }
     
     /**
-     * Retrieves the date of a role
+     * Retrieves all role's information
      */
-    public function getData($id) {
-        return self::$_database->query("SELECT id,
-                                                name
-                                                FROM roles
-                                                WHERE id={$id};");  
+    public function get_data($id) {
+        $query = "SELECT id,
+                        name 
+                        FROM roles 
+                        WHERE id=:id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_STR));
+
+        return self::$_database->query($query, $parameters)[0];
     }
 
     /**
      * Get the whole table
      */
-    public function getTable() {
-        return self::$_database->query("SELECT * FROM roles;");  
+    public function get_table() {
+        $query = "SELECT * 
+                        FROM roles;";
+
+        return self::$_database->query($query);
     }
     
     /**
      * Insert a role
      */
-    public function insertOne($role) {
-        self::$_database->query("INSERT INTO roles (name) 
-                                        VALUES ('{$role['name']}');");
+    public function insert_one($role) {
+        $query = "INSERT INTO roles (name) 
+                            VALUES (:name);";
+        $parameters = array(new Parameter(':name', $role['name'], PDO::PARAM_STR));
+
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Insert roles
      */
-    public function insertMultiple($roleArray) {
+    public function insert_multiple($roleArray) {
         foreach ($roleArray as $role) {
-            self::insertOne($role);
+            $this->insert_one($role);
         }
     }
     
     /**
      * Update a role
      */
-    public function updateOne($role) {        
-        self::$_database->query("UPDATE roles
-                                        SET name={$role['name']}
-                                        WHERE id={$role['id']};");       
+    public function update_one($role) {
+        $query = "UPDATE roles 
+                        SET name=:name  
+                        WHERE id=:id;";
+        $parameters = array(new Parameter(':name', $role['name'], PDO::PARAM_STR),
+                            new Parameter(':id', $role['id'], PDO::PARAM_STR));
+
+        self::$_database->query($query, $parameters);      
     }
     
     /**
      * Update roles
      */
-    public function updateMultiple($roleArray) {
+    public function update_multiple($roleArray) {
         foreach ($roleArray as $role) {
-            self::updateOne(role);
+            $this->update_one(role);
         }
     }
 }

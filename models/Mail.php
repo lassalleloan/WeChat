@@ -25,185 +25,233 @@ class Mail {
         
     }
 
-    public static function getInstance() {
+    public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
-            self::$_database = Database::getInstance();
-            self::$_user = User::getInstance();
+            self::$_database = Database::get_instance();
+            self::$_user = User::get_instance();
         }
         
         return self::$_instance;
     }
 
     /**
-     * Retrieves an email ID of the user
+     * Retrieves user's email ID
      */
-    public function getId($date) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        return self::$_database->query("SELECT id
-                                                FROM mails 
-                                                INNER JOIN users ON mails.idReceiver = users.id
-                                                WHERE date='{$date}'
-                                                AND idReceiver={$user_id};");
+    public function get_id($date) {
+        $user_id = self::$_user->get_id();
+        $query = "SELECT id 
+                        FROM mails 
+                        INNER JOIN users ON mails.idReceiver = users.id 
+                        WHERE date=:date 
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':date', $date, PDO::PARAM_STR),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters)[0]['id'];
     }
 
     /**
-     * Retrieves the date of an email from the user
+     * Retrieves the date of user's email
      */
-    public function getDate($id) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        return self::$_database->query("SELECT date
-                                                FROM mails
-                                                WHERE id={$id}
-                                                AND idReceiver={$user_id};");
+    public function get_date($id) {
+        $user_id = self::$_user->get_id();
+        $query = "SELECT date 
+                        FROM mails 
+                        WHERE id=:id 
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters)[0]['date'];
     }
 
     /**
-     * Retrieves the recipient of an email from the user
+     * Retrieves the recipient of user's email
      */
-    public function getTo($id) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        return self::$_database->query("SELECT username AS 'to'
-                                                FROM mails
-                                                INNER JOIN users ON mails.idSender = users.id
-                                                WHERE mails.id={$id}
-                                                AND idReceiver={$user_id};");
+    public function get_to($id) {
+        $user_id = self::$_user->get_id();
+        $query = "SELECT username AS 'to' 
+                        FROM mails 
+                        INNER JOIN users ON mails.idSender = users.id 
+                        WHERE mails.id=:id 
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters)[0]['to'];
     }
 
     /**
-     * Retrieves the subject of an email from the user
+     * Retrieves the subject of user's email
      */
-    public function getSubject($id) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        return self::$_database->query("SELECT subject
-                                                FROM mails
-                                                WHERE id={$id}
-                                                AND idReceiver={$user_id};");
+    public function get_subject($id) {
+        $user_id = self::$_user->get_id();
+        $query = "SELECT subject 
+                        FROM mails 
+                        WHERE id=:id 
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters)[0]['subject'];
     }
 
     /**
-     * Get the body of an email from the user
+     * Get the body of user's email
      */
-    public function getBody($id) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        return self::$_database->query("SELECT body
-                                                FROM mails
-                                                WHERE id={$id}
-                                                AND idReceiver={$user_id};");
+    public function get_body($id) {
+        $user_id = self::$_user->get_id();
+        $query = "SELECT body 
+                        FROM mails 
+                        WHERE id=:id 
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters)[0]['body'];
     }
 
     /**
-     * Retrieves an email from the user
+     * Retrieves user's email
      */
-    public function getById($id) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        return self::$_database->query("SELECT date,
-                                                uSender.username AS 'from',
-                                                uReceiver.username AS 'to',
-                                                subject,
-                                                body
-                                                FROM mails 
-                                                LEFT JOIN users AS uSender ON mails.idSender = uSender.id
-                                                INNER JOIN users AS uReceiver ON mails.idReceiver = uReceiver.id
-                                                WHERE mails.id={$id}
-                                                AND idReceiver={$user_id};");
+    public function get_by_id($id) {
+        $user_id = self::$_user->get_id();
+        $query = "SELECT date, 
+                        uSender.username AS 'from', 
+                        uReceiver.username AS 'to', 
+                        subject, 
+                        body 
+                        FROM mails 
+                        LEFT JOIN users AS uSender ON mails.idSender = uSender.id 
+                        INNER JOIN users AS uReceiver ON mails.idReceiver = uReceiver.id 
+                        WHERE mails.id=:id 
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters)[0];
     }
 
     /**
-     * Retrieves an email from the user
+     * Retrieves user's email
      */
-    public function getByDate($date) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        return self::$_database->query("SELECT mails.id,
-                                                date,
-                                                uSender.username AS 'from',
-                                                uReceiver.username AS 'to',
-                                                subject,
-                                                body
-                                                FROM mails 
-                                                INNER JOIN users AS uSender ON mails.idSender = uSender.id
-                                                INNER JOIN users AS uReceiver ON mails.idReceiver = uReceiver.id
-                                                WHERE mails.date='{$date}'
-                                                AND idReceiver={$user_id};");
+    public function get_by_date($date) {
+        $user_id = self::$_user->get_id();
+        $query = "SELECT mails.id, 
+                        date, 
+                        uSender.username AS 'from', 
+                        uReceiver.username AS 'to', 
+                        subject, 
+                        body 
+                        FROM mails 
+                        INNER JOIN users AS uSender ON mails.idSender = uSender.id 
+                        INNER JOIN users AS uReceiver ON mails.idReceiver = uReceiver.id 
+                        WHERE mails.date=:date 
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':date', $date, PDO::PARAM_STR),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters)[0];
     }
 
     /**
-     * Retrieves an email from the user
+     * Retrieves all user's email information
      */
-    public function getData() {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        return self::$_database->query("SELECT mails.id,
-                                                date, 
-                                                uSender.username AS 'from',
-                                                subject
-                                                FROM mails 
-                                                LEFT JOIN users AS uSender ON mails.idSender = uSender.id
-                                                WHERE idReceiver={$user_id}
-                                                ORDER BY date;");
+    public function get_data() {
+        $user_id = self::$_user->get_id();
+        $query = "SELECT mails.id, 
+                        date, 
+                        uSender.username AS 'from', 
+                        subject 
+                        FROM mails 
+                        LEFT JOIN users AS uSender ON mails.idSender = uSender.id 
+                        WHERE idReceiver=:user_id 
+                        ORDER BY date;";
+        $parameters = array(new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        return self::$_database->query($query, $parameters);
     }
 
     /**
      * Get the whole table
      */
-    public function getTable() {
-        return self::$_database->query("SELECT *
-                                                FROM mails
-                                                ORDER BY date;");
+    public function get_table() {
+        $query = "SELECT * 
+                        FROM mails 
+                        ORDER BY date;";
+
+        return self::$_database->query($query);
     }
     
     /**
      * Insert an email
      */
-    public function insertOne($mail) {
-        self::$_database->query("INSERT INTO mails (date, idSender, idReceiver, subject, body) 
-                                        VALUES ('{$mail['date']}', '{$mail['idSender']}', '{$mail['idReceiver']}', '{$mail['subject']}', '{$mail['body']}');");
+    public function insert_one($mail) {
+        $query = "INSERT INTO mails (date, idSender, idReceiver, subject, body)  
+                            VALUES (:date, :idSender, :idReceiver, :subject, :body);";
+        $parameters = array(new Parameter(':date', $mail['date'], PDO::PARAM_STR),
+                            new Parameter(':idSender', $mail['idSender'], PDO::PARAM_INT),
+                            new Parameter(':idReceiver', $mail['idReceiver'], PDO::PARAM_INT),
+                            new Parameter(':subject', $mail['subject'], PDO::PARAM_STR),
+                            new Parameter(':body', $mail['body'], PDO::PARAM_STR));
+
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Inserts emails
      */
-    public function insertMultiple($mailArray) {
+    public function insert_multiple($mailArray) {
         foreach ($mailArray as $mail) {
-            self::insertOne($mail);
+            $this->insert_one($mail);
         }
     }
     
     /**
      * Update an emails
      */
-    public function updateOne($id) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        self::$_database->query("UPDATE mails
-                                        SET idSender=NULL
-                                        WHERE idSender={$id}
-                                        AND idReceiver={$user_id};");
+    public function update_one($id) {
+        $user_id = self::$_user->get_id();
+        $query = "UPDATE mails 
+                        SET idSender=NULL 
+                        WHERE idSender=:id 
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        self::$_database->query($query, $parameters);  
     }
     
     /**
      * Update emails
      */
-    public function updateMultiple($idArray) {
+    public function update_multiple($idArray) {
         foreach ($idArray as $id) {
-            self::updateOne($id);
+            $this->update_one($id);
         }
     }
     
     /**
      * Deletes an email
      */
-    public function deleteOne($id) {
-        $user_id = self::$_user->getId()->fetch()['id'];
-        self::$_database->query("DELETE FROM mails
-                                        WHERE id={$id}
-                                        AND idReceiver={$user_id};");
+    public function delete_one($id) {
+        $user_id = self::$_user->get_id();
+        $query = "DELETE FROM mails 
+                        WHERE id=:id
+                        AND idReceiver=:user_id;";
+        $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
+                            new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Deletes emails
      */
-    public function deleteMultiple($idArray) {
+    public function delete_multiple($idArray) {
         foreach ($idArray as $id) {
-            self::deleteOne($id);
+            $this->delete_one($id);
         }
     }
 }

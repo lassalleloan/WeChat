@@ -22,18 +22,18 @@ class Authentication {
     private static $_database;
     private static $_user;
     private static $_role;
-    private static $_digest;
+    private $_digest;
     
     private function __construct() {
 
     }
 
-    public static function getInstance() {
+    public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
-            self::$_database = Database::getInstance();
-            self::$_user = User::getInstance();
-            self::$_role = Role::getInstance();
+            self::$_database = Database::get_instance();
+            self::$_user = User::get_instance();
+            self::$_role = Role::get_instance();
         }
         
         return self::$_instance;
@@ -42,8 +42,8 @@ class Authentication {
     /**
      * Get user's digest
      */
-    public function getDigest() {
-        return self::$_digest;
+    public function get_digest() {
+        return $this->_digest;
     }
 
     /**
@@ -52,19 +52,19 @@ class Authentication {
     public function isAuthenticated($username, $password) {
 
         // Retrieves the credentials of the user
-        $credentials = self::$_user->getCredentialsByUsername($username)->fetch();
+        $credentials = self::$_user->get_credentials_by_username($username);
     
         // Computes the user's fingerprint
-        self::$_digest = self::hashStr("{$username}{$credentials['salt']}{$password}");
+        $this->_digest = $this->hash_str("{$username}{$credentials['salt']}{$password}");
     
         // Retrieves the account status of the user
-        $active = self::$_user->getActiveByUsername($username)->fetch()['active'];
+        $active = self::$_user->get_active_by_username($username);
     
         // Closes the connection to the database
         self::$_database->deconnection();
 
         // Authorizes and authenticates the user
-        return $credentials['digest'] === self::$_digest && $active;
+        return $credentials['digest'] === $this->_digest && $active;
     }
 
     /**
@@ -80,14 +80,14 @@ class Authentication {
      * Check if the user is not logged
      */
     public function isNotLogged() {
-        return !self::isLogged();
+        return !$this->isLogged();
     }
 
     /**
      * Redirect the user if is logged
      */
-    public function redirectIfIsLogged() {
-        if (self::isLogged()) {
+    public function redirect_if_is_logged() {
+        if ($this->isLogged()) {
             header("location:home.php");
         }
     }
@@ -95,8 +95,8 @@ class Authentication {
     /**
      * Redirect the user if is not logged
      */
-    public function redirectIfIsNotLogged() {
-        if (self::isNotLogged()) {
+    public function redirect_if_is_not_logged() {
+        if ($this->isNotLogged()) {
             header("location:index.php");
         }
     }
@@ -105,22 +105,21 @@ class Authentication {
      * Check if the user is authorized
      */
     public function isAuthorized($role) {
-        $userRole = self::$_role->getName(self::$_user->getRole()->fetch()['role']);
-        return $userRole === $role;
+        return self::$_user->get_role() === $role;
     }
 
     /**
      * Check if the user is not authorized
      */
     public function isNotAuthorized($role) {
-        return !self::isAuthorized($role);
+        return !$this->isAuthorized($role);
     }
 
     /**
      * Redirect the user if is not authorized
      */
-    public function redirectIfIsNotAuthorized($role) {
-        if (self::isNotAuthorized($role)) {
+    public function redirect_if_is_not_authorized($role) {
+        if ($this->isNotAuthorized($role)) {
             header("location:index.php");
         }
     }
@@ -128,7 +127,7 @@ class Authentication {
     /**
      * Get the footprint of a character string
      */
-    public function hashStr($str) {
+    public function hash_str($str) {
         return base64_encode(hash('sha512', $str, true));
     }
 }
