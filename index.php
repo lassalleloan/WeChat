@@ -23,34 +23,18 @@ Authentication::getInstance()->redirectIfIsLogged();
 		<form method="post" action="controllers/login.php">
 			<table>
                 <?php
-                if (is_bool($_SESSION['logged']) && !$_SESSION['logged']) {
-                    echo '<tr>
-                        <td colspan="2" style="color: red; font-weight: bold">
-                        Incorrect username or password
-                        </td>
-                        </tr>';
+                if (isset($_SESSION['logged']) && is_bool($_SESSION['logged']) && !$_SESSION['logged']) {
+                    echo '<tr><td colspan="2" style="color: red; font-weight: bold">Incorrect username or password</td></tr>';
                 }
                 ?>
 				<tr>
-                    <th>
-                        Username
-                    </th>
-                    <td>
-                        <input type="text" name="username" size="50" minlength="3" maxlength="50" required/>
-                    </td>
+                    <th>Username</th>
+                    <td><input type="text" name="username" size="50" minlength="3" maxlength="50" required/></td>
 				<tr>
-					<th>
-                        Password
-                    </th>
-					<td>
-						<input type="password" name="password" size="50" minlength="8" maxlength="50" required/>
-					</td>
+					<th>Password</th>
+					<td><input type="password" name="password" size="50" minlength="8" maxlength="50" required/></td>
 				</tr>
-				<tr>
-					<td colspan="2" align="right">
-						<input type="submit" value="Login"/>
-					</td>
-				</tr>
+				<tr><td colspan="2" align="right"><input type="submit" value="Login"/></td></tr>
 			</table>
 		</form>
 	</body>
