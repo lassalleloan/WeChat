@@ -181,7 +181,7 @@ class Mail {
                         FROM mails 
                         ORDER BY date;";
 
-        return self::$_database->query($query);
+        return self::$_database->query($query, array());
     }
     
     /**

@@ -222,7 +222,7 @@ class User {
         $query = "SELECT *
                         FROM users;";
 
-        return self::$_database->query($query);
+        return self::$_database->query($query, array());
     }
     
     /**

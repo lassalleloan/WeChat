@@ -14,11 +14,22 @@
  */
 class Database {
 
+    const PHP_INT_MIN = 1;
+    const PHP_INT_MAX = 2147483647;
+    const PHP_STR_MAX = 255;
+    const PHP_TEXT_MAX = 1024;
+    const PHP_DATE_MAX = 23;
+    const USERNAME_MIN = 3;
+    const USERNAME_MAX = 50;
+    const PASSWORD_MIN = 8;
+    const PASSWORD_MAX = 50;
+    const DIGEST_MAX = 88;
+
     private static $_instance;
-    private static $_pdo;
+    private $_pdo;
     
     private function __construct() {
-        self::connection();
+        $this->connection();
     }
 
     public static function get_instance() {
@@ -34,8 +45,8 @@ class Database {
      */
     public function connection($file = 'sqlite:/var/www/databases/wechat.sqlite') {
         try {
-            self::$_pdo = new PDO($file);
-            self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->_pdo = new PDO($file);
+            $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $ex) {
             echo $ex->getMessage();
             exit();
@@ -46,18 +57,18 @@ class Database {
      * Closes the connection to the database
      */
     public function deconnection() {
-        self::$_pdo = null;
+        $this->_pdo = null;
     }
 
     /**
      * Get the result of a query
      */
     public function query($sql, $parameters) {
-        if (!isset(self::$_pdo)) {
-            self::connection();
+        if (!isset($this->_pdo)) {
+            $this->connection();
         }
 
-        $stmt = self::$_pdo->prepare($sql);
+        $stmt = $this->_pdo->prepare($sql);
         
         foreach($parameters as $parameter) {
             $stmt->bindParam($parameter->get_name(), $parameter->get_value(), $parameter->get_pdo_type());

@@ -76,7 +76,7 @@ class Role {
         $query = "SELECT * 
                         FROM roles;";
 
-        return self::$_database->query($query);
+        return self::$_database->query($query, array());
     }
     
     /**
