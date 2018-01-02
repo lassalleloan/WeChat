@@ -1,4 +1,4 @@
-<?phpr
+<?php
 /**
  * STI - Project Web
  * WeChat
