@@ -117,7 +117,7 @@ class Authentication {
      */
     public function redirect_if_is_not_logged() {
         if ($this->is_not_logged()) {
-            header("location:logout.php");
+            header("location:controllers/logout.php");
             exit();
         }
     }
@@ -144,7 +144,7 @@ class Authentication {
      */
     public function redirect_if_is_not_authorized($role) {
         if ($this->is_not_authorized($role)) {
-            header("location:logout.php");
+            header("location:home.php");
             exit();
         }
     }
