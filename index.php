@@ -6,10 +6,13 @@
  * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
+extract(@$_GET);
 require_once('models/Authentication.php');
 
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_logged();
+
+$is_error = isset($is_error) ? (bool)$is_error : false;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -23,7 +26,7 @@ Authentication::get_instance()->redirect_if_is_logged();
 		<form method="post" action="controllers/login.php">
 			<table>
                 <?php
-                if (isset($_SESSION['logged']) && is_bool($_SESSION['logged']) && !$_SESSION['logged']) {
+                if ($is_error) {
                     echo '<tr><td colspan="2" align="center" style="color:red; font-weight:bold">Incorrect username or password</td></tr>';
                 }
                 ?>
