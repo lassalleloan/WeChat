@@ -40,8 +40,9 @@ class Role {
                         FROM roles 
                         WHERE id=:name;";
         $parameters = array(new Parameter(':name', $name, PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['id'];
+        return count($array) >= 1 ? $array[0]['id'] : null;
     }
     
     /**
@@ -52,8 +53,9 @@ class Role {
                         FROM roles 
                         WHERE id=:id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['name'];
+        return count($array) >= 1 ? $array[0]['name'] : null;
     }
     
     /**
@@ -65,8 +67,9 @@ class Role {
                         FROM roles 
                         WHERE id=:id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0];
+        return count($array) >= 1 ? $array[0] : null;
     }
 
     /**

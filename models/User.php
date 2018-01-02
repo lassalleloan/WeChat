@@ -50,8 +50,9 @@ class User {
                         FROM users 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['id'];
+        return count($array) >= 1 ? $array[0]['id'] : null;
     }
     
     /**
@@ -62,8 +63,9 @@ class User {
                         FROM users 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['id'];
+        return count($array) >= 1 ? $array[0]['id'] : null;
     }
     
     /**
@@ -74,8 +76,9 @@ class User {
                         FROM users 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['username'];
+        return count($array) >= 1 ? $array[0]['username'] : null;
     }
     
     /**
@@ -87,8 +90,9 @@ class User {
                         FROM users 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0];
+        return count($array) >= 1 ? $array[0] : null;
     }
     
     /**
@@ -100,8 +104,9 @@ class User {
                         FROM users 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0];
+        return count($array) >= 1 ? $array[0] : null;
     }
     
     /**
@@ -113,8 +118,9 @@ class User {
                         INNER JOIN roles ON users.role = roles.id 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['role'];
+        return count($array) >= 1 ? $array[0]['role'] : null;
     }
     
     /**
@@ -126,8 +132,9 @@ class User {
                         INNER JOIN roles ON users.role = roles.id 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['role'];
+        return count($array) >= 1 ? $array[0]['role'] : null;
     }
     
     /**
@@ -138,8 +145,9 @@ class User {
                         FROM users 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['active'];
+        return count($array) >= 1 ? $array[0]['active'] : null;
     }
     
     /**
@@ -150,8 +158,9 @@ class User {
                         FROM users 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['active'];
+        return count($array) >= 1 ? $array[0]['active'] : null;
     }
 
     /**
@@ -165,8 +174,9 @@ class User {
                         INNER JOIN roles ON users.role = roles.id 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0];
+        return count($array) >= 1 ? $array[0] : null;
     }
 
     /**
@@ -180,8 +190,9 @@ class User {
                         INNER JOIN roles ON users.role = roles.id 
                         WHERE users.id=:id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0];
+        return count($array) >= 1 ? $array[0] : null;
     }
 
     /**
@@ -195,8 +206,9 @@ class User {
                         INNER JOIN roles ON users.role = roles.id 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0];
+        return count($array) >= 1 ? $array[0] : null;
     }
 
     /**

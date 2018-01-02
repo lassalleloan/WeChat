@@ -47,8 +47,9 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':date', $date, PDO::PARAM_STR),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['id'];
+        return count($array) >= 1 ? $array[0]['id'] : null;
     }
 
     /**
@@ -62,8 +63,9 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['date'];
+        return count($array) >= 1 ? $array[0]['date'] : null;
     }
 
     /**
@@ -78,8 +80,9 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['to'];
+        return count($array) >= 1 ? $array[0]['to'] : null;
     }
 
     /**
@@ -93,8 +96,9 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['subject'];
+        return count($array) >= 1 ? $array[0]['subject'] : null;
     }
 
     /**
@@ -108,8 +112,9 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0]['body'];
+        return count($array) >= 1 ? $array[0]['body'] : null;
     }
 
     /**
@@ -129,8 +134,9 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0];
+        return count($array) >= 1 ? $array[0] : null;
     }
 
     /**
@@ -151,8 +157,9 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':date', $date, PDO::PARAM_STR),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters)[0];
+        return count($array) >= 1 ? $array[0] : null;
     }
 
     /**
@@ -166,7 +173,7 @@ class Mail {
      * Check if the user is not associate to email
      */
     public function is_not_associate_to_user($id) {
-        return empty($this->get_by_id($id));
+        return !$this->get_by_id($id);
     }
 
     /**
