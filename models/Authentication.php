@@ -54,20 +54,25 @@ class Authentication {
         // Retrieves the credentials of the user
         $credentials = self::$_user->get_credentials_by_username($username);
     
-        // Computes the user's fingerprint
-        $temporary_digest = $this->hash_str("{$username}{$credentials['salt']}{$password}");
-    
         // Retrieves the account status of the user
         $active = self::$_user->get_active_by_username($username);
     
         // Closes the connection to the database
         self::$_database->deconnection();
 
-        // Authorizes and authenticates the user
-        $is_access_granted = $credentials['digest'] === $temporary_digest && $active;
-
+        $is_access_granted = isset($credentials) && isset($active);
+    
         if ($is_access_granted) {
-            $this->_digest = $temporary_digest;
+
+            // Computes the user's fingerprint
+            $temporary_digest = $this->hash_str("{$username}{$credentials['salt']}{$password}");
+
+            // Authorizes and authenticates the user
+            $is_access_granted = $credentials['digest'] === $temporary_digest && $active;
+
+            if ($is_access_granted) {
+                $this->_digest = $temporary_digest;
+            }
         }
 
         return $is_access_granted;
@@ -116,7 +121,7 @@ class Authentication {
         $user_role = self::$_user->get_role();
         self::$_database->deconnection();
 
-        return $user_role === $role;
+        return isset($user_role) && $user_role === $role;
     }
 
     /**
