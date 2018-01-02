@@ -77,8 +77,10 @@ class Database {
 
         $stmt = $this->_pdo->prepare($sql);
         
-        foreach($parameters as $parameter) {
-            $stmt->bindParam($parameter->get_name(), $parameter->get_value(), $parameter->get_pdo_type());
+        if (isset($parameters)) {
+            foreach($parameters as $parameter) {
+                $stmt->bindParam($parameter->get_name(), $parameter->get_value(), $parameter->get_pdo_type());
+            }
         }
 
         $stmt->execute();

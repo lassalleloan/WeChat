@@ -22,7 +22,6 @@ class Authentication {
     private static $_database;
     private static $_user;
     private static $_role;
-    private $_digest;
     
     private function __construct() {
 
@@ -37,13 +36,6 @@ class Authentication {
         }
         
         return self::$_instance;
-    }
-
-    /**
-     * Get user's digest
-     */
-    public function get_digest() {
-        return $this->_digest;
     }
 
     /**
@@ -71,7 +63,11 @@ class Authentication {
             $is_access_granted = $credentials['digest'] === $temporary_digest && $active;
 
             if ($is_access_granted) {
-                $this->_digest = $temporary_digest;
+                if (!isset($_SESSION)) {
+                    session_start();
+                }
+                
+                $_SESSION['digest'] = $temporary_digest;
             }
         }
 
@@ -82,9 +78,21 @@ class Authentication {
      * Check if the user is logged
      */
     public function is_logged() {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        $is_already_logged = isset($_SESSION['digest']);
+
+        if ($is_already_logged) {
+            // Retrieves the credentials of the user
+            $session_digest = self::$_user->get_credentials()['digest'];
         
-        return isset($_SESSION['logged']) && $_SESSION['logged'];
+            // Closes the connection to the database
+            self::$_database->deconnection();
+        }
+        
+        return $is_already_logged && isset($session_digest);
     }
 
     /**
@@ -109,7 +117,7 @@ class Authentication {
      */
     public function redirect_if_is_not_logged() {
         if ($this->is_not_logged()) {
-            header("location:index.php");
+            header("location:logout.php");
             exit();
         }
     }
@@ -136,7 +144,7 @@ class Authentication {
      */
     public function redirect_if_is_not_authorized($role) {
         if ($this->is_not_authorized($role)) {
-            header("location:index.php");
+            header("location:logout.php");
             exit();
         }
     }
