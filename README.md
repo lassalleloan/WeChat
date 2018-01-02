@@ -3,9 +3,9 @@ Authors: Matthieu Chatelan, Loan Lassalle & Wojcieh Myszkorowski
 ***
 
 ## TODO
- * Filtrer attaque XSS
- * Vol de cookie
- * Protéger accès aux controllers et models
+ * Protection contre les attaques XSS
+ * Protection contre le vol de cookies
+ * Protection contre l'accès, depuis le navigateur et à travers les formulaires, à certains fichiers et répertoires (controllers, docker, images, models, readme_images)
 
 ## Introduction
 
