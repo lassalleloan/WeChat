@@ -2,6 +2,11 @@
 Authors: Matthieu Chatelan, Loan Lassalle & Wojcieh Myszkorowski
 ***
 
+## TODO
+ * Filtrer attaque XSS
+ * Vol de cookie
+ * Protéger accès aux controllers et models
+
 ## Introduction
 
 The purpose of this repo is to design a Web application, within the framework of a company, to send text messages between collaborators.
