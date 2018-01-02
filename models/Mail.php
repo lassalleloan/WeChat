@@ -181,7 +181,9 @@ class Mail {
      */
     public function redirect_if_is_not_associate_to_user($id) {
         if ($this->is_not_associate_to_user($id)) {
+            self::$_database->deconnection();
             header("location:home.php");
+            exit();
         }
     }
 
@@ -199,8 +201,9 @@ class Mail {
                         WHERE idReceiver=:user_id 
                         ORDER BY date;";
         $parameters = array(new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters);
+        return count($array) >= 1 ? $array : null;
     }
 
     /**
@@ -210,8 +213,9 @@ class Mail {
         $query = "SELECT * 
                         FROM mails 
                         ORDER BY date;";
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, array());
+        return count($array) >= 1 ? $array : null;
     }
     
     /**

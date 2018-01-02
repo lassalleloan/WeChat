@@ -78,8 +78,9 @@ class Role {
     public function get_table() {
         $query = "SELECT * 
                         FROM roles;";
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, array());
+        return count($array) >= 1 ? $array : null;
     }
     
     /**

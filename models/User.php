@@ -223,8 +223,9 @@ class User {
                         INNER JOIN roles ON users.role = roles.id 
                         WHERE digest<>:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, $parameters);
+        return count($array) >= 1 ? $array : null;
     }
 
     /**
@@ -233,8 +234,9 @@ class User {
     public function get_table() {
         $query = "SELECT *
                         FROM users;";
+        $array = self::$_database->query($query, $parameters);
 
-        return self::$_database->query($query, array());
+        return count($array) >= 1 ? $array : null;
     }
     
     /**

@@ -95,6 +95,7 @@ class Authentication {
     public function redirect_if_is_logged() {
         if ($this->is_logged()) {
             header("location:home.php");
+            exit();
         }
     }
 
@@ -104,6 +105,7 @@ class Authentication {
     public function redirect_if_is_not_logged() {
         if ($this->is_not_logged()) {
             header("location:index.php");
+            exit();
         }
     }
 
@@ -111,7 +113,10 @@ class Authentication {
      * Check if the user is authorized
      */
     public function is_authorized($role) {
-        return self::$_user->get_role() === $role;
+        $user_role = self::$_user->get_role();
+        self::$_database->deconnection();
+
+        return $user_role === $role;
     }
 
     /**
@@ -127,6 +132,7 @@ class Authentication {
     public function redirect_if_is_not_authorized($role) {
         if ($this->is_not_authorized($role)) {
             header("location:index.php");
+            exit();
         }
     }
 
