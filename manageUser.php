@@ -12,36 +12,45 @@ require_once('models/Database.php');
 require_once('models/User.php');
 
 // Redirect the user to index.php
-Authentication::getInstance()->redirectIfIsNotLogged();
-Authentication::getInstance()->redirectIfIsNotAuthorized("Administrator");
+Authentication::get_instance()->redirect_if_is_not_logged();
+Authentication::get_instance()->redirect_if_is_not_authorized("Administrator");
 
-$valueUsername = '';
-$styleUsername = '';
+$value_username = '';
+$style_username = '';
     
-$activeChecked = 'checked';
+$active_checked = 'checked';
 
-$roleAdministrator = '';
-$roleCoWorker = 'checked';
+$role_administrator = '';
+$role_co_worker = 'checked';
+
+$id = isset($id) ? (int)$id : 0;
 
 // If a user is selected
-if (isset($id)) {
-    $user = User::getInstance()->getUser($id)->fetch();
-    
-    $valueUsername = 'value="'.$user['username'].'"';
-    $styleUsername = 'style="border:none" readonly';
-    
-    if (!$user['active']) {
-        $activeChecked = '';
-    }
+if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
+    $user = User::get_instance()->get_user_by_id($id);
 
-    if ($user['role'] === 'Administrator') {
-        $roleAdministrator = 'checked';
-        $roleCoWorker = '';
+    // Closes the connection to the database
+    Database::get_instance()->deconnection();
+    
+    if (isset($user)) {
+        $value_username = 'value="'.$user['username'].'"';
+        $style_username = 'style="border:none" readonly';
+        
+        if (!$user['active']) {
+            $active_checked = '';
+        }
+
+        if ($user['role'] === 'Administrator') {
+            $role_administrator = 'checked';
+            $role_co_worker = '';
+        }
+    } else {
+        header("location:home.php");
+        exit();
     }
 }
 
-// Closes the connection to the database
-Database::getInstance()->deconnection();
+$is_error = isset($is_error) ? (bool)$is_error : false;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -58,65 +67,35 @@ Database::getInstance()->deconnection();
         <form method="post" action="controllers/updateUser.php">
             <table width="500px">
                 <?php
-                if (isset($error) && $error) {
-                    echo '<tr>
-                        <td colspan="2" align="center" style="color:red; font-weight:bold">
-                        Incorrect confirm password
-                        </td>
-                        </tr>';
+                if ($is_error) {
+                    echo '<tr><td colspan="2" align="center" style="color:red; font-weight:bold">Incorrect confirm password</td></tr>';
                 }
                 ?>
-                <tr>
-                    <td colspan="2">
-                        <br>
-                    </td>
+                <tr><td colspan="2"><br></td></tr>
+                <tr align="left">
+                    <th>Username</th>
+                    <td><input type="text" name="username" size="50" minlength="1" maxlength="50" <?php echo $value_username; echo $style_username; ?> required/></td>
                 </tr>
                 <tr align="left">
-                    <th>
-                        Username
-                    </th>
-                    <td>
-                        <input type="text" name="username" size="50" minlength="1" maxlength="50" <?php echo $valueUsername; echo $styleUsername; ?> required>
-                    </td>
+                    <th>Password</th>
+                    <td><input type="password" name="password" size="50" minlength="8" maxlength="50"/></td>
                 </tr>
                 <tr align="left">
-                    <th>
-                        Password
-                    </th>
-                    <td>
-                        <input type="password" name="password" size="50" minlength="8" maxlength="50">
-                    </td>
+                    <th>Confirm Password</th>
+                    <td><input type="password" name="confirm_password" size="50" minlength="8" maxlength="50"/></td>
                 </tr>
                 <tr align="left">
-                    <th>
-                        Confirm Password
-                    </th>
-                    <td>
-                        <input type="password" name="confirmPassword" size="50" minlength="8" maxlength="50">
-                    </td>
+                    <th>Active</th>
+                    <td><input type="checkbox" name="active" value="1" <?php echo $active_checked?>/><br></td>
                 </tr>
                 <tr align="left">
-                    <th>
-                        Active
-                    </th>
+                    <th>Type of account</th>
                     <td>
-                        <input type="checkbox" name="active" value="1" <?php echo $activeChecked?>><br>
+                        <input type="radio" name="role" value="1" <?php echo $role_administrator; ?> required/>Administrator<br>
+                        <input type="radio" name="role" value="2" <?php echo $role_co_worker; ?> required/>Co-worker<br>
                     </td>
                 </tr>
-                <tr align="left">
-                    <th>
-                        Type of account
-                    </th>
-                    <td>
-                        <input type="radio" name="role" value="1" <?php echo $roleAdministrator; ?> required>Administrator<br>
-                        <input type="radio" name="role" value="2" <?php echo $roleCoWorker; ?> required>Co-worker<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="right" colspan="2">
-                        <input type="submit" value="Done">
-                    </td>
-                </tr>
+                <tr><td align="right" colspan="2"><input type="submit" value="Done"/></td></tr>
             </table>
         </form>
     </body>

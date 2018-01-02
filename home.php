@@ -13,25 +13,33 @@ require_once('models/User.php');
 require_once('models/Utils.php');
 
 // Redirect the user to index.php
-Authentication::getInstance()->redirectIfIsNotLogged();
+Authentication::get_instance()->redirect_if_is_not_logged();
 
 // Recover received emails
-$mails = Mail::getInstance()->getData();
-$mail = $mails->fetch();
+$mails = Mail::get_instance()->get_data();
+
+if (isset($mails)) {
+    $mailsHeaders = array_filter(array_keys($mails[0]), function ($value) { return is_string($value); });
+    array_shift($mailsHeaders);
+}
 
 // Retrieves the role of the user
-$isAdministrator = Authentication::getInstance()->isAuthorized("Administrator");
+$isAdministrator = Authentication::get_instance()->is_authorized("Administrator");
 
 if ($isAdministrator) {
     
     // Retrieves users
     // depending on the role of the logged in user
-    $users = User::getInstance()->getData();
-    $user = $users->fetch();
+    $users = User::get_instance()->get_data();
+
+    if (isset($users)) {
+        $usersHeaders = array_filter(array_keys($users[0]), function ($value) { return is_string($value); });
+        array_shift($usersHeaders);
+    }
 }
 
 // Closes the connection to the database
-Database::getInstance()->deconnection();
+Database::get_instance()->deconnection();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -50,75 +58,56 @@ Database::getInstance()->deconnection();
         <br>
         <table width="500px">
             <?php
-            if ($mail) {                
+            if (isset($mailsHeaders)) {                
                 echo '<tr>';
-                
+
                 // Displays column headers
-                for ($i = 1; $i < $mails->columnCount(); $i++) {
-                    echo '<th>'.ucfirst($mails->getColumnMeta($i)['name']).'</th>';
+                foreach ($mailsHeaders as $headerName) {
+                    echo '<th>'.ucfirst($headerName).'</th>';
                 }
                 
-                echo '<th colspan="3" >
-                    <input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';" >
-                    </th>
-                    </tr>';
+                echo '<th colspan="3"><input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';"/></th></tr>';
                 
                 // Displays the received emails
-                do {
+                foreach ($mails as $mail) {
                     echo "<tr align=\"center\">
-                        <td>".Utils::getInstance()->dateStrFormat($mail['date'])."</td>
+                        <td>".Utils::get_instance()->date_str_format($mail['date'])."</td>
                         <td>{$mail['from']}</td>
                         <td>{$mail['subject']}</td>
-                        <td>
-                        <input type=\"button\" value=\"More\" onclick=\"window.location.href='readMail.php?id={$mail['id']}';\">
-                        </td>
-                        <td>
-                        <input type=\"button\" value=\"Reply\" onclick=\"window.location.href='writeMail.php?id={$mail['id']}';\">
-                        </td>
-                        <td>
-                        <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='controllers/deleteMail.php?id={$mail['id']}';\">
-                        </td>
+                        <td><input type=\"button\" value=\"More\" onclick=\"window.location.href='readMail.php?id={$mail['id']}';\"/></td>
+                        <td><input type=\"button\" value=\"Reply\" onclick=\"window.location.href='writeMail.php?id={$mail['id']}';\"/></td>
+                        <td><input type=\"button\" value=\"Delete\" onclick=\"window.location.href='controllers/deleteMail.php?id={$mail['id']}';\"/></td>
                         </tr>";
-                } while ($mail = $mails->fetch());
+                }
             
                 if ($isAdministrator) {
-                    echo '<tr>
-                        <td colspan="6">
-                        <br>
-                        </td>
-                        </tr>';
+                    echo '<tr><td colspan="6"><br></td></tr>';
                 }
             }
             
-            if ($isAdministrator && $user) {
+            if (isset($usersHeaders)) {
                 echo '<tr>';
-                
+
                 // Displays column headers
-                for ($i = 1; $i < $users->columnCount(); $i++) {
-                    echo '<th>'.ucfirst($users->getColumnMeta($i)['name']).'</th>';
+                foreach ($usersHeaders as $headerName) {
+                    echo '<th>'.ucfirst($headerName).'</th>';
                 }
                 
-                echo '<th colspan="3">
-                    <input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';">
-                    </th>
-                    </tr>';
+                echo '<th colspan="3"><input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';"/></th></tr>';
                 
                 // Displays user information
-                do {
+                foreach ($users as $user) {
+                    $active = $user['active'] ? 'Yes' : 'No';
+
                     echo "<tr align=\"center\">
                         <td>{$user['username']}</td>
-                        <td>{$user['active']}</td>
+                        <td>{$active}</td>
                         <td>{$user['role']}</td>
-                        <td>
-                        <input type=\"button\" value=\"Manage\" onclick=\"window.location.href='manageUser.php?id={$user['id']}';\">
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        <input type=\"button\" value=\"Delete\" onclick=\"window.location.href='controllers/deleteUser.php?id={$user['id']}';\">
-                        </td>
+                        <td><input type=\"button\" value=\"Manage\" onclick=\"window.location.href='manageUser.php?id={$user['id']}';\"/></td>
+                        <td></td>
+                        <td><input type=\"button\" value=\"Delete\" onclick=\"window.location.href='controllers/deleteUser.php?id={$user['id']}';\"/></td>
                         </tr>";
-                } while ($user = $users->fetch());
+                }
             }
             ?>
         </table>
