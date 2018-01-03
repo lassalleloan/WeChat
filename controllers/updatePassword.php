@@ -12,49 +12,52 @@ require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
 
 // Redirect the user to index.php
-Authentication::getInstance()->redirectIfIsNotLogged();
+Authentication::get_instance()->redirect_if_is_not_logged();
 
-$MIN_LENGTH_PASSWORD = 8;
-$MAX_LENGTH_PASSWORD = 50;
+if (isset($old_password) && isset($new_password) && isset($confirm_password)) {
+    $len_old_password = strlen($old_password);
+    $is_correct_old_password = $len_old_password >= Database::PASSWORD_MIN && 
+                            $len_old_password <= Database::PASSWORD_MAX;
 
-$strlenOldPassword = strlen($oldPassword);
-$isCorrectOldPassword = is_string($oldPassword) && 
-                        $strlenOldPassword >= $MIN_LENGTH_PASSWORD && 
-                        $strlenOldPassword <= $MAX_LENGTH_PASSWORD;
+    $len_new_password = strlen($new_password);
+    $is_correct_new_password = $len_new_password >= Database::PASSWORD_MIN && 
+                            $len_new_password <= Database::PASSWORD_MAX;
 
-$strlenNewPassword = strlen($newPassword);
-$isCorrectNewPassword = is_string($newPassword) && 
-                        $strlenNewPassword >= $MIN_LENGTH_PASSWORD && 
-                        $strlenNewPassword <= $MAX_LENGTH_PASSWORD;
+    $len_confirm_password = strlen($confirm_password);
+    $is_correct_confirm_password = $len_confirm_password >= Database::PASSWORD_MIN && 
+                                $len_confirm_password <= Database::PASSWORD_MAX;
 
-$strlenConfirmPassword = strlen($confirmPassword);
-$isCorrectConfirmPassword = is_string($confirmPassword) && 
-                            $strlenConfirmPassword >= $MIN_LENGTH_PASSWORD && 
-                            $strlenConfirmPassword <= $MAX_LENGTH_PASSWORD;
+    // Check inputs
+    if ($is_correct_old_password && $is_correct_new_password && $is_correct_confirm_password) {
 
-// Check inputs
-if ($isCorrectOldPassword && $isCorrectNewPassword && $isCorrectConfirmPassword) {
-    // TODO: Filtres XSS, filtres SQL
+        // Retrieves user name, salt and user's fingerprint
+        $username = User::get_instance()->get_username();
 
-    // Retrieves user name, salt and user's fingerprint
-    $username = User::getInstance()->getUsername()->fetch()['username'];
-    $salt = User::getInstance()->getCredentialsByUsername($username)->fetch()['salt'];
-    $oldDigest = Authentication::getInstance()->hashStr("{$username}{$salt}{$oldPassword}");
-}
+        if (isset($username)) {
+            $salt = User::get_instance()->get_credentials_by_username($username)['salt'];
 
-// Authenticates the user
-if (isset($oldDigest) && $_SESSION['digest'] === $oldDigest && $newPassword === $confirmPassword) {
-    $salt = Utils::getInstance()->randomStr();
-    User::getInstance()->updateSalt($salt);
+            if (isset($salt)) {
+                $old_digest = Authentication::get_instance()->hash_str("{$username}{$salt}{$old_password}");
 
-    $newDigest = Authentication::getInstance()->hashStr("{$username}{$salt}{$newPassword}");
-    User::getInstance()->updateDigest($newDigest);
-    
-    header("location:logout.php");
-} else {
-    header("location:../changePassword.php?isError=true");
+                // Authenticates the user
+                if ($_SESSION['digest'] === $old_digest && $new_password === $confirm_password) {
+                    $salt = Utils::get_instance()->random_str();
+                    $new_digest = Authentication::get_instance()->hash_str("{$username}{$salt}{$new_password}");
+                
+                    User::get_instance()->update_salt($salt);
+                    User::get_instance()->update_digest($new_digest);
+                }
+            }
+        }
+    }
 }
 
 // Closes the connection to the database
-Database::getInstance()->deconnection();
+Database::get_instance()->deconnection();
+
+if (isset($new_digest)) {
+    header('location:logout.php');
+} else {
+    header('location:../changePassword.php?is_error=true');
+}
 ?>

@@ -10,18 +10,20 @@ extract(@$_GET);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/Mail.php');
-require_once(dirname(__DIR__).'/models/Utils.php');
 
 // Redirect the user to index.php
-if (Authentication::getInstance()->isNotLogged()) {
-    Utils::getInstance()->goToLocation();
+Authentication::get_instance()->redirect_if_is_not_logged();
+
+$id = isset($id) ? (int)$id : 0;
+
+// Deletes the email
+if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
+    Mail::get_instance()->redirect_if_is_not_associate_to_user($id);
+    Mail::get_instance()->delete_one($id);
+
+    // Closes the connection to the database
+    Database::get_instance()->deconnection();
 }
 
-// Delete the email
-Mail::getInstance()->deleteOne($id);
-
-// Closes the connection to the database
-Database::getInstance()->deconnection();
-
-Utils::getInstance()->goToLocation('../home.php');
+header('location:../home.php');
 ?>

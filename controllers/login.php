@@ -8,36 +8,27 @@
 
 extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
-session_start();
+require_once(dirname(__DIR__).'/models/Database.php');
 
-$MIN_LENGTH_USERNAME = 3;
-$MAX_LENGTH_USERNAME = 50;
-$MIN_LENGTH_PASSWORD = 8;
-$MAX_LENGTH_PASSWORD = 50;
-
-$strlenUsername = strlen($username);
-$isCorrectUsername = is_string($username) && 
-                        $strlenUsername >= $MIN_LENGTH_USERNAME && 
-                        $strlenUsername <= $MAX_LENGTH_USERNAME;
-                        
-$strlenPassword = strlen($password);
-$isCorrectPassword = is_string($password) && 
-                        $strlenPassword >= $MIN_LENGTH_USERNAME && 
-                        $strlenPassword <= $MAX_LENGTH_USERNAME;
-
-// Authenticates the user
-if ($isCorrectUsername && $isCorrectPassword) {
-    // TODO: Filtres XSS, filtres SQL
-
-    $_SESSION['logged'] = Authentication::getInstance()->isAuthenticated($username, $password);
+if (isset($username) && isset($password)) {
+    $len_username = strlen($username);
+    $is_correct_username = $len_username >= Database::USERNAME_MIN && 
+                            $len_username <= Database::USERNAME_MAX;
+                            
+    $len_password = strlen($password);
+    $is_correct_password = $len_password >= Database::PASSWORD_MIN && 
+                            $len_password <= Database::PASSWORD_MAX;
+    
+    // Authenticates the user
+    if ($is_correct_username && $is_correct_password) {
+        $is_error = !Authentication::get_instance()->is_authenticated($username, $password);
+    }
 }
 
 // Redirect the user after authentication
-if (isset($_SESSION['logged']) && $_SESSION['logged']) {
-    $_SESSION['digest'] = Authentication::getInstance()->getDigest();
-    header("location:../home.php");
+if (isset($is_error) && $is_error) {
+    header('location:../index.php?is_error=true');
 } else {
-    $_SESSION['logged'] = false;
-    header("location:../index.php");
+    header('location:../home.php');
 }
 ?> 
