@@ -19,20 +19,19 @@ require_once('User.php');
 class Authentication {
 
     private static $_instance;
-    private static $_database;
-    private static $_user;
-    private static $_role;
+    private $_database;
+    private $_user;
+    private $_role;
     
     private function __construct() {
-
-    }
+        $this->_database = Database::get_instance();
+        $this->_user = User::get_instance();
+        $this->_role = Role::get_instance();
+}
 
     public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
-            self::$_database = Database::get_instance();
-            self::$_user = User::get_instance();
-            self::$_role = Role::get_instance();
         }
         
         return self::$_instance;
@@ -44,13 +43,13 @@ class Authentication {
     public function is_authenticated($username, $password) {
 
         // Retrieves the credentials of the user
-        $credentials = self::$_user->get_credentials_by_username($username);
+        $credentials = $this->_user->get_credentials_by_username($username);
     
         // Retrieves the account status of the user
-        $active = self::$_user->get_active_by_username($username);
+        $active = $this->_user->get_active_by_username($username);
     
         // Closes the connection to the database
-        self::$_database->deconnection();
+        $this->_database->deconnection();
 
         $is_access_granted = isset($credentials) && isset($active);
     
@@ -86,10 +85,10 @@ class Authentication {
 
         if ($is_already_logged) {
             // Retrieves the credentials of the user
-            $session_digest = self::$_user->get_credentials()['digest'];
+            $session_digest = $this->_user->get_credentials()['digest'];
         
             // Closes the connection to the database
-            self::$_database->deconnection();
+            $this->_database->deconnection();
         }
         
         return $is_already_logged && isset($session_digest);
@@ -107,8 +106,8 @@ class Authentication {
      */
     public function redirect_if_is_logged() {
         if ($this->is_logged()) {
-            header("location:home.php");
-            exit();
+            header('location:home.php');
+            exit;
         }
     }
 
@@ -117,8 +116,8 @@ class Authentication {
      */
     public function redirect_if_is_not_logged() {
         if ($this->is_not_logged()) {
-            header("location:controllers/logout.php");
-            exit();
+            header('location:controllers/logout.php');
+            exit;
         }
     }
 
@@ -126,8 +125,8 @@ class Authentication {
      * Check if the user is authorized
      */
     public function is_authorized($role) {
-        $user_role = self::$_user->get_role();
-        self::$_database->deconnection();
+        $user_role = $this->_user->get_role();
+        $this->_database->deconnection();
 
         return isset($user_role) && $user_role === $role;
     }
@@ -144,8 +143,8 @@ class Authentication {
      */
     public function redirect_if_is_not_authorized($role) {
         if ($this->is_not_authorized($role)) {
-            header("location:home.php");
-            exit();
+            header('location:home.php');
+            exit;
         }
     }
 

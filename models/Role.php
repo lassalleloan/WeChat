@@ -17,16 +17,15 @@ require_once('Database.php');
 class Role {
 
     private static $_instance;
-    private static $_database;
+    private $_database;
     
     private function __construct() {
-
+        $this->_database = Database::get_instance();
     }
 
     public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
-            self::$_database = Database::get_instance();
         }
         
         return self::$_instance;
@@ -38,9 +37,9 @@ class Role {
     public function get_id($name) {
         $query = "SELECT id 
                         FROM roles 
-                        WHERE id=:name;";
+                        WHERE name=:name;";
         $parameters = array(new Parameter(':name', $name, PDO::PARAM_STR));
-        $array = self::$_database->query($query, $parameters);
+        $array = $this->_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['id'] : null;
     }
@@ -53,7 +52,7 @@ class Role {
                         FROM roles 
                         WHERE id=:id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_STR));
-        $array = self::$_database->query($query, $parameters);
+        $array = $this->_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['name'] : null;
     }
@@ -67,7 +66,7 @@ class Role {
                         FROM roles 
                         WHERE id=:id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_STR));
-        $array = self::$_database->query($query, $parameters);
+        $array = $this->_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0] : null;
     }
@@ -78,7 +77,7 @@ class Role {
     public function get_table() {
         $query = "SELECT * 
                         FROM roles;";
-        $array = self::$_database->query($query, $parameters);
+        $array = $this->_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array : null;
     }
@@ -91,7 +90,7 @@ class Role {
                             VALUES (:name);";
         $parameters = array(new Parameter(':name', $role['name'], PDO::PARAM_STR));
 
-        self::$_database->query($query, $parameters);
+        $this->_database->query($query, $parameters);
     }
     
     /**
@@ -113,7 +112,7 @@ class Role {
         $parameters = array(new Parameter(':name', $role['name'], PDO::PARAM_STR),
                             new Parameter(':id', $role['id'], PDO::PARAM_STR));
 
-        self::$_database->query($query, $parameters);      
+        $this->_database->query($query, $parameters);      
     }
     
     /**
