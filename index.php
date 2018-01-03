@@ -20,6 +20,7 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
     <head>
         <title>WeChat - Login</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
         <h1>Login</h1>

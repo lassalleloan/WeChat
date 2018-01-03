@@ -38,6 +38,7 @@ Database::get_instance()->deconnection();
     <head>
         <title>WeChat - Home</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
         <h1>Home</h1>
@@ -45,7 +46,7 @@ Database::get_instance()->deconnection();
         <a href="controllers/logout.php">Logout</a>
         <br>
         <br>
-        <a href="changePassword.php">Change Password</a>
+        <a href="change_password.php">Change Password</a>
         <br>
         <br>
         <table width="500px">
@@ -58,7 +59,7 @@ Database::get_instance()->deconnection();
                     echo '<th>'.ucfirst($headerName).'</th>';
                 }
                 
-                echo '<th colspan="3"><input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';" /></th></tr>';
+                echo '<th colspan="3"><input type="button" value="New Mail" onclick="window.location.href=\'write_mail.php\';" /></th></tr>';
                 
                 if (isset($mails)) {
 
@@ -68,9 +69,9 @@ Database::get_instance()->deconnection();
                             <td>'.Utils::get_instance()->date_str_format($mail['date']).'</td>
                             <td>'.htmlentities($mail['from'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
                             <td>'.htmlentities($mail['subject'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
-                            <td><input type="button" value="More" onclick="window.location.href=\'readMail.php?id='.$mail['id'].'\';" /></td>
-                            <td><input type="button" value="Reply" onclick="window.location.href=\'writeMail.php?id='.$mail['id'].'\';" /></td>
-                            <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteMail.php?id='.$mail['id'].'\';" /></td>
+                            <td><input type="button" value="More" onclick="window.location.href=\'read_mail.php?id='.$mail['id'].'\';" /></td>
+                            <td><input type="button" value="Reply" onclick="window.location.href=\'write_mail.php?id='.$mail['id'].'\';" /></td>
+                            <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/delete_mail.php?id='.$mail['id'].'\';" /></td>
                             </tr>';
                     }
                 }
@@ -88,7 +89,7 @@ Database::get_instance()->deconnection();
                     echo '<th>'.ucfirst($headerName).'</th>';
                 }
                 
-                echo '<th colspan="3"><input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';" /></th></tr>';
+                echo '<th colspan="3"><input type="button" value="New User" onclick="window.location.href=\'manage_user.php\';" /></th></tr>';
                 
                 if (isset($users)) {
                 
@@ -98,9 +99,9 @@ Database::get_instance()->deconnection();
                             <td>'.htmlentities($user['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
                             <td>'.($user['active'] ? 'Yes' : 'No').'</td>
                             <td>'.htmlentities($user['role'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
-                            <td><input type="button" value="Manage" onclick="window.location.href=\'manageUser.php?id='.$user['id'].'\';" /></td>
+                            <td><input type="button" value="Manage" onclick="window.location.href=\'manage_user.php?id='.$user['id'].'\';" /></td>
                             <td></td>
-                            <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteUser.php?id='.$user['id'].'\';" /></td>
+                            <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/delete_user.php?id='.$user['id'].'\';" /></td>
                             </tr>';
                     }
                 }
