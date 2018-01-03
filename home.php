@@ -16,12 +16,8 @@ require_once('models/Utils.php');
 Authentication::get_instance()->redirect_if_is_not_logged();
 
 // Recover received emails
+$mailsHeaders = Mail::get_instance()->get_data_headers();
 $mails = Mail::get_instance()->get_data();
-
-if (isset($mails)) {
-    $mailsHeaders = array_filter(array_keys($mails[0]), function ($value) { return is_string($value); });
-    array_shift($mailsHeaders);
-}
 
 // Retrieves the role of the user
 $isAdministrator = Authentication::get_instance()->is_authorized('Administrator');
@@ -30,12 +26,8 @@ if ($isAdministrator) {
     
     // Retrieves users
     // depending on the role of the logged in user
+    $usersHeaders = User::get_instance()->get_data_headers();
     $users = User::get_instance()->get_data();
-
-    if (isset($users)) {
-        $usersHeaders = array_filter(array_keys($users[0]), function ($value) { return is_string($value); });
-        array_shift($usersHeaders);
-    }
 }
 
 // Closes the connection to the database
@@ -68,16 +60,19 @@ Database::get_instance()->deconnection();
                 
                 echo '<th colspan="3"><input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';" /></th></tr>';
                 
-                // Displays the received emails
-                foreach ($mails as $mail) {
-                    echo '<tr align="center">
-                        <td>'.Utils::get_instance()->date_str_format($mail['date']).'</td>
-                        <td>'.$mail['from'].'</td>
-                        <td>'.$mail['subject'].'</td>
-                        <td><input type="button" value="More" onclick="window.location.href=\'readMail.php?id='.$mail['id'].'\';" /></td>
-                        <td><input type="button" value="Reply" onclick="window.location.href=\'writeMail.php?id='.$mail['id'].'\';" /></td>
-                        <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteMail.php?id='.$mail['id'].'\';" /></td>
-                        </tr>';
+                if (isset($mails)) {
+
+                    // Displays the received emails
+                    foreach ($mails as $mail) {
+                        echo '<tr align="center">
+                            <td>'.Utils::get_instance()->date_str_format($mail['date']).'</td>
+                            <td>'.$mail['from'].'</td>
+                            <td>'.$mail['subject'].'</td>
+                            <td><input type="button" value="More" onclick="window.location.href=\'readMail.php?id='.$mail['id'].'\';" /></td>
+                            <td><input type="button" value="Reply" onclick="window.location.href=\'writeMail.php?id='.$mail['id'].'\';" /></td>
+                            <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteMail.php?id='.$mail['id'].'\';" /></td>
+                            </tr>';
+                    }
                 }
             
                 if ($isAdministrator) {
@@ -95,16 +90,19 @@ Database::get_instance()->deconnection();
                 
                 echo '<th colspan="3"><input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';" /></th></tr>';
                 
-                // Displays user information
-                foreach ($users as $user) {
-                    echo '<tr align="center">
-                        <td>'.$user['username'].'</td>
-                        <td>'.($user['active'] ? 'Yes' : 'No').'</td>
-                        <td>'.$user['role'].'</td>
-                        <td><input type="button" value="Manage" onclick="window.location.href=\'manageUser.php?id='.$user['id'].'\';" /></td>
-                        <td></td>
-                        <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteUser.php?id='.$user['id'].'\';" /></td>
-                        </tr>';
+                if (isset($users)) {
+                
+                    // Displays user information
+                    foreach ($users as $user) {
+                        echo '<tr align="center">
+                            <td>'.$user['username'].'</td>
+                            <td>'.($user['active'] ? 'Yes' : 'No').'</td>
+                            <td>'.$user['role'].'</td>
+                            <td><input type="button" value="Manage" onclick="window.location.href=\'manageUser.php?id='.$user['id'].'\';" /></td>
+                            <td></td>
+                            <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteUser.php?id='.$user['id'].'\';" /></td>
+                            </tr>';
+                    }
                 }
             }
             ?>
