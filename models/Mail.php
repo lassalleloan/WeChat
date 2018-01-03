@@ -189,6 +189,23 @@ class Mail {
     }
 
     /**
+     * Get headers of table
+     */
+    public function get_data_headers() {
+        $headers = array();
+
+        foreach (self::$_database->headers('mails') as $array) {
+            $name = $array['name'];
+
+            if ($name !== 'id' && $name !== 'idSender' && $name !== 'idReceiver') {
+                array_push($headers, $name);
+            }
+        }
+        
+        return count($headers) >= 1 ? $headers : null;
+    }
+
+    /**
      * Retrieves all user's email information
      */
     public function get_data() {

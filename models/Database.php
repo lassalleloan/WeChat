@@ -68,6 +68,17 @@ class Database {
     }
 
     /**
+     * Get headers of table
+     */
+    public function headers($table) {
+        if (!isset($this->_pdo)) {
+            $this->connection();
+        }
+
+        return $this->query('PRAGMA table_info('.$table.')', null);
+    }
+
+    /**
      * Get the result of a query
      */
     public function query($sql, $parameters) {
@@ -85,7 +96,7 @@ class Database {
 
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
