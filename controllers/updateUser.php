@@ -10,6 +10,7 @@ extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
+require_once(dirname(__DIR__).'/models/Role.php');
 
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_not_logged();
@@ -27,7 +28,8 @@ if (isset($username) && isset($password) && isset($role)) {
     
     $len_role = strlen($role);
     $is_correct_role = $len_role >= Database::PHP_STR_MIN && 
-                        $len_role <= Database::PHP_STR_MAX;
+                        $len_role <= Database::PHP_STR_MAX &&
+                        Role::get_instance()->get_id($role) !== null;
 
     if ($is_correct_username && $is_correct_role) {
         $id = User::get_instance()->get_id_by_username($username);
