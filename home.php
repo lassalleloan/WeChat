@@ -24,7 +24,7 @@ if (isset($mails)) {
 }
 
 // Retrieves the role of the user
-$isAdministrator = Authentication::get_instance()->is_authorized("Administrator");
+$isAdministrator = Authentication::get_instance()->is_authorized('Administrator');
 
 if ($isAdministrator) {
     
@@ -45,7 +45,7 @@ Database::get_instance()->deconnection();
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
         <title>WeChat - Home</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     </head>
     <body>
         <h1>Home</h1>
@@ -66,18 +66,18 @@ Database::get_instance()->deconnection();
                     echo '<th>'.ucfirst($headerName).'</th>';
                 }
                 
-                echo '<th colspan="3"><input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';"/></th></tr>';
+                echo '<th colspan="3"><input type="button" value="New Mail" onclick="window.location.href=\'writeMail.php\';" /></th></tr>';
                 
                 // Displays the received emails
                 foreach ($mails as $mail) {
-                    echo "<tr align=\"center\">
-                        <td>".Utils::get_instance()->date_str_format($mail['date'])."</td>
-                        <td>{$mail['from']}</td>
-                        <td>{$mail['subject']}</td>
-                        <td><input type=\"button\" value=\"More\" onclick=\"window.location.href='readMail.php?id={$mail['id']}';\"/></td>
-                        <td><input type=\"button\" value=\"Reply\" onclick=\"window.location.href='writeMail.php?id={$mail['id']}';\"/></td>
-                        <td><input type=\"button\" value=\"Delete\" onclick=\"window.location.href='controllers/deleteMail.php?id={$mail['id']}';\"/></td>
-                        </tr>";
+                    echo '<tr align="center">
+                        <td>'.Utils::get_instance()->date_str_format($mail['date']).'</td>
+                        <td>'.$mail['from'].'</td>
+                        <td>'.$mail['subject'].'</td>
+                        <td><input type="button" value="More" onclick="window.location.href=\'readMail.php?id='.$mail['id'].'\';" /></td>
+                        <td><input type="button" value="Reply" onclick="window.location.href=\'writeMail.php?id='.$mail['id'].'\';" /></td>
+                        <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteMail.php?id='.$mail['id'].'\';" /></td>
+                        </tr>';
                 }
             
                 if ($isAdministrator) {
@@ -93,20 +93,18 @@ Database::get_instance()->deconnection();
                     echo '<th>'.ucfirst($headerName).'</th>';
                 }
                 
-                echo '<th colspan="3"><input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';"/></th></tr>';
+                echo '<th colspan="3"><input type="button" value="New User" onclick="window.location.href=\'manageUser.php\';" /></th></tr>';
                 
                 // Displays user information
                 foreach ($users as $user) {
-                    $active = $user['active'] ? 'Yes' : 'No';
-
-                    echo "<tr align=\"center\">
-                        <td>{$user['username']}</td>
-                        <td>{$active}</td>
-                        <td>{$user['role']}</td>
-                        <td><input type=\"button\" value=\"Manage\" onclick=\"window.location.href='manageUser.php?id={$user['id']}';\"/></td>
+                    echo '<tr align="center">
+                        <td>'.$user['username'].'</td>
+                        <td>'.($user['active'] ? 'Yes' : 'No').'</td>
+                        <td>'.$user['role'].'</td>
+                        <td><input type="button" value="Manage" onclick="window.location.href=\'manageUser.php?id='.$user['id'].'\';" /></td>
                         <td></td>
-                        <td><input type=\"button\" value=\"Delete\" onclick=\"window.location.href='controllers/deleteUser.php?id={$user['id']}';\"/></td>
-                        </tr>";
+                        <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteUser.php?id='.$user['id'].'\';" /></td>
+                        </tr>';
                 }
             }
             ?>

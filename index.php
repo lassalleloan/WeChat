@@ -8,6 +8,7 @@
 
 extract(@$_GET);
 require_once('models/Authentication.php');
+require_once('models/Database.php');
 
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_logged();
@@ -18,7 +19,7 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
         <title>WeChat - Login</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     </head>
     <body>
         <h1>Login</h1>
@@ -32,12 +33,12 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
                 ?>
 				<tr>
                     <th>Username</th>
-                    <td><input type="text" name="username" size="50" minlength="3" maxlength="50" required/></td>
+                    <td><input type="text" name="username" <?php echo 'size="'.Database::USERNAME_MAX.'"'; echo 'minlength="'.Database::USERNAME_MIN.'"'; echo 'maxlength="'.Database::USERNAME_MAX.'"'; ?> required /></td>
 				<tr>
 					<th>Password</th>
-					<td><input type="password" name="password" size="50" minlength="8" maxlength="50" required/></td>
+					<td><input type="password" name="password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo 'minlength="'.Database::PASSWORD_MIN.'"'; echo 'maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
 				</tr>
-				<tr><td colspan="2" align="right"><input type="submit" value="Login"/></td></tr>
+				<tr><td colspan="2" align="right"><input type="submit" value="Login" /></td></tr>
 			</table>
 		</form>
 	</body>

@@ -26,8 +26,8 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
     Database::get_instance()->deconnection();
 
     if (!isset($mail)) {
-        header("location:home.php");
-        exit();
+        header('location:home.php');
+        exit;
     }
 }
 ?>
@@ -35,7 +35,7 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
         <title>WeChat - Read a mail</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     </head>
     <body>
         <h1>Read a mail</h1>
@@ -46,8 +46,8 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
         <table width="500px">
             <tr align="right">
                 <td colspan="2">
-                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?id=<?php echo $id; ?>';"/>
-                    <input type="button" value="Delete" onclick="window.location.href='controllers/deleteMail.php?id=<?php echo $id; ?>';"/>
+                    <input type="button" value="Reply" onclick="window.location.href='writeMail.php?id=<?php echo $id; ?>';" />
+                    <input type="button" value="Delete" onclick="window.location.href='controllers/deleteMail.php?id=<?php echo $id; ?>';" />
                 </td>
             </tr>
             <tr align="left">

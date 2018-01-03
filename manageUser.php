@@ -13,7 +13,7 @@ require_once('models/User.php');
 
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_not_logged();
-Authentication::get_instance()->redirect_if_is_not_authorized("Administrator");
+Authentication::get_instance()->redirect_if_is_not_authorized('Administrator');
 
 $value_username = '';
 $style_username = '';
@@ -45,8 +45,8 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
             $role_co_worker = '';
         }
     } else {
-        header("location:home.php");
-        exit();
+        header('location:home.php');
+        exit;
     }
 }
 
@@ -56,7 +56,7 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
         <title>WeChat - Users manager</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     </head>
     <body>
         <h1>Users manager</h1>
@@ -74,28 +74,28 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
                 <tr><td colspan="2"><br></td></tr>
                 <tr align="left">
                     <th>Username</th>
-                    <td><input type="text" name="username" size="50" minlength="1" maxlength="50" <?php echo $value_username; echo $style_username; ?> required/></td>
+                    <td><input type="text" name="username" <?php echo 'size="'.Database::USERNAME_MAX.'"'; echo 'minlength="0"'; echo 'maxlength="'.Database::USERNAME_MAX.'"'; echo $value_username; echo $style_username; ?> /></td>
                 </tr>
                 <tr align="left">
                     <th>Password</th>
-                    <td><input type="password" name="password" size="50" minlength="8" maxlength="50"/></td>
+					<td><input type="password" name="password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo 'minlength="0"'; echo 'maxlength="'.Database::PASSWORD_MAX.'"'; ?> /></td>
                 </tr>
                 <tr align="left">
                     <th>Confirm Password</th>
-                    <td><input type="password" name="confirm_password" size="50" minlength="8" maxlength="50"/></td>
+                    <td><input type="password" name="confirm_password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo 'minlength="0"'; echo 'maxlength="'.Database::PASSWORD_MAX.'"'; ?> /></td>
                 </tr>
                 <tr align="left">
                     <th>Active</th>
-                    <td><input type="checkbox" name="active" value="1" <?php echo $active_checked?>/><br></td>
+                    <td><input type="checkbox" name="active" value="true" <?php echo $active_checked?> /><br></td>
                 </tr>
                 <tr align="left">
                     <th>Type of account</th>
                     <td>
-                        <input type="radio" name="role" value="1" <?php echo $role_administrator; ?> required/>Administrator<br>
-                        <input type="radio" name="role" value="2" <?php echo $role_co_worker; ?> required/>Co-worker<br>
+                        <input type="radio" name="role" value="Administrator" <?php echo $role_administrator; ?> />Administrator<br>
+                        <input type="radio" name="role" value="Co-worker" <?php echo $role_co_worker; ?> />Co-worker<br>
                     </td>
                 </tr>
-                <tr><td align="right" colspan="2"><input type="submit" value="Done"/></td></tr>
+                <tr><td align="right" colspan="2"><input type="submit" value="Done" /></td></tr>
             </table>
         </form>
     </body>

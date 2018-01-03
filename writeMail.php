@@ -17,7 +17,6 @@ Authentication::get_instance()->redirect_if_is_not_logged();
 $value_form = User::get_instance()->get_username();
 
 if (isset($value_form)) {
-
     $id_mail = '';
     $value_form = 'value="'.$value_form.'"';
     $style_form = 'style="border:none" readonly ';
@@ -51,8 +50,8 @@ if (!isset($value_form) || ($is_correct_id && (!isset($subject) || !isset($value
     // Closes the connection to the database
     Database::get_instance()->deconnection();
 
-    header("location:home.php");
-    exit();
+    header('location:home.php');
+    exit;
 }
 
 $is_error = isset($is_error) ? (bool)$is_error : false;
@@ -61,7 +60,7 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
     <head>
         <title>WeChat - Write a mail</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     </head>
     <body>
         <h1>Write a mail</h1>
@@ -76,18 +75,18 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
                     echo '<tr><td colspan="2" align="center" style="color:red; font-weight:bold">Unknown username</td></tr>';
                 }
                 ?>
-                <tr align="right"><td colspan="2"><input type="submit" value="Send"/></td></tr>
+                <tr align="right"><td colspan="2"><input type="submit" value="Send" /></td></tr>
                 <tr align="left">
                     <th width="100px">From</th>
-                    <td><input type="text" name="from" size="50" minlength="3" maxlength="50" <?php echo $value_form; echo $style_form; ?> required/></td>
+                    <td><input type="text" name="from" size="50" minlength="3" maxlength="50" <?php echo $value_form; echo $style_form; ?> required /></td>
                 </tr>
                 <tr align="left">
                     <th>To</th>
-                    <td><input type="text" name="to" size="50" minlength="3" maxlength="50" <?php echo $value_to; echo $style_others; ?> required/></td>
+                    <td><input type="text" name="to" size="50" minlength="3" maxlength="50" <?php echo $value_to; echo $style_others; ?> required /></td>
                 </tr>
                 <tr align="left">
                     <th>Subject</th>
-                    <td><input type="text" name="subject" size="50" minlength="3" maxlength="50" <?php echo $value_subject; echo $style_others; ?> required/></td>
+                    <td><input type="text" name="subject" size="50" minlength="3" maxlength="50" <?php echo $value_subject; echo $style_others; ?> required /></td>
                 </tr>
                 <tr><td colspan="2"><br></td></tr>
                 <tr align="left"><th colspan="2">Mail Body</th></tr>
