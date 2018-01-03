@@ -62,7 +62,7 @@ if (isset($username) && isset($password) && isset($role)) {
                 
                 User::get_instance()->update_one($user);
             }
-        } else if ($is_correct_password) {
+        } else if ($is_correct_password && $password === $confirm_password) {
 
             // Insert a user
             $user = array('username' => $username,
