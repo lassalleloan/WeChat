@@ -350,6 +350,7 @@ class User {
         $user['idRole'] = self::$_role->get_id($user['role']);
 
         if (isset($user['idRole'])) {
+            $set_salt = '';
             $set_digest = '';
             $parameters = array();
             
