@@ -51,7 +51,11 @@ class Utils {
 
     public function redirect_if_is_not_correct_file_origin($files_origin) {
         $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
-        $http_referer_file = substr($http_referer_file, 0, strrpos($http_referer_file, '?'));
+        $ask_pos = strrpos($http_referer_file, '?');
+
+        if ($ask_pos !== false) {
+            $http_referer_file = substr($http_referer_file, 0, $ask_pos);
+        }
         
         foreach ($files_origin as $file_origin) {
             if ($http_referer_file === $file_origin) {
