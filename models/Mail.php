@@ -18,17 +18,19 @@ require_once('User.php');
 class Mail {
 
     private static $_instance;
-    private $_database;
-    private $_user;
+    private static $_database;
+    private static $_user;
     
     private function __construct() {
-        $this->_database = Database::get_instance();
-        $this->_user = User::get_instance();
+
     }
 
     public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
+            
+            self::$_database = Database::get_instance();
+            self::$_user = User::get_instance();
         }
         
         return self::$_instance;
@@ -38,7 +40,7 @@ class Mail {
      * Retrieves user's email ID
      */
     public function get_id($date) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "SELECT id 
                         FROM mails 
                         INNER JOIN users ON mails.idReceiver = users.id 
@@ -46,7 +48,7 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':date', $date, PDO::PARAM_STR),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['id'] : null;
     }
@@ -55,14 +57,14 @@ class Mail {
      * Retrieves the date of user's email
      */
     public function get_date($id) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "SELECT date 
                         FROM mails 
                         WHERE id=:id 
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['date'] : null;
     }
@@ -71,7 +73,7 @@ class Mail {
      * Retrieves the recipient of user's email
      */
     public function get_to($id) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "SELECT username AS 'to' 
                         FROM mails 
                         INNER JOIN users ON mails.idSender = users.id 
@@ -79,7 +81,7 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['to'] : null;
     }
@@ -88,14 +90,14 @@ class Mail {
      * Retrieves the subject of user's email
      */
     public function get_subject($id) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "SELECT subject 
                         FROM mails 
                         WHERE id=:id 
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['subject'] : null;
     }
@@ -104,14 +106,14 @@ class Mail {
      * Get the body of user's email
      */
     public function get_body($id) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "SELECT body 
                         FROM mails 
                         WHERE id=:id 
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['body'] : null;
     }
@@ -120,7 +122,7 @@ class Mail {
      * Retrieves user's email
      */
     public function get_by_id($id) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "SELECT date, 
                         uSender.username AS 'from', 
                         uReceiver.username AS 'to', 
@@ -133,7 +135,7 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0] : null;
     }
@@ -142,7 +144,7 @@ class Mail {
      * Retrieves user's email
      */
     public function get_by_date($date) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "SELECT mails.id, 
                         date, 
                         uSender.username AS 'from', 
@@ -156,7 +158,7 @@ class Mail {
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':date', $date, PDO::PARAM_STR),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0] : null;
     }
@@ -180,7 +182,7 @@ class Mail {
      */
     public function redirect_if_is_not_associate_to_user($id) {
         if ($this->is_not_associate_to_user($id)) {
-            $this->_database->deconnection();
+            self::$_database->deconnection();
             header('location:home.php');
             exit;
         }
@@ -190,7 +192,7 @@ class Mail {
      * Retrieves all user's email information
      */
     public function get_data() {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "SELECT mails.id, 
                         date, 
                         uSender.username AS 'from', 
@@ -200,7 +202,7 @@ class Mail {
                         WHERE idReceiver=:user_id 
                         ORDER BY date;";
         $parameters = array(new Parameter(':user_id', $user_id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array : null;
     }
@@ -212,7 +214,7 @@ class Mail {
         $query = "SELECT * 
                         FROM mails 
                         ORDER BY date;";
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array : null;
     }
@@ -221,8 +223,8 @@ class Mail {
      * Insert an email
      */
     public function insert_one($mail) {
-        $mail['idSender'] = $this->_user->get_id_by_username($mail['sender']);
-        $mail['idReceiver'] = $this->_user->get_id_by_username($mail['receiver']);
+        $mail['idSender'] = self::$_user->get_id_by_username($mail['sender']);
+        $mail['idReceiver'] = self::$_user->get_id_by_username($mail['receiver']);
 
         if (isset($mail['idSender']) && isset($mail['idReceiver'])) {
             $query = "INSERT INTO mails (date, idSender, idReceiver, subject, body)  
@@ -233,7 +235,7 @@ class Mail {
                                 new Parameter(':subject', $mail['subject'], PDO::PARAM_STR),
                                 new Parameter(':body', $mail['body'], PDO::PARAM_STR));
 
-            $this->_database->query($query, $parameters);
+            self::$_database->query($query, $parameters);
         }
     }
     
@@ -250,7 +252,7 @@ class Mail {
      * Update an emails
      */
     public function update_one($id) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "UPDATE mails 
                         SET idSender=NULL 
                         WHERE idSender=:id 
@@ -258,7 +260,7 @@ class Mail {
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
 
-        $this->_database->query($query, $parameters);  
+        self::$_database->query($query, $parameters);  
     }
     
     /**
@@ -274,14 +276,14 @@ class Mail {
      * Deletes an email
      */
     public function delete_one($id) {
-        $user_id = $this->_user->get_id();
+        $user_id = self::$_user->get_id();
         $query = "DELETE FROM mails 
                         WHERE id=:id
                         AND idReceiver=:user_id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
 
-        $this->_database->query($query, $parameters);
+        self::$_database->query($query, $parameters);
     }
     
     /**

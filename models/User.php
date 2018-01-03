@@ -22,23 +22,25 @@ require_once('Utils.php');
 class User {
 
     private static $_instance;
-    private $_authentication;
-    private $_database;
-    private $_mail;
-    private $_role;
-    private $_utils;
+    private static $_authentication;
+    private static $_database;
+    private static $_mail;
+    private static $_role;
+    private static $_utils;
     
     private function __construct() {
-        $this->_authentication = Authentication::get_instance();
-        $this->_database = Database::get_instance();
-        $this->_mail = Mail::get_instance();
-        $this->_role = Role::get_instance();
-        $this->_utils = Utils::get_instance();
+
     }
 
     public static function get_instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new self();
+
+            self::$_authentication = Authentication::get_instance();
+            self::$_database = Database::get_instance();
+            self::$_mail = Mail::get_instance();
+            self::$_role = Role::get_instance();
+            self::$_utils = Utils::get_instance();
         }
         
         return self::$_instance;
@@ -52,7 +54,7 @@ class User {
                         FROM users 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['id'] : null;
     }
@@ -65,7 +67,7 @@ class User {
                         FROM users 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['id'] : null;
     }
@@ -78,7 +80,7 @@ class User {
                         FROM users 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['username'] : null;
     }
@@ -92,7 +94,7 @@ class User {
                         FROM users 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0] : null;
     }
@@ -106,7 +108,7 @@ class User {
                         FROM users 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0] : null;
     }
@@ -120,7 +122,7 @@ class User {
                         INNER JOIN roles ON users.idRole = roles.id 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['role'] : null;
     }
@@ -134,7 +136,7 @@ class User {
                         INNER JOIN roles ON users.idRole = roles.id 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['role'] : null;
     }
@@ -147,7 +149,7 @@ class User {
                         FROM users 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['active'] : null;
     }
@@ -160,7 +162,7 @@ class User {
                         FROM users 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0]['active'] : null;
     }
@@ -176,7 +178,7 @@ class User {
                         INNER JOIN roles ON users.idRole = roles.id 
                         WHERE digest=:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0] : null;
     }
@@ -192,7 +194,7 @@ class User {
                         INNER JOIN roles ON users.idRole = roles.id 
                         WHERE users.id=:id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0] : null;
     }
@@ -208,7 +210,7 @@ class User {
                         INNER JOIN roles ON users.idRole = roles.id 
                         WHERE username=:username;";
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array[0] : null;
     }
@@ -232,7 +234,7 @@ class User {
      */
     public function redirect_if_is_associate_to_user($id) {
         if ($this->is_associate_to_user($id)) {
-            $this->_database->deconnection();
+            self::$_database->deconnection();
             header('location:../home.php');
             exit;
         }
@@ -250,7 +252,7 @@ class User {
                         INNER JOIN roles ON users.idRole = roles.id 
                         WHERE digest<>:digest;";
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array : null;
     }
@@ -261,7 +263,7 @@ class User {
     public function get_table() {
         $query = "SELECT *
                         FROM users;";
-        $array = $this->_database->query($query, $parameters);
+        $array = self::$_database->query($query, $parameters);
 
         return count($array) >= 1 ? $array : null;
     }
@@ -270,11 +272,11 @@ class User {
      * Insert a user
      */
     public function insert_one($user) {
-        $user['idRole'] = $this->_role->get_id($user['role']);
+        $user['idRole'] = self::$_role->get_id($user['role']);
 
         if (isset($user['idRole'])) {
-            $user['salt'] = $this->_utils->random_str();
-            $user['digest'] = $this->_authentication->hash_str("{$user['username']}{$user['salt']}{$user['password']}");
+            $user['salt'] = self::$_utils->random_str();
+            $user['digest'] = self::$_authentication->hash_str("{$user['username']}{$user['salt']}{$user['password']}");
             
             $query = "INSERT INTO users (username, salt, digest, active, idRole) 
                             VALUES (:username, :salt, :digest, :active, :idRole);";
@@ -285,7 +287,7 @@ class User {
                     new Parameter(':active', $user['active'], PDO::PARAM_BOOL),
                     new Parameter(':idRole', $user['idRole'], PDO::PARAM_INT));
 
-            $this->_database->query($query, $parameters);
+            self::$_database->query($query, $parameters);
         }
     }
     
@@ -308,7 +310,7 @@ class User {
         $parameters = array(new Parameter(':salt', $salt, PDO::PARAM_STR),
                             new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
 
-        $this->_database->query($query, $parameters);
+        self::$_database->query($query, $parameters);
     }
     
     /**
@@ -321,26 +323,32 @@ class User {
         $parameters = array(new Parameter(':newDigest', $digest, PDO::PARAM_STR),
                             new Parameter(':oldDigest', $_SESSION['digest'], PDO::PARAM_STR));
 
-        $this->_database->query($query, $parameters);
+        self::$_database->query($query, $parameters);
     }
     
     /**
      * Update a user
      */
     public function update_one($user) {
-        $user['idRole'] = $this->_role->get_id($user['role']);
+        $user['idRole'] = self::$_role->get_id($user['role']);
 
         if (isset($user['idRole'])) {
-            $setDigest = '';
+            $set_digest = '';
             $parameters = array();
             
+            if (isset($user['salt'])) {
+                $set_salt = "salt=:salt,";
+                array_push($parameters, new Parameter(':salt', $user['salt'], PDO::PARAM_STR));
+            }
+            
             if (isset($user['digest'])) {
-                $setDigest = "digest=:digest,";
+                $set_digest = "digest=:digest,";
                 array_push($parameters, new Parameter(':digest', $user['digest'], PDO::PARAM_STR));
             }
             
             $query = "UPDATE users 
-                            SET {$setDigest} 
+                            SET {$set_salt} 
+                            {$set_digest} 
                             active=:active, 
                             idRole=:idRole 
                             WHERE id=:id";
@@ -348,7 +356,7 @@ class User {
                                     new Parameter(':idRole', $user['idRole'], PDO::PARAM_INT),
                                     new Parameter(':id', $user['id'], PDO::PARAM_INT));
             
-            $this->_database->query($query, $parameters);
+            self::$_database->query($query, $parameters);
         }
     }
     
@@ -365,13 +373,13 @@ class User {
      * Deletes a user
      */
     public function delete_one($id) {
-        $this->_mail->update_one($id);
+        self::$_mail->update_one($id);
 
         $query = "DELETE FROM users 
                             WHERE id=:id;";
         $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT));
 
-        $this->_database->query($query, $parameters);
+        self::$_database->query($query, $parameters);
     }
     
     /**
