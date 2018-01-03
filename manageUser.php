@@ -33,14 +33,14 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
     Database::get_instance()->deconnection();
     
     if (isset($user)) {
-        $value_username = 'value="'.$user['username'].'"';
+        $value_username = 'value="'.htmlentities($user['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'"';
         $style_username = 'style="border:none" readonly';
         
         if (!$user['active']) {
             $active_checked = '';
         }
 
-        if ($user['role'] === 'Administrator') {
+        if (htmlentities($user['role'], ENT_QUOTES | ENT_HTML5, 'UTF-8') === 'Administrator') {
             $role_administrator = 'checked';
             $role_co_worker = '';
         }

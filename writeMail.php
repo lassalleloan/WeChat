@@ -18,7 +18,7 @@ $value_form = User::get_instance()->get_username();
 
 if (isset($value_form)) {
     $id_mail = '';
-    $value_form = 'value="'.$value_form.'"';
+    $value_form = 'value="'.htmlentities($value_form, ENT_QUOTES | ENT_HTML5, 'UTF-8').'"';
     $style_form = 'style="border:none" readonly ';
     $value_to = '';
     $value_subject = '';
@@ -35,11 +35,11 @@ if (isset($value_form)) {
         $value_to = Mail::get_instance()->get_to($id);
     
         if (isset($subject) && isset($value_to)) {
-            $subject = substr($subject, 0, 4) === 'RE: ' ? $subject : 'RE: '.$subject;
+            $subject = substr($subject, 0, 4) === 'RE: ' ? $subject : 'RE: '.htmlentities($subject, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     
             $id_mail = "?id={$id}";    
-            $value_to = 'value="'.$value_to.'"';
-            $value_subject = 'value="'.$subject.'"';
+            $value_to = 'value="'.htmlentities($value_to, ENT_QUOTES | ENT_HTML5, 'UTF-8').'"';
+            $value_subject = 'value="'.htmlentities($subject, ENT_QUOTES | ENT_HTML5, 'UTF-8').'"';
             $style_others = 'style="border:none" readonly ';
         }
     }

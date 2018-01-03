@@ -56,21 +56,21 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
             </tr>
             <tr align="left">
                 <th>From</th>
-                <td><?php echo $mail['from']; ?></td>
+                <td><?php echo htmlentities($mail['from'], ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?></td>
             </tr>
             <tr align="left">
                 <th>To</th>
-                <td><?php echo $mail['to']; ?></td>
+                <td><?php echo htmlentities($mail['to'], ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?></td>
             </tr>
             <tr align="left">
                 <th>Subject</th>
-                <td><?php echo $mail['subject']; ?></td>
+                <td><?php echo htmlentities($mail['subject'], ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?></td>
             </tr>
             <tr><td colspan="2"><br></td></tr>
             <tr align="left"><th colspan="2">Mail Body</th></tr>
             <tr>
                 <td></td>
-                <td><textarea id="mailBody" cols="52" rows="20" maxlength="1000" style="border: none; resize: none;" readonly required><?php echo $mail['body']; ?></textarea></td>
+                <td><textarea id="mailBody" cols="52" rows="20" maxlength="1000" style="border: none; resize: none;" readonly required><?php echo htmlentities($mail['body'], ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?></textarea></td>
             </tr>
         </table>
     </body>

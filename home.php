@@ -66,8 +66,8 @@ Database::get_instance()->deconnection();
                     foreach ($mails as $mail) {
                         echo '<tr align="center">
                             <td>'.Utils::get_instance()->date_str_format($mail['date']).'</td>
-                            <td>'.$mail['from'].'</td>
-                            <td>'.$mail['subject'].'</td>
+                            <td>'.htmlentities($mail['from'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
+                            <td>'.htmlentities($mail['subject'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
                             <td><input type="button" value="More" onclick="window.location.href=\'readMail.php?id='.$mail['id'].'\';" /></td>
                             <td><input type="button" value="Reply" onclick="window.location.href=\'writeMail.php?id='.$mail['id'].'\';" /></td>
                             <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteMail.php?id='.$mail['id'].'\';" /></td>
@@ -95,9 +95,9 @@ Database::get_instance()->deconnection();
                     // Displays user information
                     foreach ($users as $user) {
                         echo '<tr align="center">
-                            <td>'.$user['username'].'</td>
+                            <td>'.htmlentities($user['username'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
                             <td>'.($user['active'] ? 'Yes' : 'No').'</td>
-                            <td>'.$user['role'].'</td>
+                            <td>'.htmlentities($user['role'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
                             <td><input type="button" value="Manage" onclick="window.location.href=\'manageUser.php?id='.$user['id'].'\';" /></td>
                             <td></td>
                             <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/deleteUser.php?id='.$user['id'].'\';" /></td>
