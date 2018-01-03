@@ -86,6 +86,7 @@ class Authentication {
         $is_already_logged = isset($_SESSION['digest']);
 
         if ($is_already_logged) {
+            
             // Retrieves the credentials of the user
             $session_digest = self::$_user->get_credentials()['digest'];
         
