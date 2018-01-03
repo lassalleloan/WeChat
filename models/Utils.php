@@ -48,5 +48,19 @@ class Utils {
         
         return $str;
     }
+
+    public function redirect_if_is_not_correct_file_origin($files_origin) {
+        $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
+        $http_referer_file = substr($http_referer_file, 0, strrpos($http_referer_file, '?'));
+        
+        foreach ($files_origin as $file_origin) {
+            if ($http_referer_file === $file_origin) {
+                return;
+            }
+        }
+
+        header('location:../home.php');
+        exit();
+    }
 }
 ?>
