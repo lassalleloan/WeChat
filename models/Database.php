@@ -13,16 +13,36 @@
  * @since 27.09.2017
  */
 class Database {
+
+    const PHP_INT_MIN = 1;
+    const PHP_INT_MAX = 2147483647;
+
+    const PHP_STR_MIN = 3;
+    const PHP_STR_MAX = 255;
+    
+    const PHP_TEXT_MIN = 3;
+    const PHP_TEXT_MAX = 1024;
+    
+    const PHP_DATE_LEN = 23;
+    
+    const USERNAME_MIN = 3;
+    const USERNAME_MAX = 50;
+    
+    const PASSWORD_MIN = 8;
+    const PASSWORD_MAX = 50;
+    
+    const DIGEST_LEN = 88;
+
     private static $_instance;
-    private $_database;
+    private $_pdo;
     
     private function __construct() {
         $this->connection();
     }
 
-    public static function getInstance() {
+    public static function get_instance() {
         if (is_null(self::$_instance)) {
-          self::$_instance = new self();
+            self::$_instance = new self();
         }
         
         return self::$_instance;
@@ -33,12 +53,10 @@ class Database {
      */
     public function connection($file = 'sqlite:/var/www/databases/wechat.sqlite') {
         try {
-            $this->_database = new PDO($file);
-            $this->_database->setAttribute(PDO::ATTR_ERRMODE, 
-                                    PDO::ERRMODE_EXCEPTION);
+            $this->_pdo = new PDO($file);
+            $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $ex) {
             echo $ex->getMessage();
-            exit();
         }
     }
 
@@ -46,24 +64,39 @@ class Database {
      * Closes the connection to the database
      */
     public function deconnection() {
-        $this->_database = null;
+        $this->_pdo = null;
+    }
+
+    /**
+     * Get headers of table
+     */
+    public function headers($table) {
+        if (!isset($this->_pdo)) {
+            $this->connection();
+        }
+
+        return $this->query('PRAGMA table_info('.$table.')', null);
     }
 
     /**
      * Get the result of a query
      */
-    public function query($sql) {
-        if (!isset($this->_database)) {
+    public function query($sql, $parameters) {
+        if (!isset($this->_pdo)) {
             $this->connection();
         }
+
+        $stmt = $this->_pdo->prepare($sql);
         
-        if (substr($sql, 0, 6) === 'SELECT') {
-            $results = $this->_database->query($sql);
-        } else {
-            $results = $this->_database->exec($sql);
+        if (isset($parameters)) {
+            foreach($parameters as $parameter) {
+                $stmt->bindParam($parameter->get_name(), $parameter->get_value(), $parameter->get_pdo_type());
+            }
         }
-        
-        return $results;
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>

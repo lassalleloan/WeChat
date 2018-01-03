@@ -18,28 +18,31 @@ require_once(dirname(__DIR__).'/models/User.php');
  * Create the tables
  */
 
-Database::getInstance()->query('CREATE TABLE IF NOT EXISTS roles (
+Database::get_instance()->query('CREATE TABLE IF NOT EXISTS roles (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                                name VARCHAR(255) UNIQUE NOT NULL);');
+                                name VARCHAR('.Database::PHP_STR_MAX.') UNIQUE NOT NULL);',
+                                null);
                 
-Database::getInstance()->query('CREATE TABLE IF NOT EXISTS users (
+Database::get_instance()->query('CREATE TABLE IF NOT EXISTS users (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                username VARCHAR(255) UNIQUE NOT NULL,
-                                salt VARCHAR(255) NOT NULL,
-                                digest VARCHAR(88) UNIQUE NOT NULL,
+                                username VARCHAR('.Database::PHP_STR_MAX.') UNIQUE NOT NULL,
+                                salt VARCHAR('.Database::PHP_STR_MAX.') NOT NULL,
+                                digest VARCHAR('.Database::DIGEST_LEN.') UNIQUE NOT NULL,
                                 active INTEGER NOT NULL,
-                                role INTEGER NOT NULL,
-                                FOREIGN KEY(role) REFERENCES roles(id));');
+                                idRole INTEGER NOT NULL,
+                                FOREIGN KEY(idRole) REFERENCES roles(id));',
+                                null);
                 
-Database::getInstance()->query('CREATE TABLE IF NOT EXISTS mails (
+Database::get_instance()->query('CREATE TABLE IF NOT EXISTS mails (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                date VARCHAR(23) UNIQUE NOT NULL,
+                                date VARCHAR('.Database::PHP_DATE_LEN.') UNIQUE NOT NULL,
                                 idSender INTEGER,
                                 idReceiver INTEGER,
-                                subject VARCHAR(255) NOT NULL,
-                                body TEXT(1024) NOT NULL,
+                                subject VARCHAR('.Database::PHP_STR_MAX.') NOT NULL,
+                                body TEXT('.Database::PHP_TEXT_MAX.') NOT NULL,
                                 FOREIGN KEY(idSender) REFERENCES users(id),
-                                FOREIGN KEY(idReceiver) REFERENCES users(id));'); 
+                                FOREIGN KEY(idReceiver) REFERENCES users(id));',
+                                null); 
 
 /**
  * Set the data
@@ -52,76 +55,76 @@ $roles = array(
             
 $users = array(
             array('username' => 'root',
-                'password' => 'toortoor',
-                'active' => '1',
-                'role' => '1'),
-            array('username' => 'toor',
                 'password' => 'rootroot',
-                'active' => '0',
-                'role' => '1'),
+                'active' => true,
+                'role' => 'Administrator'),
+            array('username' => 'toor',
+                'password' => 'toortoor',
+                'active' => false,
+                'role' => 'Administrator'),
             array('username' => 'loan',
-                'password' => '12341234',
-                'active' => '1',
-                'role' => '2'),
+                'password' => 'loanloan',
+                'active' => true,
+                'role' => 'Co-worker'),
             array('username' => 'wojciech',
-                'password' => '45674567',
-                'active' => '1',
-                'role' => '2'),
+                'password' => 'wojciech',
+                'active' => true,
+                'role' => 'Co-worker'),
             array('username' => 'tano',
-                'password' => '78907890',
-                'active' => '0',
-                'role' => '2')
+                'password' => 'tanotano',
+                'active' => false,
+                'role' => 'Co-worker')
             );
             
 $mails = array(
             array('date' => '2017-07-25T16:47:33.698',
-                'idSender' => '3',
-                'idReceiver' => '4',
+                'sender' => 'loan',
+                'receiver' => 'wojciech',
                 'subject' => 'CTF to Bucarest !',
                 'body' => 'Hi Wojciech, are you ? Are you ready to go to Bucarest ? I can not wait !! Take care.'),
             array('date' => '2017-08-09T10:14:23.698',
-                'idSender' => '4',
-                'idReceiver' => '3',
+                'sender' => 'wojciech',
+                'receiver' => 'loan',
                 'subject' => 'RE: CTF to Bucarest !',
                 'body' => 'Hello Loan ! Yes ! I am ready to go !! Do you prefer to go by plane, train or car? Because my father offers us to take the private jet !'),
             array('date' => '2017-08-14T22:37:43.698',
-                'idSender' => '5',
-                'idReceiver' => '2',
+                'sender' => 'tano',
+                'receiver' => 'toor',
                 'subject' => 'Hints for Labo_01',
                 'body' => 'Can you tell me the answer of the first question please.'),
             array('date' => '2017-08-25T12:12:38.388',
-                'idSender' => '1',
-                'idReceiver' => '3',
+                'sender' => 'root',
+                'receiver' => 'loan',
                 'subject' => 'Welcome !',
                 'body' => 'Welcome to WeChat, the net social plateform. Enjoy !'),
             array('date' => '2017-08-25T16:16:39.798',
-                'idSender' => '1',
-                'idReceiver' => '4',
+                'sender' => 'root',
+                'receiver' => 'wojciech',
                 'subject' => 'Welcome !',
                 'body' => 'Welcome to WeChat, the net social plateform. Enjoy !'),
             array('date' => '2017-09-01T18:49:38.698',
-                'idSender' => '1',
-                'idReceiver' => '5',
+                'sender' => 'root',
+                'receiver' => 'tano',
                 'subject' => 'Welcome !',
                 'body' => 'Welcome to WeChat, the net social plateform. Enjoy !'),
             array('date' => '2017-09-08T21:57:38.698',
-                'idSender' => '2',
-                'idReceiver' => '4',
+                'sender' => 'toor',
+                'receiver' => 'wojciech',
                 'subject' => 'Protect your password',
                 'body' => 'Welcome to WeChat, the net social plateform. Enjoy !'),
             array('date' => '2017-09-22T23:36:38.698',
-                'idSender' => '3',
-                'idReceiver' => '4',
+                'sender' => 'loan',
+                'receiver' => 'wojciech',
                 'subject' => 'RE: CTF to Bucarest !',
                 'body' => 'the PRIVATE JET !!!'),
             array('date' => '2017-10-03T07:36:38.698',
-                'idSender' => '3',
-                'idReceiver' => '1',
+                'sender' => 'loan',
+                'receiver' => 'root',
                 'subject' => 'Administration of website ',
                 'body' => 'Can I join administration of the website ?'),
             array('date' => '2017-10-03T10:36:38.698',
-                'idSender' => '3',
-                'idReceiver' => '1',
+                'sender' => 'loan',
+                'receiver' => 'root',
                 'subject' => 'Pentesting',
                 'body' => 'You should think about doing pentest. Because your website is under attack.')
             );
@@ -130,18 +133,17 @@ $mails = array(
  * Inserts data
  */
 
-Role::getInstance()->insertMultiple($roles);
-User::getInstance()->insertMultiple($users);
-Mail::getInstance()->insertMultiple($mails);
+Role::get_instance()->insert_multiple($roles);
+User::get_instance()->insert_multiple($users);
+Mail::get_instance()->insert_multiple($mails);
 
 /**
  * Closes the connection to the database
  */
-Database::getInstance()->deconnection();
+Database::get_instance()->deconnection();
 
 /**
- * Displays the data
+ * Go to website
  */
 header('location:../index.php');
 ?>
-

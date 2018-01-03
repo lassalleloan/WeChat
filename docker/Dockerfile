@@ -3,6 +3,8 @@
 
 FROM centos/systemd
 
+# sudo sed -i '151s/AllowOverride None/AllowOverride All/'; \
+
 RUN yum -y install httpd php php-pdo php-pdo_mysql wget unzip sudo; \
     yum clean all; \
     systemctl enable httpd.service; \

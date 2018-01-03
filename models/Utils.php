@@ -13,14 +13,16 @@
  * @since 27.09.2017
  */
 class Utils {
+    
     private static $_instance;
     
     private function __construct() {
+        
     }
 
-    public static function getInstance() {
-        if (is_null(self::$_instance )) {
-          self::$_instance = new self();
+    public static function get_instance() {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
         }
         
         return self::$_instance;
@@ -29,14 +31,14 @@ class Utils {
     /**
      * Formats a date into a character string
      */
-    public function dateStrFormat($date, $timeZone = 'UTC', $format = 'm.d.Y H:i') {
+    public function date_str_format($date, $timeZone = 'UTC', $format = 'm.d.Y H:i') {
         return (new DateTime($date, new DateTimeZone($timeZone)))->format($format);
     }
 
     /**
      * Generates a random string
      */
-    function randomStr($length = 255, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+    public function random_str($length = 255, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         $str = '';
         $max = strlen($keyspace) - 1;
         
@@ -45,6 +47,20 @@ class Utils {
         }
         
         return $str;
+    }
+
+    public function redirect_if_is_not_correct_file_origin($files_origin) {
+        $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
+        $http_referer_file = substr($http_referer_file, 0, strrpos($http_referer_file, '?'));
+        
+        foreach ($files_origin as $file_origin) {
+            if ($http_referer_file === $file_origin) {
+                return;
+            }
+        }
+
+        header('location:../home.php');
+        exit();
     }
 }
 ?>
