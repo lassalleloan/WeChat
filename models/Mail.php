@@ -197,8 +197,8 @@ class Mail {
         foreach (self::$_database->headers('mails') as $array) {
             $name = $array['name'];
 
-            if ($name !== 'id' && $name !== 'idSender' && $name !== 'idReceiver') {
-                array_push($headers, $name);
+            if ($name !== 'id' && $name !== 'idReceiver'&& $name !== 'body') {
+                array_push($headers, $name !== 'idSender' ? $name : 'from');
             }
         }
         
