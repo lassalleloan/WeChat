@@ -15,6 +15,9 @@ require_once(dirname(__DIR__).'/models/Role.php');
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_not_logged();
 
+// Redirect the user to home.php
+Utils::get_instance()->redirect_if_is_not_correct_file_origin(array('manage_user.php'));
+
 $active = isset($active) ? (bool)$active : false;
 
 if (isset($username) && isset($password) && isset($role)) {
@@ -78,8 +81,8 @@ Database::get_instance()->deconnection();
 if (isset($user)) {
     header('location:../home.php');
 } else if (isset($id)) {
-    header('location:../manageUser.php?id='.$id.'&is_error=true');
+    header('location:../manage_user.php?id='.$id.'&is_error=true');
 } else {
-    header('location:../manageUser.php?is_error=true');
+    header('location:../manage_user.php?is_error=true');
 }
 ?>

@@ -14,6 +14,9 @@ require_once(dirname(__DIR__).'/models/User.php');
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_not_logged();
 
+// Redirect the user to home.php
+Utils::get_instance()->redirect_if_is_not_correct_file_origin(array('change_password.php'));
+
 if (isset($old_password) && isset($new_password) && isset($confirm_password)) {
     $len_old_password = strlen($old_password);
     $is_correct_old_password = $len_old_password >= Database::PASSWORD_MIN && 
@@ -58,6 +61,6 @@ Database::get_instance()->deconnection();
 if (isset($new_digest)) {
     header('location:logout.php');
 } else {
-    header('location:../changePassword.php?is_error=true');
+    header('location:../change_password.php?is_error=true');
 }
 ?>

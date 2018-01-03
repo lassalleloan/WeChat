@@ -17,6 +17,9 @@ require_once(dirname(__DIR__).'/models/User.php');
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_not_logged();
 
+// Redirect the user to home.php
+Utils::get_instance()->redirect_if_is_not_correct_file_origin(array('write_mail.php'));
+
 if (isset($from) && isset($to) && isset($subject) && isset($body)) {
     $len_from = strlen($from);
     $is_correct_from = $len_from >= Database::USERNAME_MIN && 
@@ -71,8 +74,8 @@ Database::get_instance()->deconnection();
 if (isset($mail)) {
     header('location:../home.php');
 } else if (isset($id)) {
-    header('location:../writeMail.php?id='.$id.'&is_error=true');
+    header('location:../write_mail.php?id='.$id.'&is_error=true');
 } else {
-    header('location:../writeMail.php?is_error=true');
+    header('location:../write_mail.php?is_error=true');
 }
 ?>

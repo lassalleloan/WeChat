@@ -9,6 +9,9 @@
 extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
+require_once(dirname(__DIR__).'/models/Utils.php');
+
+Utils::get_instance()->redirect_if_is_not_correct_file_origin(array('index.php'));
 
 if (isset($username) && isset($password)) {
     $len_username = strlen($username);

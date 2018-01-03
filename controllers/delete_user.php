@@ -14,6 +14,9 @@ require_once(dirname(__DIR__).'/models/User.php');
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_not_logged();
 
+// Redirect the user to home.php
+Utils::get_instance()->redirect_if_is_not_correct_file_origin(array('home.php'));
+
 $id = isset($id) ? (int)$id : 0;
 
 // Deletes the user
