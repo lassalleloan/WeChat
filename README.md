@@ -2,9 +2,6 @@
 Authors: Matthieu Chatelan, Loan Lassalle & Wojcieh Myszkorowski
 ***
 
-## TODO
- * Modifier l'image Docker
-
 ## Introduction
 
 The purpose of this repo is to design a Web application, within the framework of a company, to send text messages between collaborators.
