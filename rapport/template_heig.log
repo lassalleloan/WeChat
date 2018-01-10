@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.9)  10 JAN 2018 17:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.9)  10 JAN 2018 18:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -772,7 +772,7 @@ LaTeX Info: Redefining \nameref on input line 175.
 \openout3 = `template_heig.out'.
 
 
-<images/wechat.png, id=80, 3309.36375pt x 915.42pt>
+<images/wechat.png, id=88, 3309.36375pt x 915.42pt>
 File: images/wechat.png Graphic file (type png)
  <use images/wechat.png>
 Package pdftex.def Info: images/wechat.png used on input line 178.
@@ -801,7 +801,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout5 = `template_heig.lof'.
 
 
-<images/logo.jpg, id=110, 597.23125pt x 287.0725pt>
+<images/logo.jpg, id=120, 597.23125pt x 287.0725pt>
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
 Package pdftex.def Info: images/logo.jpg used on input line 184.
@@ -833,7 +833,7 @@ File: images/logo.jpg Graphic file (type jpg)
 <use images/logo.jpg>
 Package pdftex.def Info: images/logo.jpg used on input line 277.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [3] <images/diagram.png, id=136, 933.4875pt x 602.25pt>
+ [3] <images/diagram.png, id=146, 933.4875pt x 602.25pt>
 File: images/diagram.png Graphic file (type png)
 
 <use images/diagram.png>
@@ -863,50 +863,92 @@ Underfull \hbox (badness 10000) in paragraph at lines 338--338
  []
 
 
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 347.
-
-File: images/logo.jpg Graphic file (type jpg)
-<use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 374.
-(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [6]
-Overfull \hbox (0.92305pt too wide) in paragraph at lines 395--403
-[][] 
+Underfull \hbox (badness 10000) in paragraph at lines 340--340
+[]|\T1/cmr/m/n/12 Utilisateur, Concur-rent, Ha-cker,
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 406.
+
+Underfull \hbox (badness 10000) in paragraph at lines 334--347
+
+ []
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 352.
+
 File: images/logo.jpg Graphic file (type jpg)
 <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 406.
+Package pdftex.def Info: images/logo.jpg used on input line 368.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 406.
+ [6]
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+)
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 371.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
+)
+File: images/logo.jpg Graphic file (type jpg)
+ <use images/logo.jpg>
+Package pdftex.def Info: images/logo.jpg used on input line 393.
+(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
+
+[7] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 433.
+File: images/logo.jpg Graphic file (type jpg)
+
+<use images/logo.jpg>
+Package pdftex.def Info: images/logo.jpg used on input line 433.
+(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
+ [8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 433.
  (./template_heig.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 406.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 406.
-Package rerunfilecheck Info: File `template_heig.out' has not changed.
-(rerunfilecheck)             Checksum: 63E03D58077ACE2748B59A67B84EB27E;1360.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 406.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 433.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 433.
+
+
+Package rerunfilecheck Warning: File `template_heig.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `template_heig.out':
+(rerunfilecheck)             Before: 008D69D0F06E83C50E4B7A3424B914A4;1436
+(rerunfilecheck)             After:  DF73636E140EC6B52A5C82D83A7E8435;1350.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 433.
  ) 
 Here is how much of TeX's memory you used:
- 9916 strings out of 494924
- 145668 string characters out of 6179709
- 241986 words of memory out of 5000000
- 13060 multiletter control sequences out of 15000+600000
- 14136 words of font info for 35 fonts, out of 8000000 for 9000
+ 10325 strings out of 494924
+ 150006 string characters out of 6179709
+ 254974 words of memory out of 5000000
+ 13446 multiletter control sequences out of 15000+600000
+ 15980 words of font info for 38 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 44i,15n,43p,494b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1200.600pk> </home/ne
-wt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/newt/.texmf-va
-r/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/newt/.texmf-var/fonts/pk/l
-jfour/jknappen/ec/ecbx1728.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknapp
-en/ec/ecrm1200.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm14
-40.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm2488.600pk>
-Output written on template_heig.pdf (8 pages, 274782 bytes).
+ 44i,15n,49p,834b,1568s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{subsubsection.4.0.4} has been referenced but does
+ not exist, replaced by a fixed one
+
+ </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600pk> </home/newt
+/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/newt/.texmf-var/
+fonts/pk/ljfour/jknappen/ec/eccc1200.600pk> </home/newt/.texmf-var/fonts/pk/ljf
+our/jknappen/ec/ecbx1440.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen
+/ec/ecbx1200.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1728
+.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </ho
+me/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </home/newt/.tex
+mf-var/fonts/pk/ljfour/jknappen/ec/ecrm2488.600pk>
+Output written on template_heig.pdf (9 pages, 286479 bytes).
 PDF statistics:
- 424 PDF objects out of 1000 (max. 8388607)
- 178 compressed objects within 2 object streams
- 35 named destinations out of 1000 (max. 500000)
- 168 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 495 PDF objects out of 1000 (max. 8388607)
+ 211 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 184 words of extra memory for PDF output out of 10000 (max. 10000000)
 

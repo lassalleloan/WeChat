@@ -333,19 +333,26 @@ Dans cette section, plusieurs scénarios d'attaque sont décrits. Grâce à ces 
 
 \begin{tabular}{| c | l | p{6.5cm} | l |}
   \hline			
-  \textbf{\# }& \textbf{Impact} &\textbf{ Source de menace } & \textbf{Bien ciblé} \\
+  \textbf{\# }& \textbf{Impacte} &\textbf{ Source de menace } & \textbf{Bien ciblé} \\
   \hline  
   \ref{1} & Perte de confidentialité & Utilisateur, Concurrent, Hacker, Cyber-criminel & BDD \\
     \hline  
-  \ref{2} & Perte de disponibilité & Tous & Tout élément actif \\
+  \ref{2} & Perte de disponibilité & Utilisateur, Concurrent, Hacker, Cyber-criminel & Tout élément actif \\
     \hline  
   \ref{3} & Perte d'intégrité & Hacker, Concurrent & BDD \\
   \hline  
 
 \end{tabular}
+\\
+
+Les différents scénarios d'attaques et leurs sources de menaces dépendent de comment l'application de chat est déployée et de comment elle est utilisée par les employés. En effet, si l'application est accessible par l'extérieur de l'entreprise, il sera facile pour des intervenant externes tels que des cyber-criminels ou des hackers d'accèder directement aux biens.
+
+En revanche, si l'application est déployée sur un réseau local non accessible par l'extérieur, un attaquant externe devra s'introduire dans le réseau avant de pouvoir attaquer l'application et accèder aux biens. De l'ingénierie sociale peut être utilisée pour inciter un employer à visiter un lien ou à installer une application vulnérable.
 
 \subsubsection{Scénario d'attaque} \label{1}
-Dans ce scénario d'attaque, les différents acteurs listés en tant que source de menace tenteront d'accèder à des informations qui ne leurs sont pas destinées. Pour parvenir à ses fins, un attaquant pourra essayer de multiples vecteurs d'attaque tels que : 
+Dans ce scénario d'attaque, les différents acteurs listés en tant que source de menace tenteront d'accèder à des informations qui ne leurs sont pas destinées causant ainsi une perte de confidentialité. 
+
+Pour parvenir à ses fins, un attaquant pourra essayer de multiples vecteurs d'attaque tels que : 
 
 \begin{itemize}
 \item Manipulation de l'URL
@@ -353,56 +360,74 @@ Dans ce scénario d'attaque, les différents acteurs listés en tant que source 
 \item Utilisation d'une faille de XSS stocké afin de récupérer des cookie de session
 \end{itemize}
 
-Sans aucunes 
+Sans des connaissances poussées en informatique, on pouvait très rapidement remarquer que lors de la lecture d'un message, l'id de ce dernier était donnée dans l'url. Etant donné qu'aucunes vérification n'était faite pour s'assurer que la personne lisant le message était bien le destinataire de ce dernier, il était possible d'écrire un script python qui testait de manière incrémentale l'accès à tous les message en incrémentant l'id de ce dernier. Si en réponse une erreur 404 est obtenue, on sait que le message n'existe pas. En revance, si un code 200 est retourné, on sait qu'un message existe et on peut automatiquement l'extraire et le stocker dans un fichier ou le parser afin de tenter de trouver des informations confidentielles tels que des adresses mail ou des mots de passes.
 
-Avec peu de recherches sur internet et quelques tentatives, un attaquant avec de faibles connaissances sera en mesure de récupérer des données confidentielles tels que des mails ou encore des mots de passes en utilisant une injection SQL.
+Avec peu de recherches sur internet et quelques tentatives, un attaquant avec de faibles connaissances sera en mesure de récupérer des données confidentielles tels que des mails ou encore des mots de passes en utilisant une injection SQL. Une fois les mots de passes récupérés, une étape de cassage hors ligne est nécessaire étant donné que mots de passes sont stocké sous forme hachée et salée.
 
-Avec une attaque plus élaborée, cet employé pourrait récupérer des cookie de session en se servant d'une attaque par XSS. Un message avec du code php sera stocké sur le serveur et quand l'utilisateur cible se connectera à sa boîte de réception, le code malicieux sera exécuté.
+Avec une attaque plus élaborée, cet employé pourrait récupérer des cookie de session en se servant d'une attaque par XSS. Pour récupérer des informations sur les conversations d'un utilisateur, une solution serait d'envoyer un message avec du code javascript en tant que sujet du message. Ce dernier sera stocké sur le serveur et lorsque l'utilisateur cible se connectera à sa boîte de réception, le code malicieux sera exécuté car les sujets sont affichés. Tous les destinataires ou sujets des messages reçus affichés par la victime peuvent être envoyés à l'attaquant (tant que notre message est toujours visible dans la liste et donc que le script est exécuté).
+
+L'exemple de code ci-dessous à insérer dans le champ sujet du message permet de récupérer facilement tout le contenu html de la page après un délai de une seconde (pour laisser le temps aux autres informations de s'afficher dans le navigateur de la cible). Ici l'exemple ne transmet pas les informations à l'attaquand mais les affiche à la cible. 
+
+\begin{lstlisting}[style=JAVA]
+<script>
+	setTimeout(() => {alert(document.documentElement.innerHTML);}, 1000);
+</script>
+\end{lstlisting}
 
 \subsubsection{Scénario d'attaque} \label{2}
-Ce scénario d'attaque est basé sur le scénario \ref{1}. En effet, des hackers, concurrents ou des cybercriminels pourraient être intéressés par les informations potentiellements confidentielles échangées entre les différents collaborateurs de l'entreprise.
 
-Leurs motivations seraient en grande partie financières. En effet, un Hacker pourra faire par exemple du chantage à l'entreprise en menaçant de divulguer les informations récoltées. Un concurrent pourra se servir des informations obtenues afin de proposer des produits ou services similaires à ceux proposés par l'entreprise attaquée sans avoir à les développer.
-
-Si le programme de messagerie développé n'est utilisé que sur un réseau interne, la première phase d'une attaque pour un attaquant externe serait de pénétrer le réseau interne de l'entreprise. Pour ce faire, de l'ingénierie sociale peut être tentée envers les collaborateurs par le biais de mails forgés et de pièces jointes malicieuses. Ce procédé sera à répéter pour chaques scénarios où les attaquants sont externes au réseau de l'entreprise.
-
-\subsubsection{Scénario d'attaque} \label{3}
-
-
-\subsubsection{Scénario d'attaque} \label{4}
 Ce scénario concerne la destruction d'informations par des tiers tels que des hackers ou encore des concurrents. Plusieurs approches sont possibles : 
 
 \begin{itemize}
+\item Manipulation de l'URL
 \item Attaques XSS réfléchi ou stocké
 \item Attaques CSRF
 \item Injections SQL
 \end{itemize}
 
-Grâce à une attaque XSS, un attaquant pourra dérober les cookie de session d'un administrateur pour ensuite se connecter en son nom et supprimer des utilisateurs ou les basculer en inactif. 
-
-Avec l'aide d'un peu d'ingénierie sociale, un attaquant pourrait forger un lien pour supprimer des utilisateurs ou des messages et ensuite inciter un administrateur a cliquer sur son lien. Afin de dissimuler le contenu du lien, des services tels que "google short url" peuvent être utilisés.
-
-A l'aide d'une injection SQL, un attaquant pourrait complètement supprimer toutes les entrées dans la base de données ou encore faire des entrées arbitraires tels que ajouter des administrateurs, modifier des entrées, etc...
-
-\subsubsection{Scénario d'attaque} \label{5}
-\subsubsection{Scénario d'attaque} \label{6}
+\subsubsection{Scénario d'attaque} \label{4}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%% CONTREMESURES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Contremesures}
 
 tableau récap et montrer new implémentation
 
-\begin{tabular}{| c | c | p{6.5cm} | p{6.5cm} |}
+\begin{tabular}{| c | p{7.5cm} | p{7.5cm} |}
   \hline			
-  \textbf{\# }& \textbf{Scénario} &\textbf{ Vulnérabilité }& \textbf{Contremesure}\\
+  \textbf{\# } &\textbf{ Vulnérabilité }& \textbf{Contremesure}\\
   \hline  
-  \ref{c1} & \ref{1} & xxx & yyy\\
+  \ref{c1} & xxx & yyy\\
+  \hline
+  \ref{c2} & xxx & yyy\\
+  \hline
+  \ref{c3} & xxx & yyy\\
+  \hline
+  \ref{c4} & xxx & yyy\\
+  \hline
+  \ref{c5} & xxx & yyy\\
   \hline
 
 \end{tabular}
 
 \subsection{Contremesure}\label{c1}
+
+blabla pour fix il faut faire ca :
+
+\begin{lstlisting}[style=JAVA]
+	mettre du super code ici
+\end{lstlisting}
+
+comme ca plus possible de hack :)
+
+\subsection{Contremesure}\label{c2}
+
+\subsection{Contremesure}\label{c3}
+
+\subsection{Contremesure}\label{c4}
+
+\subsection{Contremesure}\label{c5}
 
 \end{document}
