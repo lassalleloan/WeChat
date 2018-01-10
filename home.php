@@ -71,7 +71,7 @@ Database::get_instance()->deconnection();
                             <td>'.htmlentities($mail['subject'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
                             <td><input type="button" value="More" onclick="window.location.href=\'read_mail.php?id='.$mail['id'].'\';" /></td>
                             <td><input type="button" value="Reply" onclick="window.location.href=\'write_mail.php?id='.$mail['id'].'\';" /></td>
-                            <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/delete_mail.php?id='.$mail['id'].'\';" /></td>
+                            <td><input type="button" value="Delete" onclick="if(confirm(\'Do you want to delete this message?\')){window.location.href=\'controllers/delete_mail.php?id='.$mail['id'].'\';}" /></td>
                             </tr>';
                     }
                 }
@@ -101,7 +101,7 @@ Database::get_instance()->deconnection();
                             <td>'.htmlentities($user['role'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
                             <td><input type="button" value="Manage" onclick="window.location.href=\'manage_user.php?id='.$user['id'].'\';" /></td>
                             <td></td>
-                            <td><input type="button" value="Delete" onclick="window.location.href=\'controllers/delete_user.php?id='.$user['id'].'\';" /></td>
+                            <td><input type="button" value="Delete" onclick="if(confirm(\'Do you want to delete this user?\')){window.location.href=\'controllers/delete_user.php?id='.$user['id'].'\';}" /></td>
                             </tr>';
                     }
                 }

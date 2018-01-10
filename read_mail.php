@@ -48,7 +48,7 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
             <tr align="right">
                 <td colspan="2">
                     <input type="button" value="Reply" onclick="window.location.href='write_mail.php?id=<?php echo $id; ?>';" />
-                    <input type="button" value="Delete" onclick="window.location.href='controllers/delete_mail.php?id=<?php echo $id; ?>';" />
+                    <input type="button" value="Delete" onclick="if(confirm('Do you want to delete this message?')){window.location.href='controllers/delete_mail.php?id=<?php echo $id; ?>';}" />
                 </td>
             </tr>
             <tr align="left">
