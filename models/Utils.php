@@ -6,6 +6,8 @@
  * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
+require_once('Database.php');
+
 /**
  * Toolbox
  *
@@ -53,16 +55,19 @@ class Utils {
     public function password_meter($password) {
         // https://code.tutsplus.com/tutorials/build-a-simple-password-strength-checker--net-7565
         // http://www.passwordmeter.com
+        // rootroot1+aA
 
-        $MINIMUM_LENGTH = 8;
-        $score = 0;
         $lenght;
         $num_upper = 0;
+        $num_lower = 0;
+        $num_number = 0;
+        $num_symbol = 0;
+        $score = 0;
 
         if (isset($password) && is_string($password)) {
             $lenght = strlen($password);
 
-            if ($lenght >= $MINIMUM_LENGTH) {
+            if ($lenght >= Database::PASSWORD_MIN) {
                 $score += ($lenght * 4);
 
                 $chars = str_split($password);
@@ -70,15 +75,38 @@ class Utils {
                     if (preg_match_all('/[A-Z]/', $char)) {
                         $num_upper++;
                     }
+
+                    if (preg_match_all('/[a-z]/', $char)) {
+                        $num_lower++;
+                    }
+
+                    if (preg_match_all('/[0-9]/', $char)) {
+                        $num_number++;
+                    }
+
+                    if (preg_match_all('/[+"*#%&\/()=?\'`^!$£€,;.:\-_<>@|~{}[\]§°±“≠¿´‘¶¢…«»µ∫√©≈¥≤≥ß∂ƒªº∆¬πø°†®∑]/', $char)) {
+                        $num_symbol++;
+                    }
                 }
 
+                $score += ($lenght - $num_upper) * 2 + ($lenght - $num_lower) * 2 + $num_number * 4 + $num_symbol * 6;
 
-                echo "nb upper: {$num_upper}";
+                if (!preg_match_all('/[^A-Za-z]/', $password)) {
+                    $score -= $lenght;
+                }
+
+                if (!preg_match_all('/[^0-9]/', $password)) {
+                    $score -= $lenght;
+                }
+
+                echo "num_upper: {$num_upper}<br>";
+                echo "num_number: {$num_number}<br>";
+                echo "num_symbol: {$num_symbol}<br>";
             }
         }
 
-        echo "password: {$password}";
-        echo "score: {$score}";
+        echo "password: {$password}<br>";
+        echo "score: {$score}<br>";
 
         return $score;
     }
