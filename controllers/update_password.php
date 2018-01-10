@@ -59,7 +59,10 @@ if (isset($old_password) && isset($new_password) && isset($confirm_password)) {
 Database::get_instance()->deconnection();
 
 if (isset($new_digest)) {
-    header('location:logout.php');
+
+    // TODO: Password Meter
+    Utils::get_instance()->password_meter($new_password);
+    // header('location:logout.php');
 } else {
     header('location:../change_password.php?is_error=true');
 }

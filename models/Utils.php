@@ -49,6 +49,40 @@ class Utils {
         return $str;
     }
 
+    // TODO: Password Meter
+    public function password_meter($password) {
+        // https://code.tutsplus.com/tutorials/build-a-simple-password-strength-checker--net-7565
+        // http://www.passwordmeter.com
+
+        $MINIMUM_LENGTH = 8;
+        $score = 0;
+        $lenght;
+        $num_upper = 0;
+
+        if (isset($password) && is_string($password)) {
+            $lenght = strlen($password);
+
+            if ($lenght >= $MINIMUM_LENGTH) {
+                $score += ($lenght * 4);
+
+                $chars = str_split($password);
+                foreach($chars as $char){
+                    if (preg_match_all('/[A-Z]/', $char)) {
+                        $num_upper++;
+                    }
+                }
+
+
+                echo "nb upper: {$num_upper}";
+            }
+        }
+
+        echo "password: {$password}";
+        echo "score: {$score}";
+
+        return $score;
+    }
+
     public function redirect_if_is_not_correct_file_origin($files_origin) {
         $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
         $ask_pos = strrpos($http_referer_file, '?');
