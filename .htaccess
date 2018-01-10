@@ -1,0 +1,8 @@
+Order Allow,Deny
+Options -Indexes
+ErrorDocument 403 /wechat/errors/forbidden.php
+Deny from All
+
+<FilesMatch "\.php|\.css">
+    Allow from All
+</FilesMatch>

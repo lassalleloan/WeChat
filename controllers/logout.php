@@ -8,11 +8,14 @@
 
 require_once(dirname(__DIR__).'/models/Database.php');
 
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 session_destroy();
 
 // Closes the connection to the database
-Database::getInstance()->deconnection();
+Database::get_instance()->deconnection();
 
 // Redirect the user to index.php
 header('location:../index.php');

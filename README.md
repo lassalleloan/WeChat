@@ -49,7 +49,7 @@ Several users are already present in the database:
 * To change the password
 It is necessary to enter the old password and the new one twice.
 <p align="center">
-  <img src="./readme_images/changePassword.png" alt="Change password">
+  <img src="./readme_images/change_password.png" alt="Change password">
 </p>
    
 * Send a new email
@@ -82,11 +82,11 @@ It is necessary to enter a username, a password and its confirmation and the typ
 * Manage a user
 It is possible to change the password and/or account type of a user.
 <p align="center">
-  <img src="./readme_images/manageUser.png" alt="Manage a user">
+  <img src="./readme_images/manage_user.png" alt="Manage a user">
 </p>
 
 * Delete a user
 Pressing the button will delete the selected user.
 <p align="center">
-  <img src="./readme_images/deleteUser.png" alt="Delete a user">
+  <img src="./readme_images/delete_user.png" alt="Delete a user">
 </p>
