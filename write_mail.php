@@ -50,7 +50,7 @@ if (!isset($value_form) || ($is_correct_id && (!isset($subject) || !isset($value
     // Closes the connection to the database
     Database::get_instance()->deconnection();
 
-    header('location:home.php');
+    header('location:/wechat/home.php');
     exit;
 }
 
