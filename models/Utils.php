@@ -63,7 +63,7 @@ class Utils {
             }
         }
 
-        header('location:../home.php');
+        header('location:/wechat/home.php');
         exit();
     }
 }

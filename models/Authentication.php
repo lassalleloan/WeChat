@@ -109,7 +109,7 @@ class Authentication {
      */
     public function redirect_if_is_logged() {
         if ($this->is_logged()) {
-            header('location:home.php');
+            header('location:/wechat/home.php');
             exit;
         }
     }
@@ -119,7 +119,7 @@ class Authentication {
      */
     public function redirect_if_is_not_logged() {
         if ($this->is_not_logged()) {
-            header('location:controllers/logout.php');
+            header('location:/wechat/controllers/logout.php');
             exit;
         }
     }
@@ -146,7 +146,7 @@ class Authentication {
      */
     public function redirect_if_is_not_authorized($role) {
         if ($this->is_not_authorized($role)) {
-            header('location:home.php');
+            header('location:/wechat/home.php');
             exit;
         }
     }
