@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.9)  10 JAN 2018 18:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.9)  11 JAN 2018 16:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -663,26 +663,30 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 141.
 \f@ncyO@olf=\skip64
 \f@ncyO@orf=\skip65
 )
-(./template_heig.aux)
+(./template_heig.aux
+
+LaTeX Warning: Label `flux' multiply defined.
+
+)
 \openout1 = `template_heig.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 175.
-LaTeX Font Info:    ... okay on input line 175.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 175.
-LaTeX Font Info:    ... okay on input line 175.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 175.
-LaTeX Font Info:    ... okay on input line 175.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 175.
-LaTeX Font Info:    ... okay on input line 175.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 175.
-LaTeX Font Info:    ... okay on input line 175.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 175.
-LaTeX Font Info:    ... okay on input line 175.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 175.
-LaTeX Font Info:    ... okay on input line 175.
-LaTeX Info: Redefining \degres on input line 175.
-LaTeX Info: Redefining \dots on input line 175.
-LaTeX Info: Redefining \up on input line 175.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Info: Redefining \degres on input line 179.
+LaTeX Info: Redefining \dots on input line 179.
+LaTeX Info: Redefining \up on input line 179.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -753,7 +757,7 @@ e
 ))
 \c@lstlisting=\count131
 \AtBeginShipoutBox=\box29
-Package hyperref Info: Link coloring ON on input line 175.
+Package hyperref Info: Link coloring ON on input line 179.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -763,28 +767,36 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count132
 )
-LaTeX Info: Redefining \ref on input line 175.
-LaTeX Info: Redefining \pageref on input line 175.
-LaTeX Info: Redefining \nameref on input line 175.
+LaTeX Info: Redefining \ref on input line 179.
+LaTeX Info: Redefining \pageref on input line 179.
+LaTeX Info: Redefining \nameref on input line 179.
 
 (./template_heig.out) (./template_heig.out)
 \@outlinefile=\write3
 \openout3 = `template_heig.out'.
 
 
-<images/wechat.png, id=88, 3309.36375pt x 915.42pt>
-File: images/wechat.png Graphic file (type png)
- <use images/wechat.png>
-Package pdftex.def Info: images/wechat.png used on input line 178.
+<images/wechatinsecure.png, id=88, 3309.36375pt x 915.42pt>
+File: images/wechatinsecure.png Graphic file (type png)
+
+<use images/wechatinsecure.png>
+Package pdftex.def Info: images/wechatinsecure.png used on input line 182.
+(pdftex.def)             Requested size: 351.31378pt x 97.17653pt.
+
+<images/wechatsecure.png, id=90, 3309.36375pt x 915.42pt>
+File: images/wechatsecure.png Graphic file (type png)
+
+<use images/wechatsecure.png>
+Package pdftex.def Info: images/wechatsecure.png used on input line 182.
 (pdftex.def)             Requested size: 351.31378pt x 97.17653pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 178.
+(Font)              <14.4> on input line 182.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 178.
+(Font)              <7> on input line 182.
+ [1
 
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./images/wechat.png>]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./images/wechatinsecure.pn
+g> <./images/wechatsecure.png>]
 (./template_heig.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 4.
@@ -801,10 +813,10 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout5 = `template_heig.lof'.
 
 
-<images/logo.jpg, id=120, 597.23125pt x 287.0725pt>
+<images/logo.jpg, id=123, 597.23125pt x 287.0725pt>
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 184.
+Package pdftex.def Info: images/logo.jpg used on input line 188.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
 
 
@@ -817,13 +829,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.184 \clearpage
+l.188 \clearpage
                  [1
 
  <./images/logo.jpg>]
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 227.
+Package pdftex.def Info: images/logo.jpg used on input line 231.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
  [2
 
@@ -831,60 +843,76 @@ Package pdftex.def Info: images/logo.jpg used on input line 227.
 File: images/logo.jpg Graphic file (type jpg)
 
 <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 277.
+Package pdftex.def Info: images/logo.jpg used on input line 281.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [3] <images/diagram.png, id=146, 933.4875pt x 602.25pt>
+ [3] <images/diagram.png, id=150, 933.4875pt x 602.25pt>
 File: images/diagram.png Graphic file (type png)
 
 <use images/diagram.png>
-Package pdftex.def Info: images/diagram.png used on input line 288.
+Package pdftex.def Info: images/diagram.png used on input line 292.
 (pdftex.def)             Requested size: 481.80176pt x 310.83765pt.
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 306.
+Package pdftex.def Info: images/logo.jpg used on input line 310.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
  [4 <./images/diagram.png>]
-Overfull \hbox (11.83022pt too wide) in paragraph at lines 309--321
+Overfull \hbox (11.83022pt too wide) in paragraph at lines 313--326
 [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 309--321
+Underfull \hbox (badness 10000) in paragraph at lines 313--326
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 329--331
+
+ []
+
+<images/pyramid.png, id=157, 314.17375pt x 499.8675pt>
+File: images/pyramid.png Graphic file (type png)
+
+<use images/pyramid.png>
+Package pdftex.def Info: images/pyramid.png used on input line 335.
+(pdftex.def)             Requested size: 220.8258pt x 351.34642pt.
 File: images/logo.jpg Graphic file (type jpg)
-<use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 329.
+ <use images/logo.jpg>
+Package pdftex.def Info: images/logo.jpg used on input line 344.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [5]
-Underfull \hbox (badness 10000) in paragraph at lines 338--338
-[]|\T1/cmr/m/n/12 Utilisateur, Concur-rent, Ha-cker,
+ [5 <./images/pyramid.png>]
+Underfull \hbox (badness 2351) in paragraph at lines 355--355
+[]|\T1/cmr/m/n/12 Utilisateur, Concur-rent, Ha-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 340--340
-[]|\T1/cmr/m/n/12 Utilisateur, Concur-rent, Ha-cker,
+Underfull \hbox (badness 2351) in paragraph at lines 357--357
+[]|\T1/cmr/m/n/12 Utilisateur, Concur-rent, Ha-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 334--347
+Underfull \hbox (badness 2351) in paragraph at lines 361--361
+[]|\T1/cmr/m/n/12 Utilisateur, Ha-cker, Concur-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 351--365
 
  []
 
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 352.
+(hyperref)                than one, level fixed on input line 370.
 
 File: images/logo.jpg Graphic file (type jpg)
 <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 368.
+Package pdftex.def Info: images/logo.jpg used on input line 384.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
  [6]
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 371.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 389.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
@@ -895,60 +923,58 @@ File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 393.
+Package pdftex.def Info: images/logo.jpg used on input line 418.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
 
-[7] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 433.
+[7]
 File: images/logo.jpg Graphic file (type jpg)
-
-<use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 433.
+ <use images/logo.jpg>
+Package pdftex.def Info: images/logo.jpg used on input line 429.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
  [8]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 433.
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 471.
+File: images/logo.jpg Graphic file (type jpg)
+ <use images/logo.jpg>
+Package pdftex.def Info: images/logo.jpg used on input line 471.
+(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
+
+[9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 471.
  (./template_heig.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 433.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 433.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 471.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 471.
+Package rerunfilecheck Info: File `template_heig.out' has not changed.
+(rerunfilecheck)             Checksum: EF822245856CFECBD20A7C334A961CFD;1471.
 
 
-Package rerunfilecheck Warning: File `template_heig.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: Checksums for `template_heig.out':
-(rerunfilecheck)             Before: 008D69D0F06E83C50E4B7A3424B914A4;1436
-(rerunfilecheck)             After:  DF73636E140EC6B52A5C82D83A7E8435;1350.
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 433.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 471.
  ) 
 Here is how much of TeX's memory you used:
- 10325 strings out of 494924
- 150006 string characters out of 6179709
- 254974 words of memory out of 5000000
- 13446 multiletter control sequences out of 15000+600000
- 15980 words of font info for 38 fonts, out of 8000000 for 9000
+ 10339 strings out of 494924
+ 150319 string characters out of 6179709
+ 257410 words of memory out of 5000000
+ 13455 multiletter control sequences out of 15000+600000
+ 16664 words of font info for 39 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 44i,15n,49p,834b,1568s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{subsubsection.4.0.4} has been referenced but does
- not exist, replaced by a fixed one
-
- </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600pk> </home/newt
-/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/newt/.texmf-var/
-fonts/pk/ljfour/jknappen/ec/eccc1200.600pk> </home/newt/.texmf-var/fonts/pk/ljf
-our/jknappen/ec/ecbx1440.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen
-/ec/ecbx1200.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1728
-.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </ho
-me/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </home/newt/.tex
-mf-var/fonts/pk/ljfour/jknappen/ec/ecrm2488.600pk>
-Output written on template_heig.pdf (9 pages, 286479 bytes).
+ 44i,16n,49p,852b,1568s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200.600pk> </home/ne
+wt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600pk> </home/newt/.texmf-va
+r/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/newt/.texmf-var/fonts/pk/l
+jfour/jknappen/ec/eccc1200.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknapp
+en/ec/ecbx1440.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx12
+00.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1728.600pk> </
+home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/newt/.t
+exmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </home/newt/.texmf-var/fon
+ts/pk/ljfour/jknappen/ec/ecrm2488.600pk>
+Output written on template_heig.pdf (10 pages, 403097 bytes).
 PDF statistics:
- 495 PDF objects out of 1000 (max. 8388607)
- 211 compressed objects within 3 object streams
- 44 named destinations out of 1000 (max. 500000)
- 184 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 522 PDF objects out of 1000 (max. 8388607)
+ 222 compressed objects within 3 object streams
+ 46 named destinations out of 1000 (max. 500000)
+ 194 words of extra memory for PDF output out of 10000 (max. 10000000)
 

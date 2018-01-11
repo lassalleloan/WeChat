@@ -161,10 +161,14 @@
 {
   \Huge{STI - Projet}\\
   \vspace{1cm}
-  \large{Modélisation de menaces}
+  \large{Modélisation de menaces pour}
   \vspace{2cm} \\
-  \includegraphics[width=350px]{wechat}
-  \vspace{12cm} \\
+    \includegraphics[width=350px]{wechatinsecure}    
+        \vspace{1cm} \\
+\large{vers}
+  \vspace{1cm} \\
+  \includegraphics[width=350px]{wechatsecure}    
+  \vspace{6cm} \\
 }
 
 \author{Matthieu Chatelan \& Loan Lassalle} 
@@ -315,13 +319,24 @@ Les biens à protéger sont multiples dans une telle application. Ci-dessous, un
   Concurrent & Secrets d'entreprise & Base de données & Moyenne \\
   Hackers & Gloire, Argent, Destruction & Tout éléments accessibles & Faible \\
   Cyber-criminel & Vol d'informations, Spam, DDoS & Base de données & Faible \\
+  Etat & Vol d'informations, Profit & Tout éléments accessibles & Faible \\
   \hline  
 \end{tabular}
 \\
 
 Parmi les différents initiateurs décrits ci-dessus, les utilisateurs représentent la plus grande menace et la menace la plus probable d'arriver. En effet, comme le programme est destiné à un usage interne à l'entreprise, a priori seuls les employés y auront accès.
 
-N'y avoir accès que en interne ne signifie pas que ce n'est pas accessible de l'extérieur. Un attaquant externe (hacker, concurrent, cybercriminel) pourra tout à fait utiliser de l'ingénierie sociale pour inciter un utilisateur à lancer un programme malveillant afin de rendre l'accès à distance possible par le biais d'un reverse shell par exemple.  
+Un administrateur est par défaut une source de menace implicite car ce dernier à un accès total à l'application. Il sera dans notre cas en mesure d'ajouter des utilisateurs ou d'en supprimer, ou encore de les désactiver ou changer leur rôle. Si il a un accès à la base de données, il aura accès à toutes les informations contenues dans cette dernière.
+\\
+
+
+\begin{figure}[h]
+ 	\center
+	\includegraphics[width=220px]{pyramid}
+ 	\caption{Pyramide des sources de menace} 
+ 	\label{flux}	
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%% SCENARIOS D'ATTAQUE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -331,7 +346,9 @@ N'y avoir accès que en interne ne signifie pas que ce n'est pas accessible de l
 
 Dans cette section, plusieurs scénarios d'attaque sont décrits. Grâce à ces scénarios, il est possible d'imaginer les différents points vulnérables de l'application et ainsi permet de mettre en place des contremesures appropriées.
 
-\begin{tabular}{| c | l | p{6.5cm} | l |}
+Ces différents sont regroupés par impacte et non par vulnérabilité. Il se peut qu'un impacte soit causé par de multiples failles de sécurité.
+
+\begin{tabular}{| c | p{5.5cm} | p{5.5cm} | l |}
   \hline			
   \textbf{\# }& \textbf{Impacte} &\textbf{ Source de menace } & \textbf{Bien ciblé} \\
   \hline  
@@ -341,7 +358,8 @@ Dans cette section, plusieurs scénarios d'attaque sont décrits. Grâce à ces 
     \hline  
   \ref{3} & Perte d'intégrité & Hacker, Concurrent & BDD \\
   \hline  
-
+ \ref{5} & Accès à des ressources non autorisées & Utilisateur, Hacker, Concurrent & Application, BDD \\
+  \hline 
 \end{tabular}
 \\
 
@@ -349,24 +367,24 @@ Les différents scénarios d'attaques et leurs sources de menaces dépendent de 
 
 En revanche, si l'application est déployée sur un réseau local non accessible par l'extérieur, un attaquant externe devra s'introduire dans le réseau avant de pouvoir attaquer l'application et accèder aux biens. De l'ingénierie sociale peut être utilisée pour inciter un employer à visiter un lien ou à installer une application vulnérable.
 
-\subsubsection{Scénario d'attaque} \label{1}
+\subsubsection{Perte de confidentialité} \label{1}
 Dans ce scénario d'attaque, les différents acteurs listés en tant que source de menace tenteront d'accèder à des informations qui ne leurs sont pas destinées causant ainsi une perte de confidentialité. 
 
 Pour parvenir à ses fins, un attaquant pourra essayer de multiples vecteurs d'attaque tels que : 
 
 \begin{itemize}
 \item Manipulation de l'URL
-\item Injection SQL dans les divers champs de saisie disponibles
+\item Injection SQL dans les divers champs de saisie vulnérables
 \item Utilisation d'une faille de XSS stocké afin de récupérer des cookie de session
 \end{itemize}
 
-Sans des connaissances poussées en informatique, on pouvait très rapidement remarquer que lors de la lecture d'un message, l'id de ce dernier était donnée dans l'url. Etant donné qu'aucunes vérification n'était faite pour s'assurer que la personne lisant le message était bien le destinataire de ce dernier, il était possible d'écrire un script python qui testait de manière incrémentale l'accès à tous les message en incrémentant l'id de ce dernier. Si en réponse une erreur 404 est obtenue, on sait que le message n'existe pas. En revance, si un code 200 est retourné, on sait qu'un message existe et on peut automatiquement l'extraire et le stocker dans un fichier ou le parser afin de tenter de trouver des informations confidentielles tels que des adresses mail ou des mots de passes.
+Sans des connaissances poussées en informatique, on pouvait très rapidement remarquer que lors de la lecture d'un message, l'id de ce dernier était donnée dans l'url. Etant donné qu'aucunes vérification n'était faite du côté serveur pour s'assurer que la personne lisant le message était bien le destinataire de ce dernier, il était possible d'écrire un script python qui testait de manière incrémentale l'accès à tous les message en incrémentant l'id de ce dernier. Si en réponse une erreur 404 est obtenue, on sait que le message n'existe pas. En revance, si un code 200 est retourné, on sait qu'un message existe et on peut automatiquement l'extraire et le stocker dans un fichier ou le parser afin de tenter de trouver des informations confidentielles tels que des adresses mail ou des mots de passes.
 
 Avec peu de recherches sur internet et quelques tentatives, un attaquant avec de faibles connaissances sera en mesure de récupérer des données confidentielles tels que des mails ou encore des mots de passes en utilisant une injection SQL. Une fois les mots de passes récupérés, une étape de cassage hors ligne est nécessaire étant donné que mots de passes sont stocké sous forme hachée et salée.
 
-Avec une attaque plus élaborée, cet employé pourrait récupérer des cookie de session en se servant d'une attaque par XSS. Pour récupérer des informations sur les conversations d'un utilisateur, une solution serait d'envoyer un message avec du code javascript en tant que sujet du message. Ce dernier sera stocké sur le serveur et lorsque l'utilisateur cible se connectera à sa boîte de réception, le code malicieux sera exécuté car les sujets sont affichés. Tous les destinataires ou sujets des messages reçus affichés par la victime peuvent être envoyés à l'attaquant (tant que notre message est toujours visible dans la liste et donc que le script est exécuté).
+Avec une attaque plus élaborée, cet attaquant pourrait récupérer des cookie de session en se servant d'une attaque par XSS. Pour récupérer des informations sur les conversations d'un utilisateur, une solution serait d'envoyer un message avec du code javascript en tant que sujet du message. Ce dernier sera stocké sur le serveur et lorsque l'utilisateur cible se connectera à sa boîte de réception, le code malicieux sera exécuté car les sujets sont affichés. Tous les destinataires ou sujets des messages reçus affichés par la victime peuvent être envoyés à l'attaquant (tant que notre message est toujours visible dans la liste et donc que le script est exécuté).
 
-L'exemple de code ci-dessous à insérer dans le champ sujet du message permet de récupérer facilement tout le contenu html de la page après un délai de une seconde (pour laisser le temps aux autres informations de s'afficher dans le navigateur de la cible). Ici l'exemple ne transmet pas les informations à l'attaquand mais les affiche à la cible. 
+L'exemple de code ci-dessous à insérer dans le champ sujet du message permet de récupérer facilement tout le contenu html de la page après un délai de une seconde (pour laisser le temps aux autres informations de s'afficher dans le navigateur de la cible). Ici l'exemple ne transmet pas les informations à l'attaquand mais les affichent à la cible. 
 
 \begin{lstlisting}[style=JAVA]
 <script>
@@ -374,18 +392,36 @@ L'exemple de code ci-dessous à insérer dans le champ sujet du message permet d
 </script>
 \end{lstlisting}
 
-\subsubsection{Scénario d'attaque} \label{2}
+\subsubsection{Perte de disponibilité} \label{2}
 
-Ce scénario concerne la destruction d'informations par des tiers tels que des hackers ou encore des concurrents. Plusieurs approches sont possibles : 
+Ce scénario concerne la destruction d'informations par les différentes sources de menaces citées dans le tableau. Pour parvenir à ses fins, un attaquant aura plusieurs approches possibles tels que : 
 
 \begin{itemize}
 \item Manipulation de l'URL
-\item Attaques XSS réfléchi ou stocké
+\item Attaques XSS
 \item Attaques CSRF
 \item Injections SQL
 \end{itemize}
 
-\subsubsection{Scénario d'attaque} \label{4}
+Comme ennoncé précédement, comme les paramètres des actions sont passées dans l'url en clair, il serait possible pour un utilisateur de supprimer un message dont il n'est pas le destinataire légitime. En effet, tous les messages de la base de données peuvent être effacés par un seul utilisateur qui lancera un script parcourant tous les id possibles et émettant la requete de suppression pour cet id.
+
+On pourrait imaginer une action similaire lancée par un script javascript inséré dans un corps de message (attaque XSS), permettant par exemple "l'autodestruction" du message envoyé après un certain temps après la lecture. Le script serait donc exécuté lors de l'ouverture du message, et récupérerait l'id du message dans l'url. Après quelques secondes, on exécute la suppression de ce message en contactant le bon end-point avec cet id.
+
+Même si une simple verification que seul le propriétaire du message peut le supprimer, un attaque par CSRF est toujours possible si aucunes autres mesures de protection ne sont mises en oeuvre. Un attaquant pourra envoyer un lien déguisé (short google url ou autre) à la cible. Si lors du clic sur ce dernier la victime est connectée et authentifiée sur le site, l'attaquant pourra forcer la victime à supprimer un message sur son compte.
+
+Une injection SQL peut permettre à un attaquant de complètement détruire la base de donnée (drop) ou simplement arrêter le serveur avec une commande "shutdown".
+
+\subsubsection{Perte d'intégrité} \label{3}
+
+Dans ce scénario d'attaque, un attaquant pourrait se servir de certaines attaques dans le but de corrompre les données présentes dans la base de données produisant ainsi une perte d'intégrité.
+
+Si l'utilisateur utilisé pour faire la requête SQL officiellement prévue a les droits d'écriture dans la base de donées, un attaquant pourrait se servir d'une injection SQL pour effectuer plusieurs actions sur la base de données. Par exemple, au lieu de simplement lire une entrée dans la BDD, il pourrait aussi effectuer une autre action comme ajouter un utilisateur avec les droits administrateurs. De plus, il pourrait corrompre tous les messages. Dans une première phase, il pourrait récupérer les messages, puis dans un second temps les chiffrer / modifier ou les supprimer. Finalement, il pourrait renvoyer ces messages modifiés dans la base de données.
+
+\subsubsection{Accès non autorisé à des ressources} \label{5}
+
+Avec la version actuelle du programme, un attaquant pourrait effectuer une énumération des ressources accessibles sur le serveur web. Grâce à un programme comme dirbuster et un dictionnaire des noms de dossiers et de ressources les plus courantes, ce dernier pourra énumérer chacunes des ressources et tenter d'y accèder sans que ces dernières ne soient référencées dans les pages accessibles par les clients.
+
+Dans le cas de cette application, un dossier \textit{docker} est à la racine du serveur web. Un utilisateur ne devrait pas avoir accès à ce dossier. Avec dirbuster, il se peut qu'un utilisateur trouve cette ressource.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%% CONTREMESURES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -399,15 +435,17 @@ tableau récap et montrer new implémentation
   \hline			
   \textbf{\# } &\textbf{ Vulnérabilité }& \textbf{Contremesure}\\
   \hline  
-  \ref{c1} & xxx & yyy\\
+  \ref{c1} & Manipulation de l'URL & Effectuer un contrôle côté serveur, paramètres non prédictibles\\
   \hline
-  \ref{c2} & xxx & yyy\\
+  \ref{c2} & Attaque XSS & Filtrer les entrées utilisateur \\
   \hline
-  \ref{c3} & xxx & yyy\\
+  \ref{c3} & Injection SQL & Filtrer les entrées utilisateur\\
   \hline
-  \ref{c4} & xxx & yyy\\
+  \ref{c4} & Attaque CSRF & Passage des paramètres en POST \\
   \hline
-  \ref{c5} & xxx & yyy\\
+  \ref{c5} & Bruteforce ressources & Limiter le nombre de tentatives \\
+  \hline
+  \ref{c5} & Bruteforce login & Limiter le nombre de tentatives \\
   \hline
 
 \end{tabular}
