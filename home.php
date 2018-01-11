@@ -25,7 +25,7 @@ $role = User::getInstance()->getRole()->fetch()['role'] === '1';
 if ($role) {
     
     // Retrieves users
-    // depending on the role of the logged in user
+    // depending on the role of the logged in user
     $users = User::getInstance()->getData();
     $user = $users->fetch();
 }
