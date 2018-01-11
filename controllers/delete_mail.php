@@ -17,10 +17,14 @@ Authentication::get_instance()->redirect_if_is_not_logged();
 // Redirect the user to home.php
 Utils::get_instance()->redirect_if_is_not_correct_file_origin(array('home.php', 'read_mail.php'));
 
+$token = isset($_SESSION['token_mail']) && isset($token) ? $token : "";
 $id = isset($id) ? (int)$id : 0;
 
 // Deletes the email
-if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
+if ($_SESSION['token_mail'] === $token && 
+    $id >= Database::PHP_INT_MIN && 
+    $id <= Database::PHP_INT_MAX) {
+    
     Mail::get_instance()->redirect_if_is_not_associate_to_user($id);
     Mail::get_instance()->delete_one($id);
 
@@ -28,5 +32,5 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
     Database::get_instance()->deconnection();
 }
 
-header('location:../home.php');
+header('location:/wechat/home.php');
 ?>

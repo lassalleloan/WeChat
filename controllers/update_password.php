@@ -61,6 +61,6 @@ Database::get_instance()->deconnection();
 if (isset($new_digest)) {
     header('location:logout.php');
 } else {
-    header('location:../change_password.php?is_error=true');
+    header('location:/wechat/change_password.php?is_error=true');
 }
 ?>

@@ -42,7 +42,14 @@ Database::get_instance()->query('CREATE TABLE IF NOT EXISTS mails (
                                 body TEXT('.Database::PHP_TEXT_MAX.') NOT NULL,
                                 FOREIGN KEY(idSender) REFERENCES users(id),
                                 FOREIGN KEY(idReceiver) REFERENCES users(id));',
-                                null); 
+                                null);
+
+Database::get_instance()->query('CREATE TABLE IF NOT EXISTS blacklist (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                date VARCHAR('.Database::PHP_DATE_LEN.') UNIQUE NOT NULL,
+                                attempt INTEGER NOT NULL,
+                                ip VARCHAR(15) NOT NULL);',
+                                null);
 
 /**
  * Set the data
@@ -145,5 +152,5 @@ Database::get_instance()->deconnection();
 /**
  * Go to website
  */
-header('location:../index.php');
+header('location:/wechat/index.php');
 ?>
