@@ -301,7 +301,7 @@ Les biens à protéger sont multiples dans une telle application. Ci-dessous, un
 \begin{itemize}
 \item Les messages 
 \item Les comptes utilisateurs (leurs mots de passes)
-\item Laccès à l'administration des comptes
+\item L'accès à l'administration des comptes
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -363,7 +363,7 @@ Ces différents sont regroupés par impacte et non par vulnérabilité. Il se pe
 \end{tabular}
 \\
 
-Les différents scénarios d'attaques et leurs sources de menaces dépendent de comment l'application de chat est déployée et de comment elle est utilisée par les employés. En effet, si l'application est accessible par l'extérieur de l'entreprise, il sera facile pour des intervenant externes tels que des cyber-criminels ou des hackers d'accèder directement aux biens.
+Les différents scénarios d'attaques et leurs sources de menaces dépendent de comment l'application de chat est déployée et de comment elle est utilisée par les employés. En effet, si l'application est accessible par l'extérieur de l'entreprise, il sera facile pour des intervenants externes tels que des cyber-criminels ou des hackers d'accèder directement aux biens.
 
 En revanche, si l'application est déployée sur un réseau local non accessible par l'extérieur, un attaquant externe devra s'introduire dans le réseau avant de pouvoir attaquer l'application et accèder aux biens. De l'ingénierie sociale peut être utilisée pour inciter un employer à visiter un lien ou à installer une application vulnérable.
 
@@ -452,20 +452,180 @@ tableau récap et montrer new implémentation
 
 \subsection{Contremesure}\label{c1}
 
-blabla pour fix il faut faire ca :
+Afin d'éviter l'accès à certains répertoires non autorisés, nous avon smis en place des règles au sein du fichier httpd.conf :
 
 \begin{lstlisting}[style=JAVA]
-	mettre du super code ici
+	<Directory /var/www/html/wechat/>
+    AllowOverride None
+    Order allow,deny
+    Require all granted
+    Options -Indexes
+    ErrorDocument 403 /wechat/errors/forbidden.php
+    <FilesMatch "\.php|\.css|\.html">
+      Allow from All
+    </FilesMatch>
+  </Directory>
 \end{lstlisting}
 
-comme ca plus possible de hack :)
+Avec la définition de ces règles au sein du serveur Apache, l'accès au sous-répertoires du site Internet ne seront pas accessible par les utilisateurs et ils seront redirigés vers la page d'accueil ou d'authentification. 
 
 \subsection{Contremesure}\label{c2}
 
+Afin d'éviter les attaques XSS, nous avons mis en place la fonction htmlentities :
+
+\begin{lstlisting}[style=JAVA]
+<td>'.htmlentities($mail['from'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
+<td>'.htmlentities($mail['subject'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
+\end{lstlisting}
+
+Elle permet de convertir tous les caractères éligibles en entités HTML. Nous l'avons mis en place lorsque l'application affiche des informations de la base de données ou de la saisie utilisateur. 
+
 \subsection{Contremesure}\label{c3}
+
+Afin d'éviter les attaques CSRF, nous avons mis en place la génération de token sur la page d'accueil :
+
+\begin{lstlisting}[style=JAVA]
+$token_mail = Utils::get_instance()->random_str(32);
+$_SESSION['token_mail'] = $token_mail;
+
+$token_user = Utils::get_instance()->random_str(32);
+$_SESSION['token_user'] = $token_user;
+\end{lstlisting}
+
+\begin{lstlisting}[style=JAVA]
+$token = isset($_SESSION['token_mail']) && isset($token) ? $token : "";
+
+if ($_SESSION['token_mail'] === $token) {
+    // Delete mail
+}
+
+// Redirect to home
+\end{lstlisting}
+
+\begin{lstlisting}[style=JAVA]
+$token = isset($_SESSION['token_user']) && isset($token) ? $token : "";
+
+if ($_SESSION['token_user'] === $token) {
+    // Delete user
+}
+
+// Redirect to home
+\end{lstlisting}
 
 \subsection{Contremesure}\label{c4}
 
+Afin d'éviter les attaques CSRF, nous avons mis en place une vérification du referer header :
+
+\begin{lstlisting}[style=JAVA]
+public function redirect_if_is_not_correct_file_origin($files_origin) {
+  $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
+  $ask_pos = strrpos($http_referer_file, '?');
+
+  if ($ask_pos !== false) {
+      $http_referer_file = substr($http_referer_file, 0, $ask_pos);
+  }
+  
+  foreach ($files_origin as $file_origin) {
+      if ($http_referer_file === $file_origin) {
+          return;
+      }
+  }
+
+  header('location:/wechat/home.php');
+  exit();
+}
+\end{lstlisting}
+
 \subsection{Contremesure}\label{c5}
+
+Afin d'éviter les injections SQL, nous avons mis en place des requêtes préparées :
+
+\begin{lstlisting}[style=JAVA]
+/**
+ * Retrieves user's ID with digest
+ */
+public function get_id() {
+    $query = "SELECT id 
+                    FROM users 
+                    WHERE digest=:digest;";
+    $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+    $array = self::$_database->query($query, $parameters);
+
+    return count($array) >= 1 ? $array[0]['id'] : null;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JAVA]
+/**
+ * Get the result of a query
+ */
+public function query($sql, $parameters) {
+    if (!isset($this->_pdo)) {
+        $this->connection();
+    }
+
+    $stmt = $this->_pdo->prepare($sql);
+    
+    if (isset($parameters)) {
+        foreach($parameters as $parameter) {
+            $stmt->bindParam($parameter->get_name(), $parameter->get_value(), $parameter->get_pdo_type());
+        }
+    }
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+\end{lstlisting}
+
+\subsection{Contremesure}\label{c6}
+
+Afin d'éviter les attaques brute force, nous avons mis en place une liste noire d'adresse IP :
+
+\begin{lstlisting}[style=JAVA]
+/**
+ * Retrieves blacklisted attempt
+ */
+public function get_attempt() {
+    $blacklist_id = $this->get_id();
+    $query = "SELECT attempt
+                FROM blacklist
+                WHERE id=:id;";
+    $parameters = array(new Parameter(':id', $blacklist_id, PDO::PARAM_STR));
+    $array = self::$_database->query($query, $parameters);
+
+    return count($array) >= 1 ? $array[0]['attempt'] : null;
+}
+\end{lstlisting}
+
+\subsection{Contremesure}\label{c7}
+
+Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs :
+
+\begin{lstlisting}[style=JAVA]
+if (isset($from) && isset($to) && isset($subject) && isset($body)) {
+    $len_from = strlen($from);
+    $is_correct_from = $len_from >= Database::USERNAME_MIN && 
+                    $len_from <= Database::USERNAME_MAX;
+                            
+    $len_to = strlen($to);
+    $is_correct_to = $len_to >= Database::USERNAME_MIN && 
+                    $len_to <= Database::USERNAME_MAX;
+
+    $len_subject = strlen($subject);
+    $is_correct_subject = $len_subject >= Database::PHP_STR_MIN && 
+                    $len_subject <= Database::PHP_STR_MAX;
+                            
+    $len_body = strlen($body);
+    $is_correct_body = $len_body >= Database::PHP_TEXT_MIN && 
+                    $len_body <= Database::PHP_TEXT_MAX;
+
+  if ($is_correct_from &&  $is_correct_to && $is_correct_subject && $is_correct_body) {
+    // Do something
+  }
+} else {
+ // Inout incorrect
+}
+\end{lstlisting}
 
 \end{document}
