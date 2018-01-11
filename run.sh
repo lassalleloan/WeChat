@@ -16,7 +16,7 @@ mv /var/www/html/WeChat-master /var/www/html/wechat
 sudo chgrp -R apache /var/www/html/wechat
 
 # Change policy for site
-sudo cp httpd.conf /etc/httpd/conf/httpd.conf
+sudo cp /var/www/html/wechat/httpd.conf /etc/httpd/conf/httpd.conf
 
 # Remove unused folder
 rm -rf ~/Downloads/weChat.zip
