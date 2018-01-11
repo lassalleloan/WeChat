@@ -1,0 +1,471 @@
+\documentclass[12pt]{article}
+
+%%%  PAGE DIMENSIONS
+\usepackage[frenchb]{babel}
+\usepackage{geometry} 			
+\geometry{a4paper, left=20mm, right=20mm, bottom=25mm, top=25mm} 				
+\setlength{\parskip}{0.5em}					% Espace entre les paragraphes
+
+%%%  PACKAGES
+\usepackage{booktabs} 			
+\usepackage{array} 				
+\usepackage{verbatim} 			
+\usepackage{subfig} 			
+\usepackage{graphicx}			
+\graphicspath{ {images/} }		
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{listings}			
+\usepackage{color}				
+\usepackage{hyperref}   
+
+%%% USER COLORS
+\definecolor{darkGreen}{RGB}{0,0.6,0}
+\definecolor{gray}{RGB}{0.5,0.5,0.5}
+\definecolor{mauve}{RGB}{0.58,0,0.82}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.7,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+%%% CODE STYLE (\lstinputlisting{stcFile.cpp} ou \begin{lstlisting} et \end{lstlisting}
+
+%%% JAVA STYLE
+\lstdefinestyle{Java}
+{
+  language=Java,  
+  inputencoding=utf8,
+  frame=single,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\fontsize{9}{11}\ttfamily,
+  numbers=left,
+  numbersep=5px,
+  numberstyle=\tiny\color{pgrey},
+  stepnumber=1,
+  tabsize=2
+}
+
+%%% XML Style
+\lstdefinestyle{XML}
+{  
+  inputencoding=utf8,
+  language=XML,
+  frame=lines,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\fontsize{9}{11}\ttfamily,
+  numbers=left,
+  numbersep=5px,
+  numberstyle=\tiny\color{pgrey},
+  stepnumber=1,
+  tabsize=2
+}
+
+%%% JSON Style
+\lstdefinestyle{JSON}
+{
+  inputencoding=utf8,
+  frame=lines,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  comment=[l]{:},
+  commentstyle=\color{black},
+  keywordstyle=\color{pblue},
+  string=[s]{"}{"},
+  stringstyle=\color{pblue},
+  basicstyle=\fontsize{9}{11}\ttfamily,
+  numbers=left,
+  numbersep=5px,
+  numberstyle=\tiny\color{pgrey},
+  stepnumber=1,
+  tabsize=2
+}
+
+\lstdefinestyle{BASH}
+{
+  inputencoding=utf8,
+  frame=single,
+  showspaces=false,
+  frameround=tttt,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  comment=[l]{:},
+  commentstyle=\color{black},
+  keywordstyle=\color{pblue},
+  string=[s]{"}{"},
+  stringstyle=\color{pblue},
+  numbersep=5px,
+  numberstyle=\tiny\color{pgrey},
+  stepnumber=1,
+  tabsize=2
+}
+
+% Setup pour les liens
+\hypersetup{
+    bookmarks=true,         
+    unicode=false,          
+    pdftoolbar=true,        
+    pdfmenubar=true,        
+    pdffitwindow=false,    
+    pdfstartview={FitH},    
+    pdftitle={My title},    
+    pdfauthor={Author},    
+    pdfsubject={Subject},  
+    pdfcreator={Creator},  
+    pdfproducer={Producer}, 
+    pdfkeywords={keyword1, key2, key3}, 
+    pdfnewwindow=true,      
+    colorlinks=true,       
+    linkcolor=black,         
+    citecolor=green,        
+    filecolor=magenta,      
+    urlcolor=blue          
+}
+
+%%%  HEADERS & FOOTERS
+\usepackage{fancyhdr} 
+\pagestyle{fancy} 
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\lhead{\includegraphics[height=20px]{logo}}\chead{}\rhead{STI - Labo 2}
+\lfoot{M. Chatelan \& L. Lassalle}\cfoot{}\rfoot{\thepage}
+
+%%% NEW COMMANDS %%%		\newcommand{name}[num]{definition{#1}} -> \name{toto}
+\newcommand{\ang}[1]{\emph{#1}}				
+\newcommand{\mail}[1]{{#1}@heig-vd.ch}
+
+%%% SETTINGS %%%
+\setlength\parindent{0pt} 		% Taille de l'indentation
+
+%%% TITLE
+\begin{titlepage}
+\title
+{
+  \Huge{STI - Projet}\\
+  \vspace{1cm}
+  \large{Modélisation de menaces pour}
+  \vspace{2cm} \\
+    \includegraphics[width=350px]{wechatinsecure}    
+        \vspace{1cm} \\
+\large{vers}
+  \vspace{1cm} \\
+  \includegraphics[width=350px]{wechatsecure}    
+  \vspace{6cm} \\
+}
+
+\author{Matthieu Chatelan \& Loan Lassalle} 
+\date{\today}
+
+\end{titlepage}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\clearpage
+\tableofcontents
+\listoffigures
+\setcounter{page}{1}        % Set page numbering to begin on this page
+\clearpage
+
+\section{Introduction}
+Le but de ce document est de fournir une analyse de menaces auquels notre programme WeChat est exposé.
+Premièrement, une description du système est donnée fournissant ainsi une meilleure compréhension des
+différents composants de ce dernier, les différents rôles mis à disposition ou encore les biens 
+qui seront à protéger.
+
+Ensuite, une analyse des différentes sources de menaces auquels notre programme sera exposé. Les différentes
+sources potentielles sont énumérées ainsi que les compétences requises pour effectuer chacunes de ces attaques.
+
+Finalement, plusieurs scénarios d'attaques seront donnés ainsi que les contremesures appropriées à mettre
+en place afin de les contrer.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% DESCRIPTION SYSTEME %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Description du système}
+\subsection{Objectifs du système}
+
+Les objectifs fixés du système étaient de développer une application web permettant d'envoyer  et de reçevoir des messages textes entre collaborateurs au sein d'une entreprise. Le protocole de transmission SMTP ne devait pas être utilisé pour cette application.
+
+Cette application serait par exemple utilisée entre employés d'une entreprise de développement de logiciels.
+
+\subsection{Exigences du système}
+
+Lors du développement de l'application, plusieurs contraintes ont été fixées par le client dans le cahier des charges. Dans les sous sections ci-dessous, ces dernières sont décrites et expliquées. 
+
+\subsubsection{Exigences technologiques}
+Pour développer l'application, les différentes technologies suivantes ou contraintes ont dû être prises en compte :
+
+\begin{itemize}
+\item PHP
+\item SQLite
+\item Doit fonctionner sur l'environnement CentOS fournis
+\end{itemize}
+
+\subsubsection{Exigences fonctionnelles}
+
+L'application devait être en mesure proposer deux rôles différents soit \textbf{collaborateur}, soit \textbf{administrateur}. De plus, un mécanisme d'authentification simple (utilisateur - mot de passe) doit permettre d'accéder aux fonctionnalités. Pour pouvoir se connecter, un utilisateur doit être définit comme étant "actif".
+
+Une navigation aisée via des liens ou des boutons devait être mise en place.
+
+\newpage
+Un \textbf{collaborateur} doit pouvoir effectuer les actions suivantes : 
+
+\begin{enumerate}
+\item Lire les messages reçus sous forme de liste triée par ordre de date de réception avec plusieurs informations tels que :
+
+\begin{itemize}
+\item[--] la date de réception
+\item[--] l'expéditeur
+\item[--] le sujet
+\item[--] un bouton permettant de répondre au message (avec le sujet directement définit)
+\item[--] un bouton permettant de supprimer le message
+\item[--] un bouton permettant d'ouvrir un message et de voir le contenu du corps 
+\end{itemize} 
+
+\item Ecrire des messages à l'attention d'un autre utilisateur. Les informations suivantes doivent être fournies :
+
+\begin{itemize}
+\item[--] destinataire (unique)
+\item[--] sujet
+\item[--] corps du message
+\end{itemize} 
+
+\item Changer le mot de passe de l'utilisateur connecté.
+
+\end{enumerate}
+
+Un \textbf{administrateur} doit pouvoir effectuer les actions suivantes : 
+
+\begin{enumerate}
+\item Avoir les mêmes actions qu'un collaborateur
+
+\item Ajouter, modifier ou supprimer un utilisateur, représenté par les attributs suivants : 
+
+\begin{itemize}
+\item[--] Un login (non modifiable)
+\item[--] Un mot de passe (modifiable)
+\item[--] Une validité actif/inactif (modifiable)
+\item[--] Un rôle (modifiable)
+\end{itemize} 
+
+\end{enumerate}
+
+\subsubsection{Exigences sécuritaires}
+Une authentification était demandée. Cette dernière ne devait pas permettre l'accès à toute autre page que celle de login lorsque l'utilisateur n'est pas authentifié.
+
+Lors du développement initial, aucunes autre mesures de sécurité n'étaient demandées. De ce fait, aucunes protections contre des attaques XSS, CSRF, SQL Injection ou autre n'ont été mises en places.
+
+Néanmoins, les mots de passes n'étaient pas stockés en clair dans la base de donnée, mais sous forme de hash salé pour empêcher une attaque par rainbow table sur ces derniers.
+
+\newpage
+\subsection{Constitution du système}
+
+Le système développé comprenait plusieurs acteurs et processus ainsi qu'une base de donnée centrale. Dans le diagramme de flux de données de l'application (Figure \ref{flux}), un acteur est représenté par un rectangle alors qu'un processus est représenté par un cercle.
+
+On notera que tous les processus qui se situent au dessus de la base de données dans le diagramme (5 au total) sont des processus que les deux acteurs peuvent utiliser. En revanche, les 3 processus au dessous de la base de données sont des processus réservés aux administrateurs.
+
+Lellipse traitillée en orange représente la frontière de confiance de l'application. Cela signifie que nous considérons que les communications entres processus et la base de données sont sécurisés. Toutes entrées utilisateur doivent être contrôlés avant de pénétrer cette zone de confiance.
+
+\begin{figure}[h]
+ 	\center
+	\includegraphics[width=480px]{diagram}
+ 	\caption{Diagramme de flux de données de l'application} 
+ 	\label{flux}	
+\end{figure}
+
+
+\subsection{Biens}
+Les biens à protéger sont multiples dans une telle application. Ci-dessous, une liste non exhaustive de ces derniers
+
+\begin{itemize}
+\item Les messages 
+\item Les comptes utilisateurs (leurs mots de passes)
+\item Laccès à l'administration des comptes
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% SOURCES MENACES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Sources de menaces}
+
+\begin{tabular}{| l | l | l | c |}
+  \hline			
+  \textbf{Initiateur} & \textbf{Motivations} & \textbf{Cible(s)} & \textbf{Potentialité} \\
+  \hline
+  Utilisateur & Fun, Revanche, Curiosité & Tout éléments accessibles & Haute \\
+  Administrateur & Revanche, Curiosité & Tout éléments accessibles & Moyenne \\  
+  Concurrent & Secrets d'entreprise & Base de données & Moyenne \\
+  Hackers & Gloire, Argent, Destruction & Tout éléments accessibles & Faible \\
+  Cyber-criminel & Vol d'informations, Spam, DDoS & Base de données & Faible \\
+  Etat & Vol d'informations, Profit & Tout éléments accessibles & Faible \\
+  \hline  
+\end{tabular}
+\\
+
+Parmi les différents initiateurs décrits ci-dessus, les utilisateurs représentent la plus grande menace et la menace la plus probable d'arriver. En effet, comme le programme est destiné à un usage interne à l'entreprise, a priori seuls les employés y auront accès.
+
+Un administrateur est par défaut une source de menace implicite car ce dernier à un accès total à l'application. Il sera dans notre cas en mesure d'ajouter des utilisateurs ou d'en supprimer, ou encore de les désactiver ou changer leur rôle. Si il a un accès à la base de données, il aura accès à toutes les informations contenues dans cette dernière.
+\\
+
+
+\begin{figure}[h]
+ 	\center
+	\includegraphics[width=220px]{pyramid}
+ 	\caption{Pyramide des sources de menace} 
+ 	\label{flux}	
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% SCENARIOS D'ATTAQUE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Scénarios d'attaques}
+
+Dans cette section, plusieurs scénarios d'attaque sont décrits. Grâce à ces scénarios, il est possible d'imaginer les différents points vulnérables de l'application et ainsi permet de mettre en place des contremesures appropriées.
+
+Ces différents sont regroupés par impacte et non par vulnérabilité. Il se peut qu'un impacte soit causé par de multiples failles de sécurité.
+
+\begin{tabular}{| c | p{5.5cm} | p{5.5cm} | l |}
+  \hline			
+  \textbf{\# }& \textbf{Impacte} &\textbf{ Source de menace } & \textbf{Bien ciblé} \\
+  \hline  
+  \ref{1} & Perte de confidentialité & Utilisateur, Concurrent, Hacker, Cyber-criminel & BDD \\
+    \hline  
+  \ref{2} & Perte de disponibilité & Utilisateur, Concurrent, Hacker, Cyber-criminel & Tout élément actif \\
+    \hline  
+  \ref{3} & Perte d'intégrité & Hacker, Concurrent & BDD \\
+  \hline  
+ \ref{5} & Accès à des ressources non autorisées & Utilisateur, Hacker, Concurrent & Application, BDD \\
+  \hline 
+\end{tabular}
+\\
+
+Les différents scénarios d'attaques et leurs sources de menaces dépendent de comment l'application de chat est déployée et de comment elle est utilisée par les employés. En effet, si l'application est accessible par l'extérieur de l'entreprise, il sera facile pour des intervenant externes tels que des cyber-criminels ou des hackers d'accèder directement aux biens.
+
+En revanche, si l'application est déployée sur un réseau local non accessible par l'extérieur, un attaquant externe devra s'introduire dans le réseau avant de pouvoir attaquer l'application et accèder aux biens. De l'ingénierie sociale peut être utilisée pour inciter un employer à visiter un lien ou à installer une application vulnérable.
+
+\subsubsection{Perte de confidentialité} \label{1}
+Dans ce scénario d'attaque, les différents acteurs listés en tant que source de menace tenteront d'accèder à des informations qui ne leurs sont pas destinées causant ainsi une perte de confidentialité. 
+
+Pour parvenir à ses fins, un attaquant pourra essayer de multiples vecteurs d'attaque tels que : 
+
+\begin{itemize}
+\item Manipulation de l'URL
+\item Injection SQL dans les divers champs de saisie vulnérables
+\item Utilisation d'une faille de XSS stocké afin de récupérer des cookie de session
+\end{itemize}
+
+Sans des connaissances poussées en informatique, on pouvait très rapidement remarquer que lors de la lecture d'un message, l'id de ce dernier était donnée dans l'url. Etant donné qu'aucunes vérification n'était faite du côté serveur pour s'assurer que la personne lisant le message était bien le destinataire de ce dernier, il était possible d'écrire un script python qui testait de manière incrémentale l'accès à tous les message en incrémentant l'id de ce dernier. Si en réponse une erreur 404 est obtenue, on sait que le message n'existe pas. En revance, si un code 200 est retourné, on sait qu'un message existe et on peut automatiquement l'extraire et le stocker dans un fichier ou le parser afin de tenter de trouver des informations confidentielles tels que des adresses mail ou des mots de passes.
+
+Avec peu de recherches sur internet et quelques tentatives, un attaquant avec de faibles connaissances sera en mesure de récupérer des données confidentielles tels que des mails ou encore des mots de passes en utilisant une injection SQL. Une fois les mots de passes récupérés, une étape de cassage hors ligne est nécessaire étant donné que mots de passes sont stocké sous forme hachée et salée.
+
+Avec une attaque plus élaborée, cet attaquant pourrait récupérer des cookie de session en se servant d'une attaque par XSS. Pour récupérer des informations sur les conversations d'un utilisateur, une solution serait d'envoyer un message avec du code javascript en tant que sujet du message. Ce dernier sera stocké sur le serveur et lorsque l'utilisateur cible se connectera à sa boîte de réception, le code malicieux sera exécuté car les sujets sont affichés. Tous les destinataires ou sujets des messages reçus affichés par la victime peuvent être envoyés à l'attaquant (tant que notre message est toujours visible dans la liste et donc que le script est exécuté).
+
+L'exemple de code ci-dessous à insérer dans le champ sujet du message permet de récupérer facilement tout le contenu html de la page après un délai de une seconde (pour laisser le temps aux autres informations de s'afficher dans le navigateur de la cible). Ici l'exemple ne transmet pas les informations à l'attaquand mais les affichent à la cible. 
+
+\begin{lstlisting}[style=JAVA]
+<script>
+	setTimeout(() => {alert(document.documentElement.innerHTML);}, 1000);
+</script>
+\end{lstlisting}
+
+\subsubsection{Perte de disponibilité} \label{2}
+
+Ce scénario concerne la destruction d'informations par les différentes sources de menaces citées dans le tableau. Pour parvenir à ses fins, un attaquant aura plusieurs approches possibles tels que : 
+
+\begin{itemize}
+\item Manipulation de l'URL
+\item Attaques XSS
+\item Attaques CSRF
+\item Injections SQL
+\end{itemize}
+
+Comme ennoncé précédement, comme les paramètres des actions sont passées dans l'url en clair, il serait possible pour un utilisateur de supprimer un message dont il n'est pas le destinataire légitime. En effet, tous les messages de la base de données peuvent être effacés par un seul utilisateur qui lancera un script parcourant tous les id possibles et émettant la requete de suppression pour cet id.
+
+On pourrait imaginer une action similaire lancée par un script javascript inséré dans un corps de message (attaque XSS), permettant par exemple "l'autodestruction" du message envoyé après un certain temps après la lecture. Le script serait donc exécuté lors de l'ouverture du message, et récupérerait l'id du message dans l'url. Après quelques secondes, on exécute la suppression de ce message en contactant le bon end-point avec cet id.
+
+Même si une simple verification que seul le propriétaire du message peut le supprimer, un attaque par CSRF est toujours possible si aucunes autres mesures de protection ne sont mises en oeuvre. Un attaquant pourra envoyer un lien déguisé (short google url ou autre) à la cible. Si lors du clic sur ce dernier la victime est connectée et authentifiée sur le site, l'attaquant pourra forcer la victime à supprimer un message sur son compte.
+
+Une injection SQL peut permettre à un attaquant de complètement détruire la base de donnée (drop) ou simplement arrêter le serveur avec une commande "shutdown".
+
+\subsubsection{Perte d'intégrité} \label{3}
+
+Dans ce scénario d'attaque, un attaquant pourrait se servir de certaines attaques dans le but de corrompre les données présentes dans la base de données produisant ainsi une perte d'intégrité.
+
+Si l'utilisateur utilisé pour faire la requête SQL officiellement prévue a les droits d'écriture dans la base de donées, un attaquant pourrait se servir d'une injection SQL pour effectuer plusieurs actions sur la base de données. Par exemple, au lieu de simplement lire une entrée dans la BDD, il pourrait aussi effectuer une autre action comme ajouter un utilisateur avec les droits administrateurs. De plus, il pourrait corrompre tous les messages. Dans une première phase, il pourrait récupérer les messages, puis dans un second temps les chiffrer / modifier ou les supprimer. Finalement, il pourrait renvoyer ces messages modifiés dans la base de données.
+
+\subsubsection{Accès non autorisé à des ressources} \label{5}
+
+Avec la version actuelle du programme, un attaquant pourrait effectuer une énumération des ressources accessibles sur le serveur web. Grâce à un programme comme dirbuster et un dictionnaire des noms de dossiers et de ressources les plus courantes, ce dernier pourra énumérer chacunes des ressources et tenter d'y accèder sans que ces dernières ne soient référencées dans les pages accessibles par les clients.
+
+Dans le cas de cette application, un dossier \textit{docker} est à la racine du serveur web. Un utilisateur ne devrait pas avoir accès à ce dossier. Avec dirbuster, il se peut qu'un utilisateur trouve cette ressource.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% CONTREMESURES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Contremesures}
+
+tableau récap et montrer new implémentation
+
+\begin{tabular}{| c | p{7.5cm} | p{7.5cm} |}
+  \hline			
+  \textbf{\# } &\textbf{ Vulnérabilité }& \textbf{Contremesure}\\
+  \hline  
+  \ref{c1} & Manipulation de l'URL & Effectuer un contrôle côté serveur, paramètres non prédictibles\\
+  \hline
+  \ref{c2} & Attaque XSS & Filtrer les entrées utilisateur \\
+  \hline
+  \ref{c3} & Injection SQL & Filtrer les entrées utilisateur\\
+  \hline
+  \ref{c4} & Attaque CSRF & Passage des paramètres en POST \\
+  \hline
+  \ref{c5} & Bruteforce ressources & Limiter le nombre de tentatives \\
+  \hline
+  \ref{c5} & Bruteforce login & Limiter le nombre de tentatives \\
+  \hline
+
+\end{tabular}
+
+\subsection{Contremesure}\label{c1}
+
+blabla pour fix il faut faire ca :
+
+\begin{lstlisting}[style=JAVA]
+	mettre du super code ici
+\end{lstlisting}
+
+comme ca plus possible de hack :)
+
+\subsection{Contremesure}\label{c2}
+
+\subsection{Contremesure}\label{c3}
+
+\subsection{Contremesure}\label{c4}
+
+\subsection{Contremesure}\label{c5}
+
+\end{document}
