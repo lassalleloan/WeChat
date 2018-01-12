@@ -84,7 +84,7 @@ class Utils {
                         $num_number++;
                     }
 
-                    if (preg_match_all('/[+"*#%&\/()=?\'`^!$£€,;.:\-_<>@|~{}[\]§°±“≠¿´‘¶¢…«»µ∫√©≈¥≤≥ß∂ƒªº∆¬πø°†®∑]/', $char)) {
+                    if (preg_match_all('/\W/', $char)) {
                         $num_symbol++;
                     }
                 }
@@ -98,6 +98,10 @@ class Utils {
                 if (!preg_match_all('/[^0-9]/', $password)) {
                     $score -= $lenght;
                 }
+
+                // if (preg_match_all('/(.)\1+/', $password)) {
+
+                // }
 
                 echo "num_upper: {$num_upper}<br>";
                 echo "num_number: {$num_number}<br>";
