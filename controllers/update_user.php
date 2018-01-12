@@ -79,10 +79,10 @@ if (isset($username) && isset($password) && isset($role)) {
 Database::get_instance()->deconnection();
 
 if (isset($user)) {
-    header('location:../home.php');
+    header('location:/wechat/home.php');
 } else if (isset($id)) {
-    header('location:../manage_user.php?id='.$id.'&is_error=true');
+    header('location:/wechat/manage_user.php?id='.$id.'&is_error=true');
 } else {
-    header('location:../manage_user.php?is_error=true');
+    header('location:/wechat/manage_user.php?is_error=true');
 }
 ?>

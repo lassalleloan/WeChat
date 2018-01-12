@@ -18,5 +18,5 @@ session_destroy();
 Database::get_instance()->deconnection();
 
 // Redirect the user to index.php
-header('location:../index.php');
+header('location:/wechat/index.php');
 ?> 

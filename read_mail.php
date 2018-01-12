@@ -26,7 +26,7 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
     Database::get_instance()->deconnection();
 
     if (!isset($mail)) {
-        header('location:home.php');
+        header('location:/wechat/home.php');
         exit;
     }
 }

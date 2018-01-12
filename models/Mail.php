@@ -183,7 +183,7 @@ class Mail {
     public function redirect_if_is_not_associate_to_user($id) {
         if ($this->is_not_associate_to_user($id)) {
             self::$_database->deconnection();
-            header('location:home.php');
+            header('location:/wechat/home.php');
             exit;
         }
     }

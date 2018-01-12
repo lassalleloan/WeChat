@@ -72,10 +72,10 @@ Database::get_instance()->deconnection();
 
 // Redirect the user
 if (isset($mail)) {
-    header('location:../home.php');
+    header('location:/wechat/home.php');
 } else if (isset($id)) {
-    header('location:../write_mail.php?id='.$id.'&is_error=true');
+    header('location:/wechat/write_mail.php?id='.$id.'&is_error=true');
 } else {
-    header('location:../write_mail.php?is_error=true');
+    header('location:/wechat/write_mail.php?is_error=true');
 }
 ?>

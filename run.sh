@@ -15,8 +15,8 @@ mv /var/www/html/WeChat-master /var/www/html/wechat
 # Change the owner group of the folder
 sudo chgrp -R apache /var/www/html/wechat
 
-# Chnage policy for htaccess file
-sudo sed -i '151s/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf
+# Change policy for site
+sudo cp /var/www/html/wechat/httpd.conf /etc/httpd/conf/httpd.conf
 
 # Remove unused folder
 rm -rf ~/Downloads/weChat.zip

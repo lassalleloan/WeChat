@@ -64,6 +64,6 @@ if (isset($new_digest)) {
     Utils::get_instance()->password_meter($new_password);
     // header('location:logout.php');
 } else {
-    header('location:../change_password.php?is_error=true');
+    header('location:/wechat/change_password.php?is_error=true');
 }
 ?>
