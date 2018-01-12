@@ -445,7 +445,7 @@ tableau récap et montrer new implémentation
   \hline
   \ref{c5} & Bruteforce ressources & Limiter le nombre de tentatives \\
   \hline
-  \ref{c5} & Bruteforce login & Limiter le nombre de tentatives \\
+  \ref{c6} & Bruteforce login & Limiter le nombre de tentatives \\
   \hline
 
 \end{tabular}
@@ -469,6 +469,36 @@ Afin d'éviter l'accès à certains répertoires non autorisés, nous avon smis 
 
 Avec la définition de ces règles au sein du serveur Apache, l'accès au sous-répertoires du site Internet ne seront pas accessible par les utilisateurs et ils seront redirigés vers la page d'accueil ou d'authentification. 
 
+\subsection{Contremesure}\label{c1}
+
+Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs :
+
+\begin{lstlisting}[style=JAVA]
+if (isset($from) && isset($to) && isset($subject) && isset($body)) {
+    $len_from = strlen($from);
+    $is_correct_from = $len_from >= Database::USERNAME_MIN && 
+                    $len_from <= Database::USERNAME_MAX;
+                            
+    $len_to = strlen($to);
+    $is_correct_to = $len_to >= Database::USERNAME_MIN && 
+                    $len_to <= Database::USERNAME_MAX;
+
+    $len_subject = strlen($subject);
+    $is_correct_subject = $len_subject >= Database::PHP_STR_MIN && 
+                    $len_subject <= Database::PHP_STR_MAX;
+                            
+    $len_body = strlen($body);
+    $is_correct_body = $len_body >= Database::PHP_TEXT_MIN && 
+                    $len_body <= Database::PHP_TEXT_MAX;
+
+  if ($is_correct_from &&  $is_correct_to && $is_correct_subject && $is_correct_body) {
+    // Do something
+  }
+} else {
+ // Inout incorrect
+}
+\end{lstlisting}
+
 \subsection{Contremesure}\label{c2}
 
 Afin d'éviter les attaques XSS, nous avons mis en place la fonction htmlentities :
@@ -481,6 +511,48 @@ Afin d'éviter les attaques XSS, nous avons mis en place la fonction htmlentitie
 Elle permet de convertir tous les caractères éligibles en entités HTML. Nous l'avons mis en place lorsque l'application affiche des informations de la base de données ou de la saisie utilisateur. 
 
 \subsection{Contremesure}\label{c3}
+
+Afin d'éviter les injections SQL, nous avons mis en place des requêtes préparées :
+
+\begin{lstlisting}[style=JAVA]
+/**
+ * Retrieves user's ID with digest
+ */
+public function get_id() {
+    $query = "SELECT id 
+                    FROM users 
+                    WHERE digest=:digest;";
+    $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
+    $array = self::$_database->query($query, $parameters);
+
+    return count($array) >= 1 ? $array[0]['id'] : null;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=JAVA]
+/**
+ * Get the result of a query
+ */
+public function query($sql, $parameters) {
+    if (!isset($this->_pdo)) {
+        $this->connection();
+    }
+
+    $stmt = $this->_pdo->prepare($sql);
+    
+    if (isset($parameters)) {
+        foreach($parameters as $parameter) {
+            $stmt->bindParam($parameter->get_name(), $parameter->get_value(), $parameter->get_pdo_type());
+        }
+    }
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+\end{lstlisting}
+
+\subsection{Contremesure}\label{c4}
 
 Afin d'éviter les attaques CSRF, nous avons mis en place la génération de token sur la page d'accueil :
 
@@ -538,45 +610,22 @@ public function redirect_if_is_not_correct_file_origin($files_origin) {
 
 \subsection{Contremesure}\label{c5}
 
-Afin d'éviter les injections SQL, nous avons mis en place des requêtes préparées :
+Afin d'éviter l'accès à certains répertoires non autorisés, nous avon smis en place des règles au sein du fichier httpd.conf :
 
 \begin{lstlisting}[style=JAVA]
-/**
- * Retrieves user's ID with digest
- */
-public function get_id() {
-    $query = "SELECT id 
-                    FROM users 
-                    WHERE digest=:digest;";
-    $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-    $array = self::$_database->query($query, $parameters);
-
-    return count($array) >= 1 ? $array[0]['id'] : null;
-}
+	<Directory /var/www/html/wechat/>
+    AllowOverride None
+    Order allow,deny
+    Require all granted
+    Options -Indexes
+    ErrorDocument 403 /wechat/errors/forbidden.php
+    <FilesMatch "\.php|\.css|\.html">
+      Allow from All
+    </FilesMatch>
+  </Directory>
 \end{lstlisting}
 
-\begin{lstlisting}[style=JAVA]
-/**
- * Get the result of a query
- */
-public function query($sql, $parameters) {
-    if (!isset($this->_pdo)) {
-        $this->connection();
-    }
-
-    $stmt = $this->_pdo->prepare($sql);
-    
-    if (isset($parameters)) {
-        foreach($parameters as $parameter) {
-            $stmt->bindParam($parameter->get_name(), $parameter->get_value(), $parameter->get_pdo_type());
-        }
-    }
-
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-\end{lstlisting}
+Avec la définition de ces règles au sein du serveur Apache, l'accès au sous-répertoires du site Internet ne seront pas accessible par les utilisateurs et ils seront redirigés vers la page d'accueil ou d'authentification. 
 
 \subsection{Contremesure}\label{c6}
 
@@ -595,36 +644,6 @@ public function get_attempt() {
     $array = self::$_database->query($query, $parameters);
 
     return count($array) >= 1 ? $array[0]['attempt'] : null;
-}
-\end{lstlisting}
-
-\subsection{Contremesure}\label{c7}
-
-Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs :
-
-\begin{lstlisting}[style=JAVA]
-if (isset($from) && isset($to) && isset($subject) && isset($body)) {
-    $len_from = strlen($from);
-    $is_correct_from = $len_from >= Database::USERNAME_MIN && 
-                    $len_from <= Database::USERNAME_MAX;
-                            
-    $len_to = strlen($to);
-    $is_correct_to = $len_to >= Database::USERNAME_MIN && 
-                    $len_to <= Database::USERNAME_MAX;
-
-    $len_subject = strlen($subject);
-    $is_correct_subject = $len_subject >= Database::PHP_STR_MIN && 
-                    $len_subject <= Database::PHP_STR_MAX;
-                            
-    $len_body = strlen($body);
-    $is_correct_body = $len_body >= Database::PHP_TEXT_MIN && 
-                    $len_body <= Database::PHP_TEXT_MAX;
-
-  if ($is_correct_from &&  $is_correct_to && $is_correct_subject && $is_correct_body) {
-    // Do something
-  }
-} else {
- // Inout incorrect
 }
 \end{lstlisting}
 
