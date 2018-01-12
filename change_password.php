@@ -37,15 +37,15 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
                 ?>
                 <tr>
                     <th>Old Password</th>
-                    <td><input type="password" name="old_password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo 'minlength="'.Database::PASSWORD_MIN.'"'; echo 'maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
+                    <td><input type="password" name="old_password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo ' minlength="'.Database::PASSWORD_MIN.'"'; echo ' maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
                 </tr>
                 <tr>
                     <th>New Password</th>
-                    <td><input type="password" name="new_password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo 'minlength="'.Database::PASSWORD_MIN.'"'; echo 'maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
+                    <td><input type="password" name="new_password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo ' minlength="'.Database::PASSWORD_MIN.'"'; echo ' maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
                 </tr>
                 <tr>
                     <th>Confirm Password</th>
-                    <td><input type="password" name="confirm_password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo 'minlength="'.Database::PASSWORD_MIN.'"'; echo 'maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
+                    <td><input type="password" name="confirm_password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo ' minlength="'.Database::PASSWORD_MIN.'"'; echo ' maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
                 </tr>
                 <tr><td align="right" colspan="2"><input type="submit" value="Done" /></td></tr>
             </table>
