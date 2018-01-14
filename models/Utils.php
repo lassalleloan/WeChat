@@ -31,8 +31,8 @@ class Utils {
     /**
      * Formats a date into a character string
      */
-    public function date_str_format($date, $timeZone = 'UTC', $format = 'm.d.Y H:i') {
-        return (new DateTime($date, new DateTimeZone($timeZone)))->format($format);
+    public function date_str_format($date, $time_zone = 'UTC', $format = 'm.d.Y H:i') {
+        return (new DateTime($date, new DateTimeZone($time_zone)))->format($format);
     }
 
     /**

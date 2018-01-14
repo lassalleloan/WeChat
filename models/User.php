@@ -311,8 +311,8 @@ class User {
     /**
      * Insert users
      */
-    public function insert_multiple($userArray) {
-        foreach ($userArray as $user) {
+    public function insert_multiple($user_array) {
+        foreach ($user_array as $user) {
             $this->insert_one($user);
         }
     }
@@ -381,8 +381,8 @@ class User {
     /**
      * Update users
      */
-    public function update_multiple($userArray) {
-        foreach ($userArray as $user) {
+    public function update_multiple($user_array) {
+        foreach ($user_array as $user) {
             $this->update_one($user);
         }
     }
@@ -403,8 +403,8 @@ class User {
     /**
      * Deletes users
      */
-    public function delete_multiple($idArray) {
-        foreach ($idArray as $id) {
+    public function delete_multiple($id_array) {
+        foreach ($id_array as $id) {
             $this->delete_one($id);
         }
     }
