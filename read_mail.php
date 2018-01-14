@@ -30,6 +30,10 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
         exit;
     }
 }
+
+// Generates token for link authentication
+$token_mail = Utils::get_instance()->random_str(32);
+$_SESSION['token_mail'] = $token_mail;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -48,7 +52,7 @@ if ($id >= Database::PHP_INT_MIN && $id <= Database::PHP_INT_MAX) {
             <tr align="right">
                 <td colspan="2">
                     <input type="button" value="Reply" onclick="window.location.href='write_mail.php?id=<?php echo $id; ?>';" />
-                    <input type="button" value="Delete" onclick="if(confirm('Do you want to delete this message?')){window.location.href='controllers/delete_mail.php?id=<?php echo $id; ?>';}" />
+                    <input type="button" value="Delete" onclick="if(confirm('Do you want to delete this message?')){window.location.href='controllers/delete_mail.php?<?php echo 'id='.$id.'&token='.$token_mail; ?>';}" />
                 </td>
             </tr>
             <tr align="left">

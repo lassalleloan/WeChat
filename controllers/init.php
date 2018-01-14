@@ -18,11 +18,13 @@ require_once(dirname(__DIR__).'/models/User.php');
  * Create the tables
  */
 
+Database::get_instance()->query('DROP TABLE IF EXISTS roles;', null);
 Database::get_instance()->query('CREATE TABLE IF NOT EXISTS roles (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                                 name VARCHAR('.Database::PHP_STR_MAX.') UNIQUE NOT NULL);',
                                 null);
-                
+
+Database::get_instance()->query('DROP TABLE IF EXISTS users;', null);
 Database::get_instance()->query('CREATE TABLE IF NOT EXISTS users (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 username VARCHAR('.Database::PHP_STR_MAX.') UNIQUE NOT NULL,
@@ -32,7 +34,8 @@ Database::get_instance()->query('CREATE TABLE IF NOT EXISTS users (
                                 idRole INTEGER NOT NULL,
                                 FOREIGN KEY(idRole) REFERENCES roles(id));',
                                 null);
-                
+
+Database::get_instance()->query('DROP TABLE IF EXISTS mails;', null);
 Database::get_instance()->query('CREATE TABLE IF NOT EXISTS mails (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 date VARCHAR('.Database::PHP_DATE_LEN.') UNIQUE NOT NULL,
@@ -44,6 +47,7 @@ Database::get_instance()->query('CREATE TABLE IF NOT EXISTS mails (
                                 FOREIGN KEY(idReceiver) REFERENCES users(id));',
                                 null);
 
+Database::get_instance()->query('DROP TABLE IF EXISTS blacklist;', null);
 Database::get_instance()->query('CREATE TABLE IF NOT EXISTS blacklist (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 date VARCHAR('.Database::PHP_DATE_LEN.') UNIQUE NOT NULL,
