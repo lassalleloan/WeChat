@@ -437,13 +437,21 @@ tableau récap et montrer new implémentation
   \hline  
   \ref{c1} & Manipulation de l'URL & Contrôler les entrées utilisateurs du côté serveur et utiliser des paramètres non prédictibles \\
   \hline
+<<<<<<< HEAD
+  \ref{c2} & Attaque XSS & Filtrer les entrées utilisateur stockées lors de l'affichage \\
+=======
   \ref{c2} & Attaque XSS & Filtrer l'affichage des données stockées \\
+>>>>>>> 02e3ab6c9380261f487f7d4988e9fb449f335c35
   \hline
   \ref{c3} & Injection SQL & Utiliser des requêtes préparées \\
   \hline
   \ref{c4} & Attaque CSRF & Authentification par jeton et par HTTP_REFERER \\
   \hline
+<<<<<<< HEAD
+  \ref{c5} & Path exploration & Filtrer les accès aux ressources \\
+=======
   \ref{c5} & Path Discovery & Limiter l'accès aux ressources \\
+>>>>>>> 02e3ab6c9380261f487f7d4988e9fb449f335c35
   \hline
   \ref{c6} & Bruteforce lors de l'authentification & Ralentir le processus et limiter le nombre de tentatives \\
   \hline

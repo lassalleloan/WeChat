@@ -259,8 +259,8 @@ class Mail {
     /**
      * Inserts emails
      */
-    public function insert_multiple($mailArray) {
-        foreach ($mailArray as $mail) {
+    public function insert_multiple($mail_array) {
+        foreach ($mail_array as $mail) {
             $this->insert_one($mail);
         }
     }
@@ -283,8 +283,8 @@ class Mail {
     /**
      * Update emails
      */
-    public function update_multiple($idArray) {
-        foreach ($idArray as $id) {
+    public function update_multiple($id_array) {
+        foreach ($id_array as $id) {
             $this->update_one($id);
         }
     }
@@ -306,8 +306,8 @@ class Mail {
     /**
      * Deletes emails
      */
-    public function delete_multiple($idArray) {
-        foreach ($idArray as $id) {
+    public function delete_multiple($id_array) {
+        foreach ($id_array as $id) {
             $this->delete_one($id);
         }
     }

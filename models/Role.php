@@ -120,8 +120,8 @@ class Role {
     /**
      * Update roles
      */
-    public function update_multiple($roleArray) {
-        foreach ($roleArray as $role) {
+    public function update_multiple($role_rray) {
+        foreach ($role_array as $role) {
             $this->update_one(role);
         }
     }

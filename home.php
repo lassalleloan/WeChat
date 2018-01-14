@@ -16,23 +16,24 @@ require_once('models/Utils.php');
 Authentication::get_instance()->redirect_if_is_not_logged();
 
 // Recover received emails
-$mailsHeaders = Mail::get_instance()->get_data_headers();
+$mails_headers = Mail::get_instance()->get_data_headers();
 $mails = Mail::get_instance()->get_data();
 
 // Retrieves the role of the user
-$isAdministrator = Authentication::get_instance()->is_authorized('Administrator');
+$is_administrator = Authentication::get_instance()->is_authorized('Administrator');
 
-if ($isAdministrator) {
+if ($is_administrator) {
     
     // Retrieves users
     // depending on the role of the logged in user
-    $usersHeaders = User::get_instance()->get_data_headers();
+    $users_headers = User::get_instance()->get_data_headers();
     $users = User::get_instance()->get_data();
 }
 
 // Closes the connection to the database
 Database::get_instance()->deconnection();
 
+// Generates token for link authentication
 $token_mail = Utils::get_instance()->random_str(32);
 $_SESSION['token_mail'] = $token_mail;
 
@@ -57,12 +58,12 @@ $_SESSION['token_user'] = $token_user;
         <br>
         <table width="500px">
             <?php
-            if (isset($mailsHeaders)) {                
+            if (isset($mails_headers)) {                
                 echo '<tr>';
 
                 // Displays column headers
-                foreach ($mailsHeaders as $headerName) {
-                    echo '<th>'.ucfirst($headerName).'</th>';
+                foreach ($mails_headers as $header_name) {
+                    echo '<th>'.ucfirst($header_name).'</th>';
                 }
                 
                 echo '<th colspan="3"><input type="button" value="New Mail" onclick="window.location.href=\'write_mail.php\';" /></th></tr>';
@@ -82,17 +83,17 @@ $_SESSION['token_user'] = $token_user;
                     }
                 }
             
-                if ($isAdministrator) {
+                if ($is_administrator) {
                     echo '<tr><td colspan="6"><br></td></tr>';
                 }
             }
             
-            if (isset($usersHeaders)) {
+            if (isset($users_headers)) {
                 echo '<tr>';
 
                 // Displays column headers
-                foreach ($usersHeaders as $headerName) {
-                    echo '<th>'.ucfirst($headerName).'</th>';
+                foreach ($users_headers as $header_name) {
+                    echo '<th>'.ucfirst($header_name).'</th>';
                 }
                 
                 echo '<th colspan="3"><input type="button" value="New User" onclick="window.location.href=\'manage_user.php\';" /></th></tr>';
