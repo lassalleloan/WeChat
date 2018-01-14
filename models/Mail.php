@@ -50,7 +50,7 @@ class Mail {
                             new Parameter(':user_id', $user_id, PDO::PARAM_INT));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['id'] : null;
+        return count($array) >= 1 ? (int)$array[0]['id'] : null;
     }
 
     /**
@@ -164,17 +164,10 @@ class Mail {
     }
 
     /**
-     * Check if the user is associate to email
-     */
-    public function is_associate_to_user($id) {
-        return !$this->is_not_associate_to_user($id);
-    }
-
-    /**
      * Check if the user is not associate to email
      */
     public function is_not_associate_to_user($id) {
-        return !$this->get_by_id($id);
+        return $this->get_by_id($id) === null;
     }
 
     /**
@@ -197,7 +190,7 @@ class Mail {
         foreach (self::$_database->headers('mails') as $array) {
             $name = $array['name'];
 
-            if ($name !== 'id' && $name !== 'idReceiver'&& $name !== 'body') {
+            if ($name !== 'id' && $name !== 'idReceiver' && $name !== 'body') {
                 array_push($headers, $name !== 'idSender' ? $name : 'from');
             }
         }
