@@ -455,7 +455,57 @@ tableau récap et montrer new implémentation
 
 \subsection{Contremesure}\label{c1}
 
-Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs. Cette technique consiste à vérifier la longueur des chaînes de caractères, a quel domaine mathématique appartien une valeur rnumérique ou encore 
+Afin d'éviter la manipulation d'URL, nous vérifions que les valeurs des paramètres contenus dans l'URL sont associés ou non à l'utilisateur. Par exemple, afin d'éviter que l'utilisateur soit capable de lire ou supprimer n'importe quel email, nous vérifions que l'ID de l'email demandé est bien associé à l'utilisateur courant.
+
+\begin{lstlisting}[style=JAVA]
+/**
+ * Redirect the user if is not associated to email
+ */
+public function redirect_if_is_not_associate_to_user($id) {
+    if ($this->get_by_id($id) === null) {
+        self::$_database->deconnection();
+        header('location:/wechat/home.php');
+        exit;
+    }
+}
+
+/**
+ * Retrieves user's email
+ */
+public function get_by_id($id) {
+    $user_id = self::$_user->get_id();
+    $query = "SELECT date, 
+                    uSender.username AS 'from', 
+                    uReceiver.username AS 'to', 
+                    subject, 
+                    body 
+                    FROM mails 
+                    LEFT JOIN users AS uSender ON mails.idSender = uSender.id 
+                    INNER JOIN users AS uReceiver ON mails.idReceiver = uReceiver.id 
+                    WHERE mails.id=:id 
+                    AND idReceiver=:user_id;";
+    $parameters = array(new Parameter(':id', $id, PDO::PARAM_INT),
+                        new Parameter(':user_id', $user_id, PDO::PARAM_INT));
+    $array = self::$_database->query($query, $parameters);
+
+    return count($array) >= 1 ? $array[0] : null;
+}
+\end{lstlisting}
+
+Cette technique a aussi été mise en place pour l'édition ou la suppression d'un utilisateur. Cela permet d'éviter que l'administrateur courant puisse supprimer son propre compte.
+Cette contremesure a été mise en place dans les fichiers suivant :
+
+\begin{itemize}
+\item controllers/delete\_mail.php
+\item controllers/delete\_user.php
+\item controllers/read\_mail.php
+\item read\_mail.php
+\item write\_mail.php
+\end{itemize}
+
+\subsection{Contremesure}\label{c1}
+
+Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs. Cette technique consiste à vérifier la longueur des chaînes de caractères, a quel domaine mathématique appartient une valeur numérique ou encore si la valeur est représentative dans le type de destination.
 
 \begin{lstlisting}[style=JAVA]
 if (isset($from) && isset($to) && isset($subject) && isset($body)) {
@@ -576,7 +626,7 @@ if ($_SESSION['token_mail'] === $token) {
 // Redirect to home
 \end{lstlisting}
 
-Cette technique se repose sur la génération d'une chaîne de caratères aléatoire. C'est pourquoi il est indispensable de veiller à rendre la génération de jeton non prédictible.
+Cette technique se repose sur la génération d'une chaîne de caratères aléatoire. C'est pourquoi il est indispensable de veiller à rendre la génération de jeton non prédictible. Nous avons implémenté cette technique uniquement pour les actions de suppression car s'est une action à haut risque et qu'elle produit un changement rapide de l'interface et très peu visible par l'utilisateur. 
 Cette contremesure a été mise en place dans les fichiers suivant :
 
 \begin{itemize}
@@ -750,5 +800,7 @@ Nous avons décidé de ne pas mettre en place cette technique au sein de l'appli
 
 Afin d'éviter le vol de session, il serait utile de mettre en place un vérouillage de la session par hôte. En utilisant l'adresse IP et le User Agent de l'utilisateur, nous pouvons ainsi éviter cette attaque. Afin d'ajouter une couche de sécurité, nous pourrions mettre en place une regénération de session. Rendre la session obsolète après une durée déterminée permettrait d'empêcher l'utilisation d'une session volée ad vitam eternam.
 Nous avons essayé de le mettre en place mais nous n'y sommes pas arrivés. Nous pensons que le problème provient de l'archistecture de notre application Web. Afin d'éviter de perdre du temps, nous n'avons pas implémenté cette technique.
+Nous avons trouvé un exemple d'implémentation :
+http://blog.teamtreehouse.com/how-to-create-bulletproof-sessions
 
 \end{document}
