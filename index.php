@@ -34,10 +34,10 @@ $is_error = isset($is_error) ? (bool)$is_error : false;
                 ?>
 				<tr>
                     <th>Username</th>
-                    <td><input type="text" name="username" <?php echo 'size="'.Database::USERNAME_MAX.'"'; echo 'minlength="'.Database::USERNAME_MIN.'"'; echo 'maxlength="'.Database::USERNAME_MAX.'"'; ?> required /></td>
+                    <td><input type="text" name="username" <?php echo 'size="'.Database::USERNAME_MAX.'"'; echo ' minlength="'.Database::USERNAME_MIN.'"'; echo ' maxlength="'.Database::USERNAME_MAX.'"'; ?> required /></td>
 				<tr>
 					<th>Password</th>
-					<td><input type="password" name="password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo 'minlength="'.Database::PASSWORD_MIN.'"'; echo 'maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
+					<td><input type="password" name="password" <?php echo 'size="'.Database::PASSWORD_MAX.'"'; echo ' minlength="'.Database::PASSWORD_MIN.'"'; echo ' maxlength="'.Database::PASSWORD_MAX.'"'; ?> required /></td>
 				</tr>
 				<tr><td colspan="2" align="right"><input type="submit" value="Login" /></td></tr>
 			</table>

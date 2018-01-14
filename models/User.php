@@ -56,7 +56,7 @@ class User {
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['id'] : null;
+        return count($array) >= 1 ? (int)$array[0]['id'] : null;
     }
     
     /**
@@ -69,7 +69,7 @@ class User {
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['id'] : null;
+        return count($array) >= 1 ? (int)$array[0]['id'] : null;
     }
     
     /**
@@ -151,7 +151,7 @@ class User {
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['active'] : null;
+        return count($array) >= 1 ? (bool)$array[0]['active'] : null;
     }
     
     /**
@@ -164,7 +164,7 @@ class User {
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['active'] : null;
+        return count($array) >= 1 ? (bool)$array[0]['active'] : null;
     }
 
     /**
@@ -220,13 +220,6 @@ class User {
      */
     public function is_associate_to_user($id) {
         return $this->get_id() === $id;
-    }
-
-    /**
-     * Check if the user is not associate to suser's ID
-     */
-    public function is_not_associate_to_user($id) {
-        return !$this->is_associate_to_user();
     }
 
     /**
@@ -311,8 +304,8 @@ class User {
     /**
      * Insert users
      */
-    public function insert_multiple($userArray) {
-        foreach ($userArray as $user) {
+    public function insert_multiple($user_array) {
+        foreach ($user_array as $user) {
             $this->insert_one($user);
         }
     }
@@ -381,8 +374,8 @@ class User {
     /**
      * Update users
      */
-    public function update_multiple($userArray) {
-        foreach ($userArray as $user) {
+    public function update_multiple($user_array) {
+        foreach ($user_array as $user) {
             $this->update_one($user);
         }
     }
@@ -403,8 +396,8 @@ class User {
     /**
      * Deletes users
      */
-    public function delete_multiple($idArray) {
-        foreach ($idArray as $id) {
+    public function delete_multiple($id_array) {
+        foreach ($id_array as $id) {
             $this->delete_one($id);
         }
     }

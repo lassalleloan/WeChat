@@ -43,7 +43,7 @@ class Role {
         $parameters = array(new Parameter(':name', $name, PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['id'] : null;
+        return count($array) >= 1 ? (int)$array[0]['id'] : null;
     }
     
     /**
@@ -120,8 +120,8 @@ class Role {
     /**
      * Update roles
      */
-    public function update_multiple($roleArray) {
-        foreach ($roleArray as $role) {
+    public function update_multiple($role_rray) {
+        foreach ($role_array as $role) {
             $this->update_one(role);
         }
     }

@@ -45,7 +45,7 @@ class Blacklist {
         $parameters = array(new Parameter(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['id'] : null;
+        return count($array) >= 1 ? (int)$array[0]['id'] : null;
     }
 
     /**
@@ -75,7 +75,7 @@ class Blacklist {
         $parameters = array(new Parameter(':id', $blacklist_id, PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['attempt'] : null;
+        return count($array) >= 1 ? (int)$array[0]['attempt'] : null;
     }
 
     /**

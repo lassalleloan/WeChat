@@ -33,8 +33,8 @@ class Utils {
     /**
      * Formats a date into a character string
      */
-    public function date_str_format($date, $timeZone = 'UTC', $format = 'm.d.Y H:i') {
-        return (new DateTime($date, new DateTimeZone($timeZone)))->format($format);
+    public function date_str_format($date, $time_zone = 'UTC', $format = 'm.d.Y H:i') {
+        return (new DateTime($date, new DateTimeZone($time_zone)))->format($format);
     }
 
     /**
@@ -116,16 +116,18 @@ class Utils {
     }
 
     public function redirect_if_is_not_correct_file_origin($files_origin) {
-        $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
-        $ask_pos = strrpos($http_referer_file, '?');
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
+            $ask_pos = strrpos($http_referer_file, '?');
 
-        if ($ask_pos !== false) {
-            $http_referer_file = substr($http_referer_file, 0, $ask_pos);
-        }
-        
-        foreach ($files_origin as $file_origin) {
-            if ($http_referer_file === $file_origin) {
-                return;
+            if ($ask_pos !== false) {
+                $http_referer_file = substr($http_referer_file, 0, $ask_pos);
+            }
+            
+            foreach ($files_origin as $file_origin) {
+                if ($http_referer_file === $file_origin) {
+                    return;
+                }
             }
         }
 
