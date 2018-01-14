@@ -346,7 +346,7 @@ Un administrateur est par défaut une source de menace implicite car ce dernier 
 
 Dans cette section, plusieurs scénarios d'attaque sont décrits. Grâce à ces scénarios, il est possible d'imaginer les différents points vulnérables de l'application et ainsi permet de mettre en place des contremesures appropriées.
 
-Ces différents sont regroupés par impacte et non par vulnérabilité. Il se peut qu'un impacte soit causé par de multiples failles de sécurité.
+Ces différents scénarios sont regroupés par impacte et non par vulnérabilité. Il se peut qu'un impacte soit causé par de multiples failles de sécurité.
 
 \begin{tabular}{| c | p{5.5cm} | p{5.5cm} | l |}
   \hline			
@@ -437,17 +437,16 @@ tableau récap et montrer new implémentation
   \hline  
   \ref{c1} & Manipulation de l'URL & Effectuer un contrôle côté serveur, paramètres non prédictibles\\
   \hline
-  \ref{c2} & Attaque XSS & Filtrer les entrées utilisateur \\
+  \ref{c2} & Attaque XSS & Filtrer les entrées utilisateur stockées lors de l'affichage \\
   \hline
   \ref{c3} & Injection SQL & Filtrer les entrées utilisateur\\
   \hline
   \ref{c4} & Attaque CSRF & Passage des paramètres en POST \\
   \hline
-  \ref{c5} & Bruteforce ressources & Limiter le nombre de tentatives \\
+  \ref{c5} & Path exploration & Filtrer les accès aux ressources \\
   \hline
   \ref{c5} & Bruteforce login & Limiter le nombre de tentatives \\
   \hline
-
 \end{tabular}
 
 \subsection{Contremesure}\label{c1}
