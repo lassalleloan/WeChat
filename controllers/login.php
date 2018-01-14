@@ -32,6 +32,8 @@ if (!$is_blacklisted && isset($username) && isset($password)) {
     
     // Authenticates the user
     if ($is_correct_username && $is_correct_password) {
+
+        // Blacklist the user
         if (isset($attempt)) {
             Blacklist::get_instance()->increment_attempt();
         } else {
