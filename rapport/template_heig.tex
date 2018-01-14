@@ -310,6 +310,7 @@ Les biens à protéger sont multiples dans une telle application. Ci-dessous, un
 \newpage
 \section{Sources de menaces}
 
+\subsection{Liste des acteurs}
 \begin{tabular}{| l | l | l | c |}
   \hline			
   \textbf{Initiateur} & \textbf{Motivations} & \textbf{Cible(s)} & \textbf{Potentialité} \\
@@ -327,12 +328,12 @@ Les biens à protéger sont multiples dans une telle application. Ci-dessous, un
 Parmi les différents initiateurs décrits ci-dessus, les utilisateurs représentent la plus grande menace et la menace la plus probable d'arriver. En effet, comme le programme est destiné à un usage interne à l'entreprise, a priori seuls les employés y auront accès.
 
 Un administrateur est par défaut une source de menace implicite car ce dernier à un accès total à l'application. Il sera dans notre cas en mesure d'ajouter des utilisateurs ou d'en supprimer, ou encore de les désactiver ou changer leur rôle. Si il a un accès à la base de données, il aura accès à toutes les informations contenues dans cette dernière.
-\\
 
+\subsection{Pyramide des acteurs}
 
 \begin{figure}[h]
  	\center
-	\includegraphics[width=220px]{pyramid}
+	\includegraphics[width=200px]{pyramid}
  	\caption{Pyramide des sources de menace} 
  	\label{flux}	
 \end{figure}
@@ -453,7 +454,10 @@ tableau récap et montrer new implémentation
   \hline
   \ref{c9} & Vol de cookie & Vérouiller la session à un seul hôte et conserver le même identifiant de session pendant un intervalle de temps donné \\
   \hline
-\end{tabular}
+\end{tabular}\\
+
+
+Parmis ces contermesures, seules les deux dernières n'ont pas été implémentées par manque de temps. Les autres mesures mises en places permettent à chaque fois de mitiger les risques énoncés dans les différents scénarios d'attaques.
 
 \newpage
 \subsection{Contremesure}\label{c1}
@@ -536,6 +540,8 @@ Une attaque XSS réfléchie n'est pas possible sur le site. Aucuns paramètres p
 
 Afin d'éviter les injections SQL, nous avons mis en place des requêtes préparées. Elles permettent d'interpréter correctement les différents types des paramètres d'une requête . Pour être plus précis, si une requête utilise une chaîne de caractères comme paramètre, elle l'englobera de guillemets afin de tranformer toute la valeur du paramètre en chaîne de caractères et ceci afin d'éviter les injections SQL.
 
+Voici un extrait de code métant en place cette contremesure : 
+
 \begin{lstlisting}[style=JAVA]
 /**
  * Get the result of a query
@@ -574,7 +580,7 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 \subsection{Contremesure}\label{c4_1}
 
 Afin d'éviter les attaques CSRF, nous avons mis en place l'authentification par jeton. Cette technique est mise en place sur une page d'origine et une page de destination.
-Dans notre application, nous générons 2 jetons au sein de la page d'acceuil pour les accéder au liens de suppression d'email et d'utilisateurs.
+Dans notre application, nous générons 2 jetons au sein de la page d'acceuil pour accéder au liens de suppression d'email et d'utilisateurs.
 
 \begin{lstlisting}[style=JAVA]
 // Generates token for link authentication
@@ -609,7 +615,7 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 \newpage
 \subsection{Contremesure}\label{c4_2}
 
-Afin d'éviter les attaques CSRF, nous avons mis en place une vérification du referer header. 
+Afin d'éviter les attaques CSRF, nous avons aussi mis en place une vérification du referer header. 
 
 \begin{lstlisting}[style=JAVA]
 /**
@@ -669,7 +675,7 @@ Afin d'éviter l'accès à certaines ressources du site Internet, nous avons mis
 # "/var/www/html/wechat/*/"
 # Subdirectories
 #
-<Directory /var/www/html/wechat/*/>
+<Directory /var/www/html/wechat/\*/>
     AllowOverride None
     Deny from All
 </Directory>
@@ -713,8 +719,8 @@ Afin d'éviter l'accès à certaines ressources du site Internet, nous avons mis
 \end{lstlisting}
 
 La première directive permet d'autoriser l'accès à tous les fichiers d'extension php, css et html. Elle permet aussi de ne pas renvoyer un listing formaté du répertoire et de rediriger toutes les requêtes dont l'accès est non autorisée vers la page d'acceuil ou d'authentification. 
-La deuxième directive définie le blocage de l'accès au sous-répertoires de l'application Web.
-Les quatres dernières directives sont utilisées pour autoriser uniquement l'accès aux ressources des différents répertoires définis.
+La deuxième directive définit le blocage de l'accès au sous-répertoires de l'application Web.
+Les quatres dernières directives sont utilisées pour autoriser uniquement l'accès aux ressources des différents répertoires définits.
 Cette contremesure a été mise en place dans le fichier suivant :
 
 \begin{itemize}
@@ -724,7 +730,7 @@ Cette contremesure a été mise en place dans le fichier suivant :
 \newpage
 \subsection{Contremesure}\label{c6}
 
-Afin d'éviter les attaques bruteforce, nous avons bloqué l'authentification de l'utilisateur en insérant son adresse IP dans une liste noire d'adresse IP.
+Afin d'éviter les attaques par bruteforce, nous avons bloqué l'authentification de l'utilisateur en insérant son adresse IP dans une liste noire d'adresse IP une fois un nombre trop élevé de tentatives effectuées.
 
 \begin{lstlisting}[style=JAVA]
 // Get attempt of IP address of current user
@@ -757,18 +763,26 @@ if (isset($is_error) && $is_error) {
 }
 \end{lstlisting}
 
-Nous avons préféré un blocage par rapport à l'adresse IP plutôt que par rapport au nom d'utilisateur. Cette technique évite qu'un attaquant bloque l'accès au site Internet de tous les comptes utilisateurs. Etant donné la simplicité de notre application Web, nous avons décidé de bloquer l'authentification de l'utilisateur au bout de 4 essais. Il serait intéressant, au bout de 4 essais, de bloquer l'adresse IP de l'utilisateur un temps donné. Cela permettrait aux utilisateurs non attentifs de pouvoir se connecter à nouveau sans contacter l'administrateur du site Internet. Bien sur une fois cette technique mise en place, il faudrait augmenter le temps d'attente si l'utilisateur échoue à nouveau son authentification. Cette technique ralentirait d'avantages les attaques bruteforce. Puis dernier rempart de sécurité, il faudrait bloquer définitivement l'adresse IP de l'utilisateur lorsqu'il a trop échoué l'authentification. Il lui serait possible, via un formulaire exempt de vulnérabilités, de faire une demande de suppression de restriction à l'administrateur du site Internet.
+Nous avons préféré un blocage par rapport à l'adresse IP plutôt que par rapport au nom d'utilisateur. Cette technique évite qu'un attaquant ne bloque l'accès au site Internet de tous les comptes utilisateurs. Etant donné la simplicité de notre application Web, nous avons décidé de bloquer l'authentification de l'utilisateur au bout de 4 essais. Il serait intéressant, au bout de 4 essais, de bloquer l'adresse IP de l'utilisateur un temps donné. Cela permettrait aux utilisateurs non attentifs de pouvoir se connecter à nouveau sans contacter l'administrateur du site Internet. 
+
+Bien sur une fois cette technique mise en place, il faudrait augmenter le temps d'attente si l'utilisateur échoue à nouveau son authentification. Cette technique ralentirait d'avantages les attaques par bruteforce. 
+
+Puis comme dernier rempart de sécurité, il faudrait bloquer définitivement l'adresse IP de l'utilisateur lorsqu'il a trop échoué l'authentification. Il lui serait possible, via un formulaire exempt de vulnérabilités, de faire une demande de suppression de restriction à l'administrateur du site Internet.
+
 Pour terminer, il serait recommandé de mettre en place une politique de mot de passe complexe. Il faudrait par exemple,  autoriser uniquement l'utilisation de mot de passe contenant des lettres minuscules et majuscules, des chiffres, des symboles, éviter les répétitions de mots et l'utilisation d'informations personnelles. 
-Bien sur toutes ces techniques ne rendent pas impossible les attaques bruteforce mais ralentissent énormément le processus.
+
+Bien évidemment, toutes ces techniques ne rendent pas impossible les attaques bruteforce mais ralentissent énormément le processus.
+
 Cette contremesure a été mise en place dans les fichiers suivant :
 
 \begin{itemize}
 \item controllers/login.php
 \end{itemize}
 
+\newpage
 \subsection{Contremesure}\label{c7}
 
-Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs. Cette technique consiste à vérifier la longueur des chaînes de caractères, a quel domaine mathématique appartient une valeur numérique ou encore si la valeur est représentative dans le type de destination.
+Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs. Cette technique consiste à vérifier la longueur des chaînes de caractères, a quel domaine mathématique appartient les valeurs numériques ou encore si la valeur est représentable dans le type de destination.
 
 \begin{lstlisting}[style=JAVA]
 if (isset($from) && isset($to) && isset($subject) && isset($body)) {
@@ -809,14 +823,19 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 \newpage
 \subsection{Contremesure}\label{c8}
 
-Afin d'éviter que les identifiants de connexion d'un utilisateur passe en clair sur le réseau, il serait nécessaire de mettre en place une connexion chiffrée à l'application Web. Cette technique garantirait la confidentialité des données échangées avec le serveur.
-Nous avons décidé de ne pas mettre en place cette technique au sein de l'application Web parce qu'elle n'est pas destiné à un environnement de production et que nous ne voulions pas perdre de temps à ça mise en place.
+Afin d'éviter que les identifiants de connexion d'un utilisateur ne passent en clair sur le réseau, il serait nécessaire de mettre en place une connexion chiffrée à l'application Web. Cette technique garantirait la confidentialité des données échangées avec le serveur empéchant un attaquant de se positionner en MITM.
+
+Nous avons décidé de ne pas mettre en place cette technique au sein de l'application Web parce qu'elle n'est pas destiné à un environnement de production et que nous ne voulions pas perdre de temps à sa mise en place.
+
+Un certificat peut être obtenu relativement simplement avec Let's Encrypt si le site internet à un nom de domaine associé.
 
 \subsection{Contremesure}\label{c9}
 
 Afin d'éviter le vol de session, il serait utile de mettre en place un vérouillage de la session par hôte. En utilisant l'adresse IP et le User Agent de l'utilisateur, nous pouvons ainsi éviter cette attaque. Afin d'ajouter une couche de sécurité, nous pourrions mettre en place une regénération de session. Rendre la session obsolète après une durée déterminée permettrait d'empêcher l'utilisation d'une session volée ad vitam eternam.
-Nous avons essayé de le mettre en place mais nous n'y sommes pas arrivés. Nous pensons que le problème provient de l'archistecture de notre application Web. Afin d'éviter de perdre du temps, nous n'avons pas implémenté cette technique.
-Nous avons trouvé un exemple d'implémentation à cette address :
-http://blog.teamtreehouse.com/how-to-create-bulletproof-sessions
+Nous avons essayé de le mettre en place mais nous n'y sommes pas arrivés. Nous pensons que le problème provient de l'architecture de notre application Web. 
+
+Toutefois, nous avons trouvé un exemple d'implémentation sur le site suivant :
+
+\url{http://blog.teamtreehouse.com/how-to-create-bulletproof-sessions}
 
 \end{document}
