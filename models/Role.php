@@ -43,7 +43,7 @@ class Role {
         $parameters = array(new Parameter(':name', $name, PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['id'] : null;
+        return count($array) >= 1 ? (int)$array[0]['id'] : null;
     }
     
     /**

@@ -56,7 +56,7 @@ class User {
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['id'] : null;
+        return count($array) >= 1 ? (int)$array[0]['id'] : null;
     }
     
     /**
@@ -69,7 +69,7 @@ class User {
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['id'] : null;
+        return count($array) >= 1 ? (int)$array[0]['id'] : null;
     }
     
     /**
@@ -151,7 +151,7 @@ class User {
         $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['active'] : null;
+        return count($array) >= 1 ? (bool)$array[0]['active'] : null;
     }
     
     /**
@@ -164,7 +164,7 @@ class User {
         $parameters = array(new Parameter(':username', $username, PDO::PARAM_STR));
         $array = self::$_database->query($query, $parameters);
 
-        return count($array) >= 1 ? $array[0]['active'] : null;
+        return count($array) >= 1 ? (bool)$array[0]['active'] : null;
     }
 
     /**
@@ -220,13 +220,6 @@ class User {
      */
     public function is_associate_to_user($id) {
         return $this->get_id() === $id;
-    }
-
-    /**
-     * Check if the user is not associate to suser's ID
-     */
-    public function is_not_associate_to_user($id) {
-        return !$this->is_associate_to_user();
     }
 
     /**
