@@ -441,7 +441,7 @@ tableau récap et montrer new implémentation
   \hline
   \ref{c3} & Injection SQL & Utiliser des requêtes préparées \\
   \hline
-  \ref{c4} & Attaque CSRF & Authentification par jeton et par HTTP_REFERER \\
+  \ref{c4} & Attaque CSRF & Authentification par jeton et par HTTP\_REFERER \\
   \hline
   \ref{c5} & Path Discovery & Limiter l'accès aux ressources \\
   \hline
@@ -487,10 +487,10 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 
 \begin{itemize}
 \item controllers/login.php
-\item controllers/send_mail.php
-\item controllers/update_password.php
-\item controllers/update_user.php
-\item write_mail.php
+\item controllers/send\_mail.php
+\item controllers/update\_password.php
+\item controllers/update\_user.php
+\item write\_mail.php
 \end{itemize}
 
 \subsection{Contremesure}\label{c2}
@@ -507,9 +507,9 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 
 \begin{itemize}
 \item home.php
-\item manage_user.php
-\item read_mail.php
-\item write_mail.php
+\item manage\_user.php
+\item read\_mail.php
+\item write\_mail.php
 \end{itemize}
 
 \subsection{Contremesure}\label{c3}
@@ -580,8 +580,8 @@ Cette technique se repose sur la génération d'une chaîne de caratères aléat
 Cette contremesure a été mise en place dans les fichiers suivant :
 
 \begin{itemize}
-\item controllers/delete_mail.php
-\item controllers/delete_user.php
+\item controllers/delete\_mail.php
+\item controllers/delete\_user.php
 \end{itemize}
 
 \subsection{Contremesure}\label{c4}
@@ -611,16 +611,16 @@ public function redirect_if_is_not_correct_file_origin($files_origin) {
 }
 \end{lstlisting}
 
-Bien que cette sécurité est redondante par rapport à la vérification de jeton, nous avons décidé d'implémenter les 2 techniques afin de montrer les différentes possibilités pour éviter les attaques CSRF. Cependant, il est possible de modifier la valeur du HTTP_REFERER, c'est pour cette raison que cette technique est controversée.
+Bien que cette sécurité est redondante par rapport à la vérification de jeton, nous avons décidé d'implémenter les 2 techniques afin de montrer les différentes possibilités pour éviter les attaques CSRF. Cependant, il est possible de modifier la valeur du HTTP\_REFERER, c'est pour cette raison que cette technique est controversée.
 Cette contremesure a été mise en place dans les fichiers suivant :
 
 \begin{itemize}
-\item controllers/delete_mail.php
-\item controllers/delete_user.php
+\item controllers/delete\_mail.php
+\item controllers/delete\_user.php
 \item controllers/login.php
-\item controllers/send_mail.php
-\item controllers/update_password.php
-\item controllers/update_user.php
+\item controllers/send\_mail.php
+\item controllers/update\_password.php
+\item controllers/update\_user.php
 \item models/Utils.php
 \end{itemize}
 
