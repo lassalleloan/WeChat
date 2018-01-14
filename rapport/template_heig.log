@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.9)  14 JAN 2018 14:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.9)  14 JAN 2018 12:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -667,6 +667,9 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 141.
 
 LaTeX Warning: Label `flux' multiply defined.
 
+
+LaTeX Warning: Label `c4' multiply defined.
+
 )
 \openout1 = `template_heig.aux'.
 
@@ -776,14 +779,14 @@ LaTeX Info: Redefining \nameref on input line 179.
 \openout3 = `template_heig.out'.
 
 
-<images/wechatinsecure.png, id=108, 3309.36375pt x 915.42pt>
+<images/wechatinsecure.png, id=104, 3309.36375pt x 915.42pt>
 File: images/wechatinsecure.png Graphic file (type png)
 
 <use images/wechatinsecure.png>
 Package pdftex.def Info: images/wechatinsecure.png used on input line 182.
 (pdftex.def)             Requested size: 351.31378pt x 97.17653pt.
 
-<images/wechatsecure.png, id=110, 3309.36375pt x 915.42pt>
+<images/wechatsecure.png, id=106, 3309.36375pt x 915.42pt>
 File: images/wechatsecure.png Graphic file (type png)
 
 <use images/wechatsecure.png>
@@ -813,7 +816,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout5 = `template_heig.lof'.
 
 
-<images/logo.jpg, id=148, 597.23125pt x 287.0725pt>
+<images/logo.jpg, id=143, 597.23125pt x 287.0725pt>
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
 Package pdftex.def Info: images/logo.jpg used on input line 188.
@@ -845,7 +848,7 @@ File: images/logo.jpg Graphic file (type jpg)
 <use images/logo.jpg>
 Package pdftex.def Info: images/logo.jpg used on input line 281.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [3] <images/diagram.png, id=176, 933.4875pt x 602.25pt>
+ [3] <images/diagram.png, id=171, 933.4875pt x 602.25pt>
 File: images/diagram.png Graphic file (type png)
 
 <use images/diagram.png>
@@ -870,7 +873,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 329--331
 
  []
 
-<images/pyramid.png, id=183, 314.17375pt x 499.8675pt>
+<images/pyramid.png, id=178, 314.17375pt x 499.8675pt>
 File: images/pyramid.png Graphic file (type png)
 
 <use images/pyramid.png>
@@ -932,61 +935,38 @@ File: images/logo.jpg Graphic file (type jpg)
 Package pdftex.def Info: images/logo.jpg used on input line 429.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
  [8]
-Underfull \hbox (badness 10000) in paragraph at lines 444--444
-[]|[][]\T1/cmr/m/n/12 5.4[][]
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 444--445
 []|\T1/cmr/m/n/12 Authentification par je-ton et par
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 452--452
+Underfull \hbox (badness 10000) in paragraph at lines 450--450
 []|\T1/cmr/m/n/12 Récupération des iden-ti-fiants de
  []
 
-
-Overfull \hbox (0.96693pt too wide) in paragraph at lines 454--454
-[]|[][]\T1/cmr/m/n/12 5.10[][]| 
- []
-
-
-Overfull \hbox (0.61127pt too wide) in paragraph at lines 434--457
-[][] 
- []
-
-File: images/logo.jpg Graphic file (type jpg)
-<use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 458.
-(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [9]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 511.
+Package pdftex.def Info: images/logo.jpg used on input line 491.
+(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
+
+[9] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
+)
+File: images/logo.jpg Graphic file (type jpg)
+ <use images/logo.jpg>
+Package pdftex.def Info: images/logo.jpg used on input line 544.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
 
 [10] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
-File: images/logo.jpg Graphic file (type jpg)
-
-<use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 534.
-(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [11]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-)
-File: images/logo.jpg Graphic file (type jpg)
- <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 573.
-(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
-
-[12] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
@@ -994,75 +974,58 @@ File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 608.
+Package pdftex.def Info: images/logo.jpg used on input line 600.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
 
-[13] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[11] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
 )
 File: images/logo.jpg Graphic file (type jpg)
 
 <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 649.
+Package pdftex.def Info: images/logo.jpg used on input line 656.
+(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
+ [12]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
+)
+File: images/logo.jpg Graphic file (type jpg)
+ <use images/logo.jpg>
+Package pdftex.def Info: images/logo.jpg used on input line 716.
+(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
+
+[13]
+File: images/logo.jpg Graphic file (type jpg)
+ <use images/logo.jpg>
+Package pdftex.def Info: images/logo.jpg used on input line 753.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
  [14]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 754.
 File: images/logo.jpg Graphic file (type jpg)
  <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 712.
+Package pdftex.def Info: images/logo.jpg used on input line 754.
 (pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
-
-[15]
-File: images/logo.jpg Graphic file (type jpg)
- <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 723.
-(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [16]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-)
-File: images/logo.jpg Graphic file (type jpg)
- <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 771.
-(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
-
-[17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
-)
-File: images/logo.jpg Graphic file (type jpg)
-
-<use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 808.
-(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [18]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 821.
-File: images/logo.jpg Graphic file (type jpg)
- <use images/logo.jpg>
-Package pdftex.def Info: images/logo.jpg used on input line 821.
-(pdftex.def)             Requested size: 41.75577pt x 20.07507pt.
- [19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 821.
+ [15]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 754.
  (./template_heig.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 821.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 821.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 754.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 754.
 Package rerunfilecheck Info: File `template_heig.out' has not changed.
-(rerunfilecheck)             Checksum: 44452BE3C80BA796159FDC6217B46E70;1782.
+(rerunfilecheck)             Checksum: CAB70B3726BB11B775407B9A0725E5FC;1719.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 821.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 754.
  ) 
 Here is how much of TeX's memory you used:
- 10688 strings out of 494924
- 155896 string characters out of 6179709
- 299635 words of memory out of 5000000
- 13571 multiletter control sequences out of 15000+600000
+ 10630 strings out of 494924
+ 155001 string characters out of 6179709
+ 298545 words of memory out of 5000000
+ 13553 multiletter control sequences out of 15000+600000
  16664 words of font info for 39 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 44i,16n,49p,1138b,1568s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,16n,49p,1138b,2373s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200.600pk> </home/ne
 wt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600pk> </home/newt/.texmf-va
 r/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/newt/.texmf-var/fonts/pk/l
@@ -1072,10 +1035,10 @@ en/ec/ecbx1440.600pk> </home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx12
 home/newt/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/newt/.t
 exmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </home/newt/.texmf-var/fon
 ts/pk/ljfour/jknappen/ec/ecrm2488.600pk>
-Output written on template_heig.pdf (20 pages, 453393 bytes).
+Output written on template_heig.pdf (16 pages, 443713 bytes).
 PDF statistics:
- 912 PDF objects out of 1000 (max. 8388607)
- 529 compressed objects within 6 object streams
- 263 named destinations out of 1000 (max. 500000)
- 234 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 837 PDF objects out of 1000 (max. 8388607)
+ 469 compressed objects within 5 object streams
+ 225 named destinations out of 1000 (max. 500000)
+ 226 words of extra memory for PDF output out of 10000 (max. 10000000)
 
