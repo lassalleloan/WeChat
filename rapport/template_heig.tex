@@ -431,7 +431,7 @@ Dans le cas de cette application, un dossier \textit{docker} est à la racine du
 
 tableau récap et montrer new implémentation
 
-\begin{tabular}{| c | p{7.5cm} | p{7.5cm} |}
+\begin{tabular}{| p{0.7cm} | p{7.5cm} | p{7.5cm} |}
   \hline			
   \textbf{\# } &\textbf{ Vulnérabilité }& \textbf{Contremesure} \\
   \hline  
@@ -441,21 +441,26 @@ tableau récap et montrer new implémentation
   \hline
   \ref{c3} & Injection SQL & Utiliser des requêtes préparées \\
   \hline
-  \ref{c4} & Attaque CSRF & Authentification par jeton et par HTTP\_REFERER \\
+  \ref{c4_1} \ref{c4_2} & Attaque CSRF & Authentification par jeton et par HTTP\_REFERER \\
   \hline
   \ref{c5} & Path Discovery & Limiter l'accès aux ressources \\
   \hline
   \ref{c6} & Bruteforce lors de l'authentification & Ralentir le processus et limiter le nombre de tentatives \\
   \hline
-  \ref{c7} & Récupération des identifiants de connexion & Utiliser le protocole HTTPS \\
+  \ref{c7} & Erreur d'exécution & Contrôles côté serveur \\
   \hline
-  \ref{c8} & Vol de cookie & Vérouiller la session à un seul hôte et conserver le même identifiant de session pendant un intervalle de temps donné \\
+  \ref{c8} & Récupération des identifiants de connexion & Utiliser le protocole HTTPS \\
+  \hline
+  \ref{c9} & Vol de cookie & Vérouiller la session à un seul hôte et conserver le même identifiant de session pendant un intervalle de temps donné \\
   \hline
 \end{tabular}
 
+\newpage
 \subsection{Contremesure}\label{c1}
 
-Afin d'éviter la manipulation d'URL, nous vérifions que les valeurs des paramètres contenus dans l'URL sont associés ou non à l'utilisateur. Par exemple, afin d'éviter que l'utilisateur soit capable de lire ou supprimer n'importe quel email, nous vérifions que l'ID de l'email demandé est bien associé à l'utilisateur courant.
+Afin d'éviter la manipulation d'URL et ainsi l'utilisation de fonction restreintes ou non authorisées pour certains utilisateurs, nous vérifions si les valeurs des paramètres contenus dans l'URL sont associés ou non à l'utilisateur. 
+
+Par exemple, afin d'éviter que l'utilisateur soit capable de lire ou de supprimer n'importe quel email, nous vérifions que l'ID de l'email demandé est bien associé à l'utilisateur courant à l'aide du code suivant : 
 
 \begin{lstlisting}[style=JAVA]
 /**
@@ -503,56 +508,18 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 \item write\_mail.php
 \end{itemize}
 
-\subsection{Contremesure}\label{c1}
-
-Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs. Cette technique consiste à vérifier la longueur des chaînes de caractères, a quel domaine mathématique appartient une valeur numérique ou encore si la valeur est représentative dans le type de destination.
-
-\begin{lstlisting}[style=JAVA]
-if (isset($from) && isset($to) && isset($subject) && isset($body)) {
-    $len_from = strlen($from);
-    $is_correct_from = $len_from >= Database::USERNAME_MIN && 
-                    $len_from <= Database::USERNAME_MAX;
-                            
-    $len_to = strlen($to);
-    $is_correct_to = $len_to >= Database::USERNAME_MIN && 
-                    $len_to <= Database::USERNAME_MAX;
-
-    $len_subject = strlen($subject);
-    $is_correct_subject = $len_subject >= Database::PHP_STR_MIN && 
-                    $len_subject <= Database::PHP_STR_MAX;
-                            
-    $len_body = strlen($body);
-    $is_correct_body = $len_body >= Database::PHP_TEXT_MIN && 
-                    $len_body <= Database::PHP_TEXT_MAX;
-
-  if ($is_correct_from &&  $is_correct_to && $is_correct_subject && $is_correct_body) {
-    // Do something with these correct input
-  }
-} else {
- // Input incorrect
-}
-\end{lstlisting}
-
-Cette contremesure a été mise en place dans les fichiers suivant :
-
-\begin{itemize}
-\item controllers/login.php
-\item controllers/send\_mail.php
-\item controllers/update\_password.php
-\item controllers/update\_user.php
-\item write\_mail.php
-\end{itemize}
-
+\newpage
 \subsection{Contremesure}\label{c2}
 
-Afin d'éviter les attaques XSS, nous avons mis en place la fonction htmlentities. Cette fonction permet de convertir tous les caractères éligibles en entités HTML. Ce qui permet d'éviter d'éxecuter du code non autorisé.
+Afin d'éviter les attaques XSS, nous avons mis en place la fonction \textit{htmlentities}. Cette fonction permet de convertir tous les caractères éligibles en entités HTML. Ce qui permet d'éviter d'éxecuter du code non autorisé.
 
 \begin{lstlisting}[style=JAVA]
 <td>'.htmlentities($mail['from'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
 <td>'.htmlentities($mail['subject'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
 \end{lstlisting}
 
-Nous l'avons mis en place lorsque l'application Web affiche des informations de la base de données ou de la saisie utilisateur. Ainsi l'application Web n'est pas vulnérable aux attaques XSS stockées.
+Nous l'avons mis en place lorsque l'application Web affiche des informations stockées dans la base de données ou tout éléments provenant de la saisie utilisateur. Ainsi l'application Web n'est pas vulnérable aux attaques XSS stockées.
+
 Cette contremesure a été mise en place dans les fichiers suivant :
 
 \begin{itemize}
@@ -562,6 +529,9 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 \item write\_mail.php
 \end{itemize}
 
+Une attaque XSS réfléchie n'est pas possible sur le site. Aucuns paramètres passés par l'url ne sont directement affichés par le navigateur et donc aucune injection de code n'est possible.
+
+\newpage
 \subsection{Contremesure}\label{c3}
 
 Afin d'éviter les injections SQL, nous avons mis en place des requêtes préparées. Elles permettent d'interpréter correctement les différents types des paramètres d'une requête . Pour être plus précis, si une requête utilise une chaîne de caractères comme paramètre, elle l'englobera de guillemets afin de tranformer toute la valeur du paramètre en chaîne de caractères et ceci afin d'éviter les injections SQL.
@@ -600,7 +570,8 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 \item models/User.php
 \end{itemize}
 
-\subsection{Contremesure}\label{c4}
+\newpage
+\subsection{Contremesure}\label{c4_1}
 
 Afin d'éviter les attaques CSRF, nous avons mis en place l'authentification par jeton. Cette technique est mise en place sur une page d'origine et une page de destination.
 Dans notre application, nous générons 2 jetons au sein de la page d'acceuil pour les accéder au liens de suppression d'email et d'utilisateurs.
@@ -634,7 +605,8 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 \item controllers/delete\_user.php
 \end{itemize}
 
-\subsection{Contremesure}\label{c4}
+\newpage
+\subsection{Contremesure}\label{c4_2}
 
 Afin d'éviter les attaques CSRF, nous avons mis en place une vérification du referer header. 
 
@@ -674,6 +646,7 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 \item models/Utils.php
 \end{itemize}
 
+\newpage
 \subsection{Contremesure}\label{c5}
 
 Afin d'éviter l'accès à certaines ressources du site Internet, nous avons mis en place des directives au sein du fichier de configuration du serveur Apache (/etc/httpd/conf/httpd.conf) qui s'appliquent au répertoire et sous-répertoires de notre application Web.
@@ -747,6 +720,7 @@ Cette contremesure a été mise en place dans le fichier suivant :
 \item httpd.conf
 \end{itemize}
 
+\newpage
 \subsection{Contremesure}\label{c6}
 
 Afin d'éviter les attaques bruteforce, nous avons bloqué l'authentification de l'utilisateur en insérant son adresse IP dans une liste noire d'adresse IP.
@@ -793,10 +767,51 @@ Cette contremesure a été mise en place dans les fichiers suivant :
 
 \subsection{Contremesure}\label{c7}
 
+Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs. Cette technique consiste à vérifier la longueur des chaînes de caractères, a quel domaine mathématique appartient une valeur numérique ou encore si la valeur est représentative dans le type de destination.
+
+\begin{lstlisting}[style=JAVA]
+if (isset($from) && isset($to) && isset($subject) && isset($body)) {
+    $len_from = strlen($from);
+    $is_correct_from = $len_from >= Database::USERNAME_MIN && 
+                    $len_from <= Database::USERNAME_MAX;
+                            
+    $len_to = strlen($to);
+    $is_correct_to = $len_to >= Database::USERNAME_MIN && 
+                    $len_to <= Database::USERNAME_MAX;
+
+    $len_subject = strlen($subject);
+    $is_correct_subject = $len_subject >= Database::PHP_STR_MIN && 
+                    $len_subject <= Database::PHP_STR_MAX;
+                            
+    $len_body = strlen($body);
+    $is_correct_body = $len_body >= Database::PHP_TEXT_MIN && 
+                    $len_body <= Database::PHP_TEXT_MAX;
+
+  if ($is_correct_from &&  $is_correct_to && $is_correct_subject && $is_correct_body) {
+    // Do something with these correct input
+  }
+} else {
+ // Input incorrect
+}
+\end{lstlisting}
+
+Cette contremesure a été mise en place dans les fichiers suivant :
+
+\begin{itemize}
+\item controllers/login.php
+\item controllers/send\_mail.php
+\item controllers/update\_password.php
+\item controllers/update\_user.php
+\item write\_mail.php
+\end{itemize}
+
+\newpage
+\subsection{Contremesure}\label{c8}
+
 Afin d'éviter que les identifiants de connexion d'un utilisateur passe en clair sur le réseau, il serait nécessaire de mettre en place une connexion chiffrée à l'application Web. Cette technique garantirait la confidentialité des données échangées avec le serveur.
 Nous avons décidé de ne pas mettre en place cette technique au sein de l'application Web parce qu'elle n'est pas destiné à un environnement de production et que nous ne voulions pas perdre de temps à ça mise en place.
 
-\subsection{Contremesure}\label{c8}
+\subsection{Contremesure}\label{c9}
 
 Afin d'éviter le vol de session, il serait utile de mettre en place un vérouillage de la session par hôte. En utilisant l'adresse IP et le User Agent de l'utilisateur, nous pouvons ainsi éviter cette attaque. Afin d'ajouter une couche de sécurité, nous pourrions mettre en place une regénération de session. Rendre la session obsolète après une durée déterminée permettrait d'empêcher l'utilisation d'une session volée ad vitam eternam.
 Nous avons essayé de le mettre en place mais nous n'y sommes pas arrivés. Nous pensons que le problème provient de l'archistecture de notre application Web. Afin d'éviter de perdre du temps, nous n'avons pas implémenté cette technique.
