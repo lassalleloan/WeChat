@@ -378,7 +378,7 @@ Pour parvenir à ses fins, un attaquant pourra essayer de multiples vecteurs d'a
 \item Utilisation d'une faille de XSS stocké afin de récupérer des cookie de session
 \end{itemize}
 
-Sans des connaissances poussées en informatique, on pouvait très rapidement remarquer que lors de la lecture d'un message, l'id de ce dernier était donnée dans l'url. Etant donné qu'aucunes vérification n'était faite du côté serveur pour s'assurer que la personne lisant le message était bien le destinataire de ce dernier, il était possible d'écrire un script python qui testait de manière incrémentale l'accès à tous les message en incrémentant l'id de ce dernier. Si en réponse une erreur 404 est obtenue, on sait que le message n'existe pas. En revance, si un code 200 est retourné, on sait qu'un message existe et on peut automatiquement l'extraire et le stocker dans un fichier ou le parser afin de tenter de trouver des informations confidentielles tels que des adresses mail ou des mots de passes.
+Sans des connaissances poussées en informatique, on pouvait très rapidement remarquer que lors de la lecture d'un message, l'id de ce dernier était donnée dans l'URL. Etant donné qu'aucunes vérification n'était faite du côté serveur pour s'assurer que la personne lisant le message était bien le destinataire de ce dernier, il était possible d'écrire un script python qui testait de manière incrémentale l'accès à tous les message en incrémentant l'id de ce dernier. Si en réponse une erreur 404 est obtenue, on sait que le message n'existe pas. En revance, si un code 200 est retourné, on sait qu'un message existe et on peut automatiquement l'extraire et le stocker dans un fichier ou le parser afin de tenter de trouver des informations confidentielles tels que des adresses mail ou des mots de passes.
 
 Avec peu de recherches sur internet et quelques tentatives, un attaquant avec de faibles connaissances sera en mesure de récupérer des données confidentielles tels que des mails ou encore des mots de passes en utilisant une injection SQL. Une fois les mots de passes récupérés, une étape de cassage hors ligne est nécessaire étant donné que mots de passes sont stocké sous forme hachée et salée.
 
@@ -405,9 +405,9 @@ Ce scénario concerne la destruction d'informations par les différentes sources
 
 Comme ennoncé précédement, comme les paramètres des actions sont passées dans l'url en clair, il serait possible pour un utilisateur de supprimer un message dont il n'est pas le destinataire légitime. En effet, tous les messages de la base de données peuvent être effacés par un seul utilisateur qui lancera un script parcourant tous les id possibles et émettant la requete de suppression pour cet id.
 
-On pourrait imaginer une action similaire lancée par un script javascript inséré dans un corps de message (attaque XSS), permettant par exemple "l'autodestruction" du message envoyé après un certain temps après la lecture. Le script serait donc exécuté lors de l'ouverture du message, et récupérerait l'id du message dans l'url. Après quelques secondes, on exécute la suppression de ce message en contactant le bon end-point avec cet id.
+On pourrait imaginer une action similaire lancée par un script javascript inséré dans un corps de message (attaque XSS), permettant par exemple "l'autodestruction" du message envoyé après un certain temps après la lecture. Le script serait donc exécuté lors de l'ouverture du message, et récupérerait l'id du message dans l'URL. Après quelques secondes, on exécute la suppression de ce message en contactant le bon end-point avec cet id.
 
-Même si une simple verification que seul le propriétaire du message peut le supprimer, un attaque par CSRF est toujours possible si aucunes autres mesures de protection ne sont mises en oeuvre. Un attaquant pourra envoyer un lien déguisé (short google url ou autre) à la cible. Si lors du clic sur ce dernier la victime est connectée et authentifiée sur le site, l'attaquant pourra forcer la victime à supprimer un message sur son compte.
+Même si une simple verification que seul le propriétaire du message peut le supprimer, un attaque par CSRF est toujours possible si aucunes autres mesures de protection ne sont mises en oeuvre. Un attaquant pourra envoyer un lien déguisé (short google URL ou autre) à la cible. Si lors du clic sur ce dernier la victime est connectée et authentifiée sur le site, l'attaquant pourra forcer la victime à supprimer un message sur son compte.
 
 Une injection SQL peut permettre à un attaquant de complètement détruire la base de donnée (drop) ou simplement arrêter le serveur avec une commande "shutdown".
 
@@ -433,45 +433,29 @@ tableau récap et montrer new implémentation
 
 \begin{tabular}{| c | p{7.5cm} | p{7.5cm} |}
   \hline			
-  \textbf{\# } &\textbf{ Vulnérabilité }& \textbf{Contremesure}\\
+  \textbf{\# } &\textbf{ Vulnérabilité }& \textbf{Contremesure} \\
   \hline  
-  \ref{c1} & Manipulation de l'URL & Effectuer un contrôle côté serveur, paramètres non prédictibles\\
+  \ref{c1} & Manipulation de l'URL & Contrôler les entrées utilisateurs du côté serveur et utiliser des paramètres non prédictibles \\
   \hline
-  \ref{c2} & Attaque XSS & Filtrer les entrées utilisateur \\
+  \ref{c2} & Attaque XSS & Filtrer l'affichage des données stockées \\
   \hline
-  \ref{c3} & Injection SQL & Filtrer les entrées utilisateur\\
+  \ref{c3} & Injection SQL & Utiliser des requêtes préparées \\
   \hline
-  \ref{c4} & Attaque CSRF & Passage des paramètres en POST \\
+  \ref{c4} & Attaque CSRF & Authentification par jeton et par HTTP_REFERER \\
   \hline
-  \ref{c5} & Bruteforce ressources & Limiter le nombre de tentatives \\
+  \ref{c5} & Path Discovery & Limiter l'accès aux ressources \\
   \hline
-  \ref{c6} & Bruteforce login & Limiter le nombre de tentatives \\
+  \ref{c6} & Bruteforce lors de l'authentification & Ralentir le processus et limiter le nombre de tentatives \\
   \hline
-
+  \ref{c7} & Récupération des identifiants de connexion & Utiliser le protocole HTTPS \\
+  \hline
+  \ref{c8} & Vol de cookie & Vérouiller la session à un seul hôte et conserver le même identifiant de session pendant un intervalle de temps donné \\
+  \hline
 \end{tabular}
 
 \subsection{Contremesure}\label{c1}
 
-Afin d'éviter l'accès à certains répertoires non autorisés, nous avon smis en place des règles au sein du fichier httpd.conf :
-
-\begin{lstlisting}[style=JAVA]
-	<Directory /var/www/html/wechat/>
-    AllowOverride None
-    Order allow,deny
-    Require all granted
-    Options -Indexes
-    ErrorDocument 403 /wechat/errors/forbidden.php
-    <FilesMatch "\.php|\.css|\.html">
-      Allow from All
-    </FilesMatch>
-  </Directory>
-\end{lstlisting}
-
-Avec la définition de ces règles au sein du serveur Apache, l'accès au sous-répertoires du site Internet ne seront pas accessible par les utilisateurs et ils seront redirigés vers la page d'accueil ou d'authentification. 
-
-\subsection{Contremesure}\label{c1}
-
-Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs :
+Afin d'éviter les erreurs d'exécution, nous avons mis en place la vérification des saisies utilisateurs. Cette technique consiste à vérifier la longueur des chaînes de caractères, a quel domaine mathématique appartien une valeur rnumérique ou encore 
 
 \begin{lstlisting}[style=JAVA]
 if (isset($from) && isset($to) && isset($subject) && isset($body)) {
@@ -492,42 +476,45 @@ if (isset($from) && isset($to) && isset($subject) && isset($body)) {
                     $len_body <= Database::PHP_TEXT_MAX;
 
   if ($is_correct_from &&  $is_correct_to && $is_correct_subject && $is_correct_body) {
-    // Do something
+    // Do something with these correct input
   }
 } else {
- // Inout incorrect
+ // Input incorrect
 }
 \end{lstlisting}
 
+Cette contremesure a été mise en place dans les fichiers suivant :
+
+\begin{itemize}
+\item controllers/login.php
+\item controllers/send_mail.php
+\item controllers/update_password.php
+\item controllers/update_user.php
+\item write_mail.php
+\end{itemize}
+
 \subsection{Contremesure}\label{c2}
 
-Afin d'éviter les attaques XSS, nous avons mis en place la fonction htmlentities :
+Afin d'éviter les attaques XSS, nous avons mis en place la fonction htmlentities. Cette fonction permet de convertir tous les caractères éligibles en entités HTML. Ce qui permet d'éviter d'éxecuter du code non autorisé.
 
 \begin{lstlisting}[style=JAVA]
 <td>'.htmlentities($mail['from'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
 <td>'.htmlentities($mail['subject'], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</td>
 \end{lstlisting}
 
-Elle permet de convertir tous les caractères éligibles en entités HTML. Nous l'avons mis en place lorsque l'application affiche des informations de la base de données ou de la saisie utilisateur. 
+Nous l'avons mis en place lorsque l'application Web affiche des informations de la base de données ou de la saisie utilisateur. Ainsi l'application Web n'est pas vulnérable aux attaques XSS stockées.
+Cette contremesure a été mise en place dans les fichiers suivant :
+
+\begin{itemize}
+\item home.php
+\item manage_user.php
+\item read_mail.php
+\item write_mail.php
+\end{itemize}
 
 \subsection{Contremesure}\label{c3}
 
-Afin d'éviter les injections SQL, nous avons mis en place des requêtes préparées :
-
-\begin{lstlisting}[style=JAVA]
-/**
- * Retrieves user's ID with digest
- */
-public function get_id() {
-    $query = "SELECT id 
-                    FROM users 
-                    WHERE digest=:digest;";
-    $parameters = array(new Parameter(':digest', $_SESSION['digest'], PDO::PARAM_STR));
-    $array = self::$_database->query($query, $parameters);
-
-    return count($array) >= 1 ? $array[0]['id'] : null;
-}
-\end{lstlisting}
+Afin d'éviter les injections SQL, nous avons mis en place des requêtes préparées. Elles permettent d'interpréter correctement les différents types des paramètres d'une requête . Pour être plus précis, si une requête utilise une chaîne de caractères comme paramètre, elle l'englobera de guillemets afin de tranformer toute la valeur du paramètre en chaîne de caractères et ceci afin d'éviter les injections SQL.
 
 \begin{lstlisting}[style=JAVA]
 /**
@@ -552,17 +539,32 @@ public function query($sql, $parameters) {
 }
 \end{lstlisting}
 
+Cette technique permet aussi d'éviter que l'application Web crash lors de l'utilisation de requête avec des paramètres ne correspondant pas au type attendu.
+Cette contremesure a été mise en place dans les fichiers suivant :
+
+\begin{itemize}
+\item models/Blacklist.php
+\item models/Database.php
+\item models/Mail.php
+\item models/Role.php
+\item models/User.php
+\end{itemize}
+
 \subsection{Contremesure}\label{c4}
 
-Afin d'éviter les attaques CSRF, nous avons mis en place la génération de token sur la page d'accueil :
+Afin d'éviter les attaques CSRF, nous avons mis en place l'authentification par jeton. Cette technique est mise en place sur une page d'origine et une page de destination.
+Dans notre application, nous générons 2 jetons au sein de la page d'acceuil pour les accéder au liens de suppression d'email et d'utilisateurs.
 
 \begin{lstlisting}[style=JAVA]
+// Generates token for link authentication
 $token_mail = Utils::get_instance()->random_str(32);
 $_SESSION['token_mail'] = $token_mail;
 
 $token_user = Utils::get_instance()->random_str(32);
 $_SESSION['token_user'] = $token_user;
 \end{lstlisting}
+
+Puis au sein des page de destination, dans notre cas les pages de suppression, nous vérifions si les jetons générés et enregistrés dans la session précédement sont égales à ceux contenu dans l'URL.
 
 \begin{lstlisting}[style=JAVA]
 $token = isset($_SESSION['token_mail']) && isset($token) ? $token : "";
@@ -574,77 +576,179 @@ if ($_SESSION['token_mail'] === $token) {
 // Redirect to home
 \end{lstlisting}
 
-\begin{lstlisting}[style=JAVA]
-$token = isset($_SESSION['token_user']) && isset($token) ? $token : "";
+Cette technique se repose sur la génération d'une chaîne de caratères aléatoire. C'est pourquoi il est indispensable de veiller à rendre la génération de jeton non prédictible.
+Cette contremesure a été mise en place dans les fichiers suivant :
 
-if ($_SESSION['token_user'] === $token) {
-    // Delete user
-}
-
-// Redirect to home
-\end{lstlisting}
+\begin{itemize}
+\item controllers/delete_mail.php
+\item controllers/delete_user.php
+\end{itemize}
 
 \subsection{Contremesure}\label{c4}
 
-Afin d'éviter les attaques CSRF, nous avons mis en place une vérification du referer header :
-
-\begin{lstlisting}[style=JAVA]
-public function redirect_if_is_not_correct_file_origin($files_origin) {
-  $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
-  $ask_pos = strrpos($http_referer_file, '?');
-
-  if ($ask_pos !== false) {
-      $http_referer_file = substr($http_referer_file, 0, $ask_pos);
-  }
-  
-  foreach ($files_origin as $file_origin) {
-      if ($http_referer_file === $file_origin) {
-          return;
-      }
-  }
-
-  header('location:/wechat/home.php');
-  exit();
-}
-\end{lstlisting}
-
-\subsection{Contremesure}\label{c5}
-
-Afin d'éviter l'accès à certains répertoires non autorisés, nous avon smis en place des règles au sein du fichier httpd.conf :
-
-\begin{lstlisting}[style=JAVA]
-	<Directory /var/www/html/wechat/>
-    AllowOverride None
-    Order allow,deny
-    Require all granted
-    Options -Indexes
-    ErrorDocument 403 /wechat/errors/forbidden.php
-    <FilesMatch "\.php|\.css|\.html">
-      Allow from All
-    </FilesMatch>
-  </Directory>
-\end{lstlisting}
-
-Avec la définition de ces règles au sein du serveur Apache, l'accès au sous-répertoires du site Internet ne seront pas accessible par les utilisateurs et ils seront redirigés vers la page d'accueil ou d'authentification. 
-
-\subsection{Contremesure}\label{c6}
-
-Afin d'éviter les attaques brute force, nous avons mis en place une liste noire d'adresse IP :
+Afin d'éviter les attaques CSRF, nous avons mis en place une vérification du referer header. 
 
 \begin{lstlisting}[style=JAVA]
 /**
- * Retrieves blacklisted attempt
+ * Checks if is correct file origin
  */
-public function get_attempt() {
-    $blacklist_id = $this->get_id();
-    $query = "SELECT attempt
-                FROM blacklist
-                WHERE id=:id;";
-    $parameters = array(new Parameter(':id', $blacklist_id, PDO::PARAM_STR));
-    $array = self::$_database->query($query, $parameters);
+public function redirect_if_is_not_correct_file_origin($files_origin) {
+    $http_referer_file = substr($_SERVER['HTTP_REFERER'], strrpos($_SERVER['HTTP_REFERER'], '/') + 1);
+    $ask_pos = strrpos($http_referer_file, '?');
 
-    return count($array) >= 1 ? $array[0]['attempt'] : null;
+    if ($ask_pos !== false) {
+        $http_referer_file = substr($http_referer_file, 0, $ask_pos);
+    }
+    
+    foreach ($files_origin as $file_origin) {
+        if ($http_referer_file === $file_origin) {
+            return;
+        }
+    }
+
+    header('location:/wechat/home.php');
+    exit();
 }
 \end{lstlisting}
+
+Bien que cette sécurité est redondante par rapport à la vérification de jeton, nous avons décidé d'implémenter les 2 techniques afin de montrer les différentes possibilités pour éviter les attaques CSRF. Cependant, il est possible de modifier la valeur du HTTP_REFERER, c'est pour cette raison que cette technique est controversée.
+Cette contremesure a été mise en place dans les fichiers suivant :
+
+\begin{itemize}
+\item controllers/delete_mail.php
+\item controllers/delete_user.php
+\item controllers/login.php
+\item controllers/send_mail.php
+\item controllers/update_password.php
+\item controllers/update_user.php
+\item models/Utils.php
+\end{itemize}
+
+\subsection{Contremesure}\label{c5}
+
+Afin d'éviter l'accès à certaines ressources du site Internet, nous avons mis en place des directives au sein du fichier de configuration du serveur Apache (/etc/httpd/conf/httpd.conf) qui s'appliquent au répertoire et sous-répertoires de notre application Web.
+
+\begin{lstlisting}[style=JAVA]
+#
+# "/var/www/html/wechat"
+#
+<Directory /var/www/html/wechat/>
+    AllowOverride None
+    Options -Indexes
+    ErrorDocument 403 /wechat/errors/forbidden.php
+    <FilesMatch "\.php|\.css|\.html">
+        Allow from All
+    </FilesMatch>
+</Directory>
+
+#
+# "/var/www/html/wechat/*/"
+# Subdirectories
+#
+<Directory /var/www/html/wechat/*/>
+    AllowOverride None
+    Deny from All
+</Directory>
+
+#
+# "/var/www/html/wechat/css/"
+#
+<Directory /var/www/html/wechat/css/>
+    AllowOverride None
+    Allow from All
+</Directory>
+
+#
+# "/var/www/html/wechat/controllers/"
+#
+<Directory /var/www/html/wechat/controllers/>
+    AllowOverride None
+    Allow from All
+
+    # TODO: Remove comments if you are in environment production
+    # <Files init.php>
+    #     Deny from All   
+    # </Files>
+</Directory>
+
+#
+# "/var/www/html/wechat/errors/"
+#
+<Directory /var/www/html/wechat/errors/>
+    AllowOverride None
+    Allow from All
+</Directory>
+
+#
+# "/var/www/html/wechat/models/"
+#
+<Directory /var/www/html/wechat/models/>
+    AllowOverride None
+    Allow from All
+</Directory>
+\end{lstlisting}
+
+La première directive permet d'autoriser l'accès à tous les fichiers d'extension php, css et html. Elle permet aussi de ne pas renvoyer un listing formaté du répertoire et de rediriger toutes les requêtes dont l'accès est non autorisée vers la page d'acceuil ou d'authentification. 
+La deuxième directive définie le blocage de l'accès au sous-répertoires de l'application Web.
+Les quatres dernières directives sont utilisées pour autoriser uniquement l'accès aux ressources des différents répertoires définis.
+Cette contremesure a été mise en place dans le fichier suivant :
+
+\begin{itemize}
+\item httpd.conf
+\end{itemize}
+
+\subsection{Contremesure}\label{c6}
+
+Afin d'éviter les attaques bruteforce, nous avons bloqué l'authentification de l'utilisateur en insérant son adresse IP dans une liste noire d'adresse IP.
+
+\begin{lstlisting}[style=JAVA]
+// Get attempt of IP address of current user
+$attempt = Blacklist::get_instance()->get_attempt();
+$is_blacklisted = isset($attempt) && $attempt >= Blacklist::ATTEMPTS_MAX;
+
+if (!$is_blacklisted) {
+    
+    // Authenticate the user
+    if ($is_correct_username && $is_correct_password) {
+        if (isset($attempt)) {
+            Blacklist::get_instance()->increment_attempt();
+        } else {
+            Blacklist::get_instance()->set();
+        }
+
+        $is_error = !Authentication::get_instance()->is_authenticated($username, $password);
+    }
+}
+
+// Redirect the user after authentication
+if (isset($is_error) && $is_error) {
+    header('location:/wechat/index.php?is_error=true');
+} else if ($is_blacklisted) {
+    Blacklist::get_instance()->max_attempt();
+    header('location:/wechat/errors/attempts.html');
+} else {
+    Blacklist::get_instance()->reset();
+    header('location:/wechat/home.php');
+}
+\end{lstlisting}
+
+Nous avons préféré un blocage par rapport à l'adresse IP plutôt que par rapport au nom d'utilisateur. Cette technique évite qu'un attaquant bloque l'accès au site Internet de tous les comptes utilisateurs. Etant donné la simplicité de notre application Web, nous avons décidé de bloquer l'authentification de l'utilisateur au bout de 4 essais. Il serait intéressant, au bout de 4 essais, de bloquer l'adresse IP de l'utilisateur un temps donné. Cela permettrait aux utilisateurs non attentifs de pouvoir se connecter à nouveau sans contacter l'administrateur du site Internet. Bien sur une fois cette technique mise en place, il faudrait augmenter le temps d'attente si l'utilisateur échoue à nouveau son authentification. Cette technique ralentirait d'avantages les attaques bruteforce. Puis dernier rempart de sécurité, il faudrait bloquer définitivement l'adresse IP de l'utilisateur lorsqu'il a trop échoué l'authentification. Il lui serait possible, via un formulaire exempt de vulnérabilités, de faire une demande de suppression de restriction à l'administrateur du site Internet.
+Pour terminer, il serait recommandé de mettre en place une politique de mot de passe complexe. Il faudrait par exemple,  autoriser uniquement l'utilisation de mot de passe contenant des lettres minuscules et majuscules, des chiffres, des symboles, éviter les répétitions de mots et l'utilisation d'informations personnelles. 
+Bien sur toutes ces techniques ne rendent pas impossible les attaques bruteforce mais ralentissent énormément le processus.
+Cette contremesure a été mise en place dans les fichiers suivant :
+
+\begin{itemize}
+\item controllers/login.php
+\end{itemize}
+
+\subsection{Contremesure}\label{c7}
+
+Afin d'éviter que les identifiants de connexion d'un utilisateur passe en clair sur le réseau, il serait nécessaire de mettre en place une connexion chiffrée à l'application Web. Cette technique garantirait la confidentialité des données échangées avec le serveur.
+Nous avons décidé de ne pas mettre en place cette technique au sein de l'application Web parce qu'elle n'est pas destiné à un environnement de production et que nous ne voulions pas perdre de temps à ça mise en place.
+
+\subsection{Contremesure}\label{c8}
+
+Afin d'éviter le vol de session, il serait utile de mettre en place un vérouillage de la session par hôte. En utilisant l'adresse IP et le User Agent de l'utilisateur, nous pouvons ainsi éviter cette attaque. Afin d'ajouter une couche de sécurité, nous pourrions mettre en place une regénération de session. Rendre la session obsolète après une durée déterminée permettrait d'empêcher l'utilisation d'une session volée ad vitam eternam.
+Nous avons essayé de le mettre en place mais nous n'y sommes pas arrivés. Nous pensons que le problème provient de l'archistecture de notre application Web. Afin d'éviter de perdre du temps, nous n'avons pas implémenté cette technique.
 
 \end{document}
