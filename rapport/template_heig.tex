@@ -430,7 +430,7 @@ Dans le cas de cette application, un dossier \textit{docker} est à la racine du
 \newpage
 \section{Contremesures}
 
-tableau récap et montrer new implémentation
+Le entrées du tableau ci-dessous reprennent les vulnérabilités énoncées dans les différents scénarios et leur font correspondre des contremesures possibles.
 
 \begin{tabular}{| p{0.7cm} | p{7.5cm} | p{7.5cm} |}
   \hline			
@@ -454,18 +454,14 @@ tableau récap et montrer new implémentation
   \hline
   \ref{c9} & Vol de cookie & Vérouiller la session à un seul hôte et conserver le même identifiant de session pendant un intervalle de temps donné \\
   \hline
+  \ref{c10} & Manipulation d'URL & Utiliser des identifiants non prédictibles \\
+  \hline
 \end{tabular}\\
 
 
-Parmis ces contermesures, seules trois n'ont pas été implémentées par manque de temps. Les autres mesures mises en places permettent à chaque fois de mitiger les risques énoncés dans les différents scénarios d'attaques.
+Parmis ces contermesures, seules les trois dernières n'ont pas été implémentées par manque de temps. Les autres mesures mises en places permettent à chaque fois de mitiger les risques énoncés dans les différents scénarios d'attaques.
 
 \newpage
-\subsection{Contremesure}\label{c1}
-
-Afin d'éviter la manipulation d'URL, nous aurions pu utiliser des identifiants non prédictibles pour les effectuer des actions sur les emails et les utilisateurs. Cette technique se serait appuyée sur la génération d'une empreinte de l'objet afin d'effectuer des actions sur celui-ci. Dans le cadre de notre application Web, un identifiant pour un email aurait été généré avec l'utilisation du nom de l'expéditeur, du nom du destinataire, du sujet, du corps du message et d'un sel généré aléatoirement. Pour le cas d'un utilisateur, son identifiant aurait été généré avec son nom, l'empreinte de son mot de passe, son rôle et un sel aléatoire.
-Une fois l'empreinte créée, l'application aurait utiliser uniquement cette identifiant afin de le récupérerou de l'éditer au sein de la base de données.
-Ces informations n'étant pas à la porté d'un attaquant externe, il n'aurait pas pu prédire les identifiants des objets utilisés par l'application.
-Nous n'avons pas implémenter cette contremesure parce que cela demandait une refonte importante du fonctionnement de l'application. 
 
 \subsection{Contremesure}\label{c1}
 
@@ -844,5 +840,12 @@ Nous avons essayé de le mettre en place mais nous n'y sommes pas arrivés. Nous
 Toutefois, nous avons trouvé un exemple d'implémentation sur le site suivant :
 
 \url{http://blog.teamtreehouse.com/how-to-create-bulletproof-sessions}
+
+\subsection{Contremesure}\label{c10}
+
+Afin d'éviter la manipulation d'URL, nous aurions pu utiliser des identifiants non prédictibles pour  effectuer des actions sur les emails et les utilisateurs. Cette technique se serait appuyée sur la génération d'une empreinte de l'objet afin d'effectuer des actions sur celui-ci. Dans le cadre de notre application Web, un identifiant pour un email aurait été généré avec l'utilisation du nom de l'expéditeur, du nom du destinataire, du sujet, du corps du message et d'un sel généré aléatoirement. Pour le cas d'un utilisateur, son identifiant aurait été généré avec son nom, l'empreinte de son mot de passe, son rôle et un sel aléatoire.
+Une fois l'empreinte créée, l'application aurait utilisé uniquement cet identifiant afin de le récupérer ou de l'éditer au sein de la base de données.
+Ces informations n'étant pas à la porté d'un attaquant externe, il n'aurait pas pu prédire les identifiants des objets utilisés par l'application.
+Nous n'avons pas implémenter cette contremesure parce que cela demandait une refonte importante du fonctionnement de l'application. 
 
 \end{document}
