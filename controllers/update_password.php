@@ -10,6 +10,7 @@ extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
 require_once(dirname(__DIR__).'/models/User.php');
+require_once(dirname(__DIR__).'/models/PasswordMeter.php');
 
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_not_logged();
@@ -60,9 +61,28 @@ Database::get_instance()->deconnection();
 
 if (isset($new_digest)) {
 
-    // TODO: Password Meter
-    Utils::get_instance()->password_meter($new_password);
-    // header('location:logout.php');
+    // TODO: POST Request to Server
+    // PasswordMeter::get_instance()->get_strength($username, $new_password);
+
+    // $url = 'http://server.com/path';
+    // $data = array('key1' => 'value1', 'key2' => 'value2');
+    // $options = array(
+    //     'http' => array(
+    //         'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+    //         'method'  => 'POST',
+    //         'content' => http_build_query($data)
+    //     )
+    // );
+
+    // $context  = stream_context_create($options);
+    // $result = file_get_contents($url, false, $context);
+
+    // if ($result) { 
+    // } else {
+    //     /* Handle error */
+    // }
+
+    header('location:logout.php');
 } else {
     header('location:/wechat/change_password.php?is_error=true');
 }
