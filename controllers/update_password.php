@@ -71,6 +71,7 @@ if (isset($new_digest)) {
 
     $data['properties']['strength'] = PasswordMeter::get_instance()->get_strength($username, $new_password);
     $request = new HttpRequest('post', 'https://stormy-hamlet-80891.herokuapp.com/event', $data);
+    
     if ($request->getError()) {
         error_log('POST request does not work properly');
     } else {
