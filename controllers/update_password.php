@@ -61,18 +61,22 @@ if (isset($old_password) && isset($new_password) && isset($confirm_password)) {
 Database::get_instance()->deconnection();
 
 if (isset($new_digest)) {
-    $user = array(
-        'username' => 'john.doe'
+    $data = array(
+        'app' => 'mail',
+        'type' => 'login',
+        'properties' => array(
+            'username' => $username
+        )
     );
 
-    // TODO: POST Request
-    // $user['score'] = PasswordMeter::get_instance()->get_strength($username, $new_password);
-    // $request = new HttpRequest('post', 'https://requestb.in/1hkde481', $user);
-    // if ($request->getError()) {
-    //     error_log('POST request does not work properly');
-    // } else {
-    //     error_log('POST request sent : '.http_build_query($user));
-    // }
+    $data['properties']['strength'] = PasswordMeter::get_instance()->get_strength($username, $new_password);
+    $request = new HttpRequest('post', 'https://stormy-hamlet-80891.herokuapp.com/event', $data);
+    if ($request->getError()) {
+        error_log('POST request does not work properly');
+    } else {
+        error_log('HttpRequest POST data: '.http_build_query($data));
+        error_log('HttpRequest POST response: '.http_build_query($request));
+    }
 
     header('location:logout.php');
 } else {
