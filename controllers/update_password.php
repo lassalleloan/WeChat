@@ -9,6 +9,7 @@
 extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
+require_once(dirname(__DIR__).'/models/HttpRequest.php');
 require_once(dirname(__DIR__).'/models/User.php');
 require_once(dirname(__DIR__).'/models/PasswordMeter.php');
 
@@ -60,26 +61,17 @@ if (isset($old_password) && isset($new_password) && isset($confirm_password)) {
 Database::get_instance()->deconnection();
 
 if (isset($new_digest)) {
+    $user = array(
+        'username' => 'john.doe'
+    );
 
-    // TODO: POST Request to Server
-    // PasswordMeter::get_instance()->get_strength($username, $new_password);
-
-    // $url = 'http://server.com/path';
-    // $data = array('key1' => 'value1', 'key2' => 'value2');
-    // $options = array(
-    //     'http' => array(
-    //         'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-    //         'method'  => 'POST',
-    //         'content' => http_build_query($data)
-    //     )
-    // );
-
-    // $context  = stream_context_create($options);
-    // $result = file_get_contents($url, false, $context);
-
-    // if ($result) { 
+    // TODO: POST Request
+    // $user['score'] = PasswordMeter::get_instance()->get_strength($username, $new_password);
+    // $request = new HttpRequest('post', 'https://requestb.in/1hkde481', $user);
+    // if ($request->getError()) {
+    //     error_log('POST request does not work properly');
     // } else {
-    //     /* Handle error */
+    //     error_log('POST request sent : '.http_build_query($user));
     // }
 
     header('location:logout.php');
