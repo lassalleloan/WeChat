@@ -1,4 +1,4 @@
-# WeChat :: A STI Project
+# WeChat :: A Internet Technology Security Project
 Authors: Matthieu Chatelan, Loan Lassalle & Wojcieh Myszkorowski
 ***
 
