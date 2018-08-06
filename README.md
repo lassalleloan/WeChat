@@ -17,7 +17,7 @@ The purpose of this repo is to design a Web application, within the framework of
 
 * Get the script file `run.sh` and run it
 
-`$ wget -O ~/Downloads/run.sh "https://raw.githubusercontent.com/lassalleloan/WeChat/master/run.sh" && sh ~/Downloads/run.sh`
+`$ wget -O ~/Downloads/run.sh "https://raw.githubusercontent.com/lassalleloan/we-chat/master/run.sh" && sh ~/Downloads/run.sh`
 
 The database has been successfully initialized. It is now possible to use the web application.
 
