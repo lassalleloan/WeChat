@@ -1,4 +1,4 @@
-# WeChat :: A STI Project
+# WeChat :: A Internet Technology Security Project
 Authors: Matthieu Chatelan, Loan Lassalle & Wojcieh Myszkorowski
 ***
 
@@ -49,13 +49,13 @@ Several users are already present in the database:
 * To change the password
 It is necessary to enter the old password and the new one twice.
 <p align="center">
-  <img src="./readme_images/changePassword.png" alt="Change password">
+  <img src="./readme_images/change_password.png" alt="Change password">
 </p>
    
 * Send a new email
 It is necessary to enter the exact name of the recipient, a subject and a content for the email.
 <p align="center">
-  <img src="./readme_images/writeEmail.png" alt="Send new email">
+  <img src="./readme_images/write_email.png" alt="Send new email">
 </p>
    
 * Reply to an email
@@ -68,7 +68,7 @@ Just enter the main content of the email and press the send button.
 * Delete an email
 Pressing the button will delete the selected email.
 <p align="center">
-  <img src="./readme_images/deleteEmail.png" alt="Delete an email">
+  <img src="./readme_images/delete_email.png" alt="Delete an email">
 </p>
 
 The following operations are available only for administrator accounts:
@@ -76,17 +76,17 @@ The following operations are available only for administrator accounts:
 * Create a new user
 It is necessary to enter a username, a password and its confirmation and the type of account, Administrator or not.
 <p align="center">
-  <img src="./readme_images/newUser.png" alt="Create a new user">
+  <img src="./readme_images/new_user.png" alt="Create a new user">
 </p>
 
 * Manage a user
 It is possible to change the password and/or account type of a user.
 <p align="center">
-  <img src="./readme_images/manageUser.png" alt="Manage a user">
+  <img src="./readme_images/manage_user.png" alt="Manage a user">
 </p>
 
 * Delete a user
 Pressing the button will delete the selected user.
 <p align="center">
-  <img src="./readme_images/deleteUser.png" alt="Delete a user">
+  <img src="./readme_images/delete_user.png" alt="Delete a user">
 </p>
