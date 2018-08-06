@@ -6,6 +6,8 @@
  * Authors: Matthieu Chatelan, Loan Lassalle, Wojciech Myszkorowski
  */
 
+require_once('Database.php');
+
 /**
  * Toolbox
  *

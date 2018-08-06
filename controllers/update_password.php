@@ -9,7 +9,9 @@
 extract(@$_POST);
 require_once(dirname(__DIR__).'/models/Authentication.php');
 require_once(dirname(__DIR__).'/models/Database.php');
+require_once(dirname(__DIR__).'/models/HttpRequest.php');
 require_once(dirname(__DIR__).'/models/User.php');
+require_once(dirname(__DIR__).'/models/PasswordMeter.php');
 
 // Redirect the user to index.php
 Authentication::get_instance()->redirect_if_is_not_logged();
@@ -59,6 +61,24 @@ if (isset($old_password) && isset($new_password) && isset($confirm_password)) {
 Database::get_instance()->deconnection();
 
 if (isset($new_digest)) {
+    $data = array(
+        'app' => 'mail',
+        'type' => 'login',
+        'properties' => array(
+            'username' => $username
+        )
+    );
+
+    $data['properties']['strength'] = PasswordMeter::get_instance()->get_strength($username, $new_password);
+    $request = new HttpRequest('post', 'https://stormy-hamlet-80891.herokuapp.com/event', $data);
+    
+    if ($request->getError()) {
+        error_log('POST request does not work properly');
+    } else {
+        error_log('HttpRequest POST data: '.http_build_query($data));
+        error_log('HttpRequest POST response: '.http_build_query($request));
+    }
+
     header('location:logout.php');
 } else {
     header('location:/wechat/change_password.php?is_error=true');
